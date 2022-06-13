@@ -8,69 +8,76 @@ import Utilities.Alerts;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class MainScreen implements Initializable {
 
-    public TableView allCustomers;
-    public TableColumn custID;
-    public TableColumn custName;
-    public TableColumn custAddress;
-    public TableColumn custFLD;
-    public TableColumn custPostCode;
-    public TableColumn custCountry;
-    public TableColumn custPhone;
+    public TableView<Customers> allCustomers;
+    public TableColumn<Customers,Integer> custID;
+    public TableColumn<Customers,String> custName;
+    public TableColumn<Customers,String> custAddress;
+    public TableColumn<Customers,String> custFLD;
+    public TableColumn<Customers,String> custPostCode;
+    public TableColumn<Customers,String> custCountry;
+    public TableColumn<Customers,String> custPhone;
     public Button custAdd;
     public Button custModify;
     public Tab allApptTab;
-    public TableView allAppointments;
-    public TableColumn allApptID;
-    public TableColumn allApptTitle;
-    public TableColumn allApptDesc;
-    public TableColumn allApptLoc;
-    public TableColumn allApptContact;
-    public TableColumn allApptType;
-    public TableColumn allApptStarts;
-    public TableColumn allApptEnds;
-    public TableColumn allApptCustID;
-    public TableColumn allApptUserID;
+    public TableView<Appointments> allAppointments;
+    public TableColumn<Appointments,Integer> allApptID;
+    public TableColumn<Appointments,String> allApptTitle;
+    public TableColumn<Appointments,String> allApptDesc;
+    public TableColumn<Appointments,String> allApptLoc;
+    public TableColumn<Appointments,String> allApptContact;
+    public TableColumn<Appointments,String> allApptType;
+    public TableColumn<Appointments,LocalDateTime> allApptStarts;
+    public TableColumn<Appointments,LocalDateTime> allApptEnds;
+    public TableColumn<Appointments,Integer> allApptCustID;
+    public TableColumn<Appointments,Integer> allApptUserID;
     public Tab currentMonthAppts;
-    public TableColumn currMonthApptID;
-    public TableView currMonthApptsTable;
-    public TableColumn currMonthApptTitle;
-    public TableColumn currMonthApptDesc;
-    public TableColumn currMonthApptLoc;
-    public TableColumn currMonthApptContact;
-    public TableColumn currMonthApptType;
-    public TableColumn currMonthApptStarts;
-    public TableColumn currMonthApptEnds;
-    public TableColumn currMonthApptCustID;
-    public TableColumn currMonthApptUserID;
+    public TableView<Appointments> currMonthApptsTable;
+    public TableColumn<Appointments,Integer> currMonthApptID;
+    public TableColumn<Appointments,String> currMonthApptTitle;
+    public TableColumn<Appointments,String> currMonthApptDesc;
+    public TableColumn<Appointments,String> currMonthApptLoc;
+    public TableColumn<Appointments,String> currMonthApptContact;
+    public TableColumn<Appointments,String> currMonthApptType;
+    public TableColumn<Appointments,LocalDateTime> currMonthApptStarts;
+    public TableColumn<Appointments,LocalDateTime> currMonthApptEnds;
+    public TableColumn<Appointments,Integer> currMonthApptCustID;
+    public TableColumn<Appointments,Integer> currMonthApptUserID;
     public Tab currentWeekAppts;
-    public TableView currWeekApptsTable;
-    public TableColumn currWeekApptID;
-    public TableColumn currWeekApptTitle;
-    public TableColumn currWeekApptDesc;
-    public TableColumn currWeekApptLoc;
-    public TableColumn currWeekApptContact;
-    public TableColumn currWeekApptType;
-    public TableColumn currWeekApptStarts;
-    public TableColumn currWeekApptEnds;
-    public TableColumn currWeekApptCustID;
-    public TableColumn currWeekApptUserID;
+    public TableView<Appointments> currWeekApptsTable;
+    public TableColumn<Appointments,Integer> currWeekApptID;
+    public TableColumn<Appointments,String> currWeekApptTitle;
+    public TableColumn<Appointments,String> currWeekApptDesc;
+    public TableColumn<Appointments,String> currWeekApptLoc;
+    public TableColumn<Appointments,String> currWeekApptContact;
+    public TableColumn<Appointments,String> currWeekApptType;
+    public TableColumn<Appointments,LocalDateTime> currWeekApptStarts;
+    public TableColumn<Appointments,LocalDateTime> currWeekApptEnds;
+    public TableColumn<Appointments,Integer> currWeekApptCustID;
+    public TableColumn<Appointments,Integer> currWeekApptUserID;
     public Button apptAdd;
     public Button apptModify;
     public Button apptDelete;
     public Button exitButton;
 
+    static ObservableList<Customers> customers = DBCustomers.getAllCustomers();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         custID.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -81,7 +88,7 @@ public class MainScreen implements Initializable {
         custCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
         custPhone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 
-        ObservableList<Customers> customers = DBCustomers.getAllCustomers();
+
         allCustomers.setItems(customers);
 
         allApptID.setCellValueFactory(new PropertyValueFactory<>("apptID"));
@@ -163,7 +170,12 @@ public class MainScreen implements Initializable {
     public void custEditPhone(TableColumn.CellEditEvent cellEditEvent) {
     }
 
-    public void onCustAdd(ActionEvent actionEvent) {
+    public void onCustAdd(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/addCustomer.fxml"));
+        Stage overlay = new Stage();
+        overlay.setTitle("Add Customer");
+        overlay.setScene(new Scene(root, 400, 400));
+        overlay.show();
     }
 
     public void onCustModify(ActionEvent actionEvent) {

@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DBCustomers {
     public static ObservableList<Customers> getAllCustomers() {
@@ -47,5 +48,27 @@ public class DBCustomers {
         }
         System.out.print(cList);
         return cList;
+    }
+
+    public static int addCustomer(Customers customer) {
+        int divisionID = DBDivisions.getDivisionIDByName(customer.getFld());
+        int newCustID = 0;
+        try {
+            String sql = "INSERT INTO customers VALUES (NULL, ?, ?, ?, ?, NULL, NULL, NULL, NULL, ?)";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, customer.getName());
+            ps.setString(2, customer.getAddress());
+            ps.setString(3, customer.getPostCode());
+            ps.setString(4, customer.getPhoneNumber());
+            ps.setInt(5, divisionID);
+            ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            rs.next();
+            newCustID = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return newCustID;
     }
 }

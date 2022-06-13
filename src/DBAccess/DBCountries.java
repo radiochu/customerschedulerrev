@@ -25,4 +25,23 @@ public class DBCountries {
 
         return countries;
     }
+
+    public static int getCountryIDByName(String countryName) {
+        int countryID = 0;
+        try {
+            String sql = "SELECT country_id FROM countries WHERE country = ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setString(1, countryName);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                countryID = rs.getInt("country_id");
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return countryID;
+    }
 }
