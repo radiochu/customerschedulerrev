@@ -2,6 +2,7 @@ package DBAccess;
 
 import DBConnection.JDBC;
 import Model.Customers;
+import Utilities.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -70,5 +71,49 @@ public class DBCustomers {
             e.printStackTrace();
         }
         return newCustID;
+    }
+
+    public static boolean deleteCustomer(int custID) {
+        Boolean isDeleted = false;
+        if (DBAppointments.getApptsByCustID(custID).size() != 0) {
+            Alerts.existingAppts();
+        }
+        else {
+            try {
+                String sql = "DELETE FROM customers WHERE customer_id = ?";
+                PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+                ps.setInt(1, custID);
+                ps.execute();
+
+                isDeleted = true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return isDeleted;
+    }
+
+    public static void modifyCustomer(Customers customerToMod) {
+        int divisionID = DBDivisions.getDivisionIDByName(customerToMod.getFld());
+        try {
+            String sql = "UPDATE customers " +
+                    "SET customer_name = ?, " +
+                    "address = ?, " +
+                    "postal_code = ?, " +
+                    "phone = ?, " +
+                    "division_id = ? " +
+                    "WHERE customer_id = ?";                    ;
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setString(1, customerToMod.getName());
+            ps.setString(2, customerToMod.getAddress());
+            ps.setString(3, customerToMod.getPostCode());
+            ps.setString(4, customerToMod.getPhoneNumber());
+            ps.setInt(5, divisionID);
+            ps.setInt(6, customerToMod.getId());
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

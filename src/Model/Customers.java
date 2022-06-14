@@ -1,5 +1,9 @@
 package Model;
 
+import DBAccess.DBCustomers;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Customers {
     private int id;
     private final String name;
@@ -9,6 +13,8 @@ public class Customers {
     private String country;
     private String phoneNumber;
 
+    public static ObservableList<Customers> customers = FXCollections.observableArrayList();
+
     public Customers(int id, String name, String address, String fld, String postCode, String country, String phoneNumber) {
         this.id = id;
         this.name = name;
@@ -17,6 +23,11 @@ public class Customers {
         this.postCode = postCode;
         this.country = country;
         this.phoneNumber = phoneNumber;
+    }
+
+    public static ObservableList<Customers> getAllCustomers() {
+        customers = DBCustomers.getAllCustomers();
+        return customers;
     }
 
     public String getPhoneNumber() {

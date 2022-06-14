@@ -178,10 +178,31 @@ public class MainScreen implements Initializable {
         overlay.show();
     }
 
-    public void onCustModify(ActionEvent actionEvent) {
+    public void onCustModify(ActionEvent actionEvent) throws IOException {
+        Customers customerToMod = allCustomers.getSelectionModel().getSelectedItem();
+        int indexToMod = allCustomers.getSelectionModel().getSelectedIndex();
+        if (customerToMod != null) {
+            ModifyCustomer.setCustomerToMod(customerToMod, indexToMod);
+            Parent root = FXMLLoader.load(getClass().getResource("/view/modifyCustomer.fxml"));
+            Stage overlay = new Stage();
+            overlay.setTitle("Modify Customer");
+            overlay.setScene(new Scene(root, 400, 400));
+            overlay.show();
+        }
+        else {
+            Alerts.noSelection();
+        }
     }
 
     public void onCustDelete(ActionEvent actionEvent) {
+        if (Alerts.deleteCustomer()) {
+            int custToDelete = allCustomers.getSelectionModel().getSelectedItem().getId();
+
+            if (DBCustomers.deleteCustomer(custToDelete)) {
+                Alerts.customerDeleted();
+                allCustomers.setItems(DBCustomers.getAllCustomers());
+            }
+        }
     }
 
     public void showAllAppts(Event event) {

@@ -28,6 +28,35 @@ public class Alerts {
         a.show();
     }
 
+    public static Boolean deleteCustomer() {
+        a.setAlertType(Alert.AlertType.CONFIRMATION);
+        a.setHeaderText(null);
+        a.setContentText("Are you sure you want to delete the selected customer?");
+        Optional<ButtonType> result = a.showAndWait();
+        return result.get() == ButtonType.OK;
+    }
+
+    public static void existingAppts() {
+        a.setAlertType(Alert.AlertType.WARNING);
+        a.setHeaderText(null);
+        a.setContentText("You cannot delete a customer with scheduled appointments.\nPlease delete any existing appointments before deleting\nthis customer.");
+        a.show();
+    }
+
+    public static void noSelection() {
+        a.setAlertType(Alert.AlertType.WARNING);
+        a.setHeaderText(null);
+        a.setContentText("Nothing selected to modify! Please make a selection first.");
+        a.show();
+    }
+
+    public static void customerDeleted() {
+        a.setAlertType(Alert.AlertType.INFORMATION);
+        a.setHeaderText(null);
+        a.setContentText("Selected customer has been deleted.");
+        a.show();
+    }
+
     public static void cancelWithoutSaving(ActionEvent actionEvent) {
         a.setAlertType(Alert.AlertType.CONFIRMATION);
         a.setHeaderText(null);

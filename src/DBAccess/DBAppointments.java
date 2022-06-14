@@ -132,4 +132,35 @@ public class DBAppointments {
         }
     return userAppts;
     }
+
+    public static ObservableList<Appointments> getApptsByCustID(int customerID) {
+        ObservableList<Appointments> custAppts = FXCollections.observableArrayList();
+        try {
+            String sql = "SELECT * FROM appointments WHERE customer_id = ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, customerID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int apptID = rs.getInt("Appointment_ID");
+                String apptTitle = rs.getString("Title");
+                String apptDescription = rs.getString("Description");
+                String apptLocation = rs.getString("Location");
+                int apptContact = rs.getInt("Contact_ID");
+                String apptType = rs.getString("Type");
+                LocalDateTime apptStart = rs.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime apptEnd = rs.getTimestamp("End").toLocalDateTime();
+                int custID = rs.getInt("Customer_ID");
+                int userID = rs.getInt("User_ID");
+
+                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
+                custAppts.add(a);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return custAppts;
+    }
 }
