@@ -3,7 +3,9 @@ package Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class Appointments {
     public static ObservableList<String> apptTypes = FXCollections.observableArrayList();

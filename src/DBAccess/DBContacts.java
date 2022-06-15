@@ -45,4 +45,24 @@ public class DBContacts {
         }
         return contactName;
     }
+
+    public static int getContactIDByName(String contactName) {
+
+        int contactID = 0;
+        try {
+            String sql = "SELECT * FROM contacts WHERE Contact_Name = ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setString(1, contactName);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                contactID = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return contactID;
+
+    }
 }

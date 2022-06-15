@@ -43,7 +43,7 @@
                 <ComboBox fx:id="apptContact" layoutX="40.0" layoutY="218.0" prefWidth="150.0"/>
                 <ButtonBar layoutX="30.0" layoutY="278.0" prefHeight="40.0" prefWidth="200.0">
                     <buttons>
-                        <Button fx:id="Submit" mnemonicParsing="false" onAction="#onSubmit" text="Submit"/>
+                        <Button fx:id="Submit" mnemonicParsing="false" onAction="#onSaveButton" text="Submit"/>
                         <Button fx:id="Cancel" layoutX="135.0" layoutY="17.0" mnemonicParsing="false"
                                 onAction="#onCancel" text="Cancel"/>
                     </buttons>

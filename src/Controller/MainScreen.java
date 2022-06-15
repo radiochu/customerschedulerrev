@@ -78,6 +78,7 @@ public class MainScreen implements Initializable {
     public Button exitButton;
 
     static ObservableList<Customers> customers = DBCustomers.getAllCustomers();
+    static ObservableList<Appointments> appointments = DBAppointments.getAllAppointments();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         custID.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -87,7 +88,6 @@ public class MainScreen implements Initializable {
         custPostCode.setCellValueFactory(new PropertyValueFactory<>("postCode"));
         custCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
         custPhone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-
 
         allCustomers.setItems(customers);
 
@@ -102,7 +102,6 @@ public class MainScreen implements Initializable {
         allApptCustID.setCellValueFactory(new PropertyValueFactory<>("custID"));
         allApptUserID.setCellValueFactory(new PropertyValueFactory<>("userID"));
 
-        ObservableList<Appointments> appointments = DBAppointments.getAllAppointments();
         allAppointments.setItems(appointments);
 
         currMonthApptID.setCellValueFactory(new PropertyValueFactory<>("apptID"));
@@ -214,10 +213,27 @@ public class MainScreen implements Initializable {
     public void showCurrentWeek(Event event) {
     }
 
-    public void onApptAdd(ActionEvent actionEvent) {
+    public void onApptAdd(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/view/addAppointment.fxml"));
+        Stage overlay = new Stage();
+        overlay.setTitle("Add Appointment");
+        overlay.setScene(new Scene(root, 560, 400));
+        overlay.show();
     }
 
-    public void onApptModify(ActionEvent actionEvent) {
+    public void onApptModify(ActionEvent actionEvent) throws IOException {
+        Appointments appointmentToMod = allAppointments.getSelectionModel().getSelectedItem();
+        int indexToMod = allAppointments.getSelectionModel().getSelectedIndex();
+        if (appointmentToMod != null) {
+            ModifyAppointment.setAppointmentToMod(appointmentToMod, indexToMod);
+            Parent root = FXMLLoader.load(getClass().getResource("/view/modifyAppointment.fxml"));
+            Stage overlay = new Stage();
+            overlay.setTitle("Modify Appointment");
+            overlay.setScene(new Scene(root, 560, 400));
+            overlay.show();
+        } else {
+            Alerts.noSelection();
+        }
     }
 
     public void onApptDelete(ActionEvent actionEvent) {

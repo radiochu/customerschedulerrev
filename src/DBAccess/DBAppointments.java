@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class DBAppointments {
@@ -162,5 +163,36 @@ public class DBAppointments {
         }
 
         return custAppts;
+    }
+
+    public static void modifyAppointment(Appointments appointmentToMod) {
+        try {
+            String sql = "UPDATE appointments " +
+                         "SET title = ?, " +
+                         "description = ?, " +
+                         "location = ?, " +
+                         "type = ?, " +
+                         "start = ?, " +
+                         "end = ?, " +
+                         "customer_id = ?, " +
+                         "user_id = ?, " +
+                         "contact_id = ? " +
+                         "WHERE appointment_id = ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setString(1, appointmentToMod.getApptTitle());
+            ps.setString(2, appointmentToMod.getApptDescription());
+            ps.setString(3, appointmentToMod.getApptLocation());
+            ps.setString(4, appointmentToMod.getApptType());
+            ps.setTimestamp(5, Timestamp.valueOf(appointmentToMod.getApptStart()));
+            ps.setTimestamp(6, Timestamp.valueOf(appointmentToMod.getApptEnd()));
+            ps.setInt(7, appointmentToMod.getCustID());
+            ps.setInt(8, appointmentToMod.getUserID());
+            ps.setInt(9, DBContacts.getContactIDByName(appointmentToMod.getApptContact()));
+            ps.setInt(10, appointmentToMod.getApptID());
+            ps.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
