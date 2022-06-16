@@ -116,4 +116,23 @@ public class DBCustomers {
             e.printStackTrace();
         }
     }
+
+    public static boolean customerExists(int custID) {
+        boolean b = false;
+        try {
+            String sql = "SELECT * FROM customers WHERE customer_id = ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, custID);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                b = true;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return b;
+    }
 }
