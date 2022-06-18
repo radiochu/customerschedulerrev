@@ -62,7 +62,7 @@
         </ButtonBar>
     </VBox>
     <VBox GridPane.columnSpan="2" GridPane.rowIndex="3">
-        <TabPane side="LEFT" tabClosingPolicy="UNAVAILABLE">
+        <TabPane fx:id="tabPane" side="LEFT" tabClosingPolicy="UNAVAILABLE">
             <Tab fx:id="allApptTab" onSelectionChanged="#showAllAppts" text="All Appointments">
                 <AnchorPane minHeight="0.0" minWidth="0.0">
                     <TableView fx:id="allAppointments" prefHeight="295.0" prefWidth="985.0">

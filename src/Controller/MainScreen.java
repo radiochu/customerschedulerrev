@@ -206,17 +206,14 @@ public class MainScreen implements Initializable {
 
     public void showAllAppts(Event event) {
         allAppointments.setItems(DBAppointments.getAllAppointments());
-        apptDelete.setDisable(false);
     }
 
     public void showCurrentMonth(Event event) {
         currMonthApptsTable.setItems(DBAppointments.getThisMonthAppts());
-        apptDelete.setDisable(true);
     }
 
     public void showCurrentWeek(Event event) {
         currWeekApptsTable.setItems(DBAppointments.getThisWeekAppts());
-        apptDelete.setDisable(true);
     }
 
     public void onApptAdd(ActionEvent actionEvent) throws IOException {
@@ -243,16 +240,29 @@ public class MainScreen implements Initializable {
     }
 
     public void onApptDelete(ActionEvent actionEvent) {
-        Appointments appt = allAppointments.getSelectionModel().getSelectedItem();
-        if (appt == null) {Alerts.noSelection();}
-        else {
+        Appointments appt = null;
+        String apptType = "";
+        if (allApptTab.isSelected()) {
+            appt = allAppointments.getSelectionModel().getSelectedItem();
+            apptType = allAppointments.getSelectionModel().getSelectedItem().getApptType();
+        } else if (currentMonthAppts.isSelected()) {
+            appt = currMonthApptsTable.getSelectionModel().getSelectedItem();
+            apptType = currMonthApptsTable.getSelectionModel().getSelectedItem().getApptType();
+        } else {
+            appt = currWeekApptsTable.getSelectionModel().getSelectedItem();
+            apptType = currWeekApptsTable.getSelectionModel().getSelectedItem().getApptType();
+        }
+        if (appt == null) {
+            Alerts.noSelection();
+        } else {
             int apptToDelete = appt.getApptID();
             {
                 if (Alerts.deleteAppointment()) {
-                    String apptType = allAppointments.getSelectionModel().getSelectedItem().getApptType();
                     if (DBAppointments.deleteAppointment(apptToDelete)) {
                         Alerts.apptDeleted(apptToDelete, apptType);
                         allAppointments.setItems(DBAppointments.getAllAppointments());
+                        currMonthApptsTable.setItems(DBAppointments.getThisMonthAppts());
+                        currWeekApptsTable.setItems(DBAppointments.getThisWeekAppts());
                     }
 
                 }
