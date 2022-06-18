@@ -42,15 +42,15 @@
         <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
         </padding>
-        <TableView fx:id="allCustomers" prefHeight="242.0" prefWidth="478.0">
+        <TableView fx:id="allCustomers" editable="true" prefHeight="242.0" prefWidth="478.0">
             <columns>
                 <TableColumn fx:id="custID" editable="false" prefWidth="37.599978268146515" text="ID" />
-                <TableColumn fx:id="custName" onEditCommit="#custNameUpdate" onEditStart="#custEditName" prefWidth="235.20004653930664" text="Name" />
-                <TableColumn fx:id="custAddress" onEditCommit="#custAddressUpdate" onEditStart="#custEditAddress" prefWidth="206.4000244140625" text="Address" />
-                <TableColumn fx:id="custFLD" onEditCommit="#custFLDUpdate" onEditStart="#custEditFLD" prefWidth="153.60003662109375" text="First-Level Division" />
-                <TableColumn fx:id="custPostCode" onEditCommit="#custPostCodeUpdate" onEditStart="#custEditPostCode" prefWidth="88.0" text="Post Code" />
-                <TableColumn fx:id="custCountry" onEditCommit="#custCountryUpdate" onEditStart="#custEditCountry" prefWidth="110.0" text="Country" />
-                <TableColumn fx:id="custPhone" onEditCommit="#custPhoneUpdate" onEditStart="#custEditPhone" prefWidth="146.0" text="Phone Number" />
+                <TableColumn fx:id="custName" prefWidth="235.20004653930664" text="Name" />
+                <TableColumn fx:id="custAddress" prefWidth="206.4000244140625" text="Address" />
+                <TableColumn fx:id="custFLD" prefWidth="153.60003662109375" text="First-Level Division" />
+                <TableColumn fx:id="custPostCode" prefWidth="88.0" text="Post Code" />
+                <TableColumn fx:id="custCountry" prefWidth="110.0" text="Country" />
+                <TableColumn fx:id="custPhone" prefWidth="146.0" text="Phone Number" />
             </columns>
         </TableView>
         <ButtonBar prefHeight="40.0" prefWidth="200.0">
@@ -62,21 +62,21 @@
         </ButtonBar>
     </VBox>
     <VBox GridPane.columnSpan="2" GridPane.rowIndex="3">
-        <TabPane fx:id="tabPane" side="LEFT" tabClosingPolicy="UNAVAILABLE">
+        <TabPane side="LEFT" tabClosingPolicy="UNAVAILABLE">
             <Tab fx:id="allApptTab" onSelectionChanged="#showAllAppts" text="All Appointments">
                 <AnchorPane minHeight="0.0" minWidth="0.0">
                     <TableView fx:id="allAppointments" prefHeight="295.0" prefWidth="985.0">
                         <columns>
-                            <TableColumn fx:id="allApptID" editable="false" prefWidth="25.0" text="ID"/>
-                            <TableColumn fx:id="allApptTitle" prefWidth="115.20003509521484" text="Appt. Title"/>
-                            <TableColumn fx:id="allApptDesc" prefWidth="169.60006713867188" text="Description"/>
-                            <TableColumn fx:id="allApptLoc" prefWidth="69.5999755859375" text="Location"/>
-                            <TableColumn fx:id="allApptContact" prefWidth="94.4000244140625" text="Contact"/>
-                            <TableColumn fx:id="allApptType" prefWidth="124.0" text="Type"/>
-                            <TableColumn fx:id="allApptStarts" prefWidth="125.0" text="Starts"/>
-                            <TableColumn fx:id="allApptEnds" prefWidth="125.0" text="Ends"/>
-                            <TableColumn fx:id="allApptCustID" prefWidth="78.4000244140625" text="Customer ID"/>
-                            <TableColumn fx:id="allApptUserID" prefWidth="50.0" text="User ID"/>
+                            <TableColumn fx:id="allApptID" editable="false" prefWidth="25.0" text="ID" />
+                            <TableColumn fx:id="allApptTitle" prefWidth="115.20003509521484" text="Appt. Title" />
+                            <TableColumn fx:id="allApptDesc" prefWidth="169.60006713867188" text="Description" />
+                            <TableColumn fx:id="allApptLoc" prefWidth="69.5999755859375" text="Location" />
+                            <TableColumn fx:id="allApptContact" prefWidth="94.4000244140625" text="Contact" />
+                            <TableColumn fx:id="allApptType" prefWidth="124.0" text="Type" />
+                            <TableColumn fx:id="allApptStarts" prefWidth="125.0" text="Starts" />
+                            <TableColumn fx:id="allApptEnds" prefWidth="125.0" text="Ends" />
+                            <TableColumn fx:id="allApptCustID" prefWidth="78.4000244140625" text="Customer ID" />
+                            <TableColumn fx:id="allApptUserID" prefWidth="50.0" text="User ID" />
                         </columns>
                     </TableView>
                 </AnchorPane>
@@ -85,16 +85,16 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0">
                     <TableView fx:id="currMonthApptsTable" prefHeight="295.0" prefWidth="985.0">
                         <columns>
-                            <TableColumn fx:id="currMonthApptID" editable="false" prefWidth="25.0" text="ID"/>
-                            <TableColumn fx:id="currMonthApptTitle" prefWidth="115.20003509521484" text="Appt. Title"/>
-                            <TableColumn fx:id="currMonthApptDesc" prefWidth="169.60006713867188" text="Description"/>
-                            <TableColumn fx:id="currMonthApptLoc" prefWidth="69.5999755859375" text="Location"/>
-                            <TableColumn fx:id="currMonthApptContact" prefWidth="94.4000244140625" text="Contact"/>
-                            <TableColumn fx:id="currMonthApptType" prefWidth="124.0" text="Type"/>
-                            <TableColumn fx:id="currMonthApptStarts" prefWidth="125.0" text="Starts"/>
-                            <TableColumn fx:id="currMonthApptEnds" prefWidth="125.0" text="Ends"/>
-                            <TableColumn fx:id="currMonthApptCustID" prefWidth="78.4000244140625" text="Customer ID"/>
-                            <TableColumn fx:id="currMonthApptUserID" prefWidth="50.0" text="User ID"/>
+                            <TableColumn fx:id="currMonthApptID" editable="false" prefWidth="25.0" text="ID" />
+                            <TableColumn fx:id="currMonthApptTitle" prefWidth="115.20003509521484" text="Appt. Title" />
+                            <TableColumn fx:id="currMonthApptDesc" prefWidth="169.60006713867188" text="Description" />
+                            <TableColumn fx:id="currMonthApptLoc" prefWidth="69.5999755859375" text="Location" />
+                            <TableColumn fx:id="currMonthApptContact" prefWidth="94.4000244140625" text="Contact" />
+                            <TableColumn fx:id="currMonthApptType" prefWidth="124.0" text="Type" />
+                            <TableColumn fx:id="currMonthApptStarts" prefWidth="125.0" text="Starts" />
+                            <TableColumn fx:id="currMonthApptEnds" prefWidth="125.0" text="Ends" />
+                            <TableColumn fx:id="currMonthApptCustID" prefWidth="78.4000244140625" text="Customer ID" />
+                            <TableColumn fx:id="currMonthApptUserID" prefWidth="50.0" text="User ID" />
                         </columns>
                     </TableView>
                 </AnchorPane>
@@ -103,16 +103,16 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0">
                     <TableView fx:id="currWeekApptsTable" prefHeight="295.0" prefWidth="985.0">
                         <columns>
-                            <TableColumn fx:id="currWeekApptID" editable="false" prefWidth="25.0" text="ID"/>
-                            <TableColumn fx:id="currWeekApptTitle" prefWidth="115.20003509521484" text="Appt. Title"/>
-                            <TableColumn fx:id="currWeekApptDesc" prefWidth="169.60006713867188" text="Description"/>
-                            <TableColumn fx:id="currWeekApptLoc" prefWidth="69.5999755859375" text="Location"/>
-                            <TableColumn fx:id="currWeekApptContact" prefWidth="94.4000244140625" text="Contact"/>
-                            <TableColumn fx:id="currWeekApptType" prefWidth="124.0" text="Type"/>
-                            <TableColumn fx:id="currWeekApptStarts" prefWidth="125.0" text="Starts"/>
-                            <TableColumn fx:id="currWeekApptEnds" prefWidth="125.0" text="Ends"/>
-                            <TableColumn fx:id="currWeekApptCustID" prefWidth="78.4000244140625" text="Customer ID"/>
-                            <TableColumn fx:id="currWeekApptUserID" prefWidth="50.0" text="User ID"/>
+                            <TableColumn fx:id="currWeekApptID" editable="false" prefWidth="25.0" text="ID" />
+                            <TableColumn fx:id="currWeekApptTitle" prefWidth="115.20003509521484" text="Appt. Title" />
+                            <TableColumn fx:id="currWeekApptDesc" prefWidth="169.60006713867188" text="Description" />
+                            <TableColumn fx:id="currWeekApptLoc" prefWidth="69.5999755859375" text="Location" />
+                            <TableColumn fx:id="currWeekApptContact" prefWidth="94.4000244140625" text="Contact" />
+                            <TableColumn fx:id="currWeekApptType" prefWidth="124.0" text="Type" />
+                            <TableColumn fx:id="currWeekApptStarts" prefWidth="125.0" text="Starts" />
+                            <TableColumn fx:id="currWeekApptEnds" prefWidth="125.0" text="Ends" />
+                            <TableColumn fx:id="currWeekApptCustID" prefWidth="78.4000244140625" text="Customer ID" />
+                            <TableColumn fx:id="currWeekApptUserID" prefWidth="50.0" text="User ID" />
                         </columns>
                     </TableView>
                 </AnchorPane>
@@ -120,14 +120,12 @@
         </TabPane>
         <ButtonBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="34.0" prefWidth="1000.0">
             <buttons>
-                <Button fx:id="apptAdd" mnemonicParsing="false" onAction="#onApptAdd" text="Add"/>
-                <Button fx:id="apptModify" layoutX="313.0" layoutY="15.0" mnemonicParsing="false"
-                        onAction="#onApptModify" text="Modify"/>
-                <Button fx:id="apptDelete" layoutX="313.0" layoutY="15.0" mnemonicParsing="false"
-                        onAction="#onApptDelete" text="Delete"/>
+                <Button fx:id="apptAdd" mnemonicParsing="false" onAction="#onApptAdd" text="Add" />
+                <Button fx:id="apptModify" layoutX="313.0" layoutY="15.0" mnemonicParsing="false" onAction="#onApptModify" text="Modify" />
+                <Button fx:id="apptDelete" layoutX="313.0" layoutY="15.0" mnemonicParsing="false" onAction="#onApptDelete" text="Delete" />
             </buttons>
             <padding>
-                <Insets right="10.0"/>
+                <Insets right="10.0" />
             </padding>
         </ButtonBar>
     </VBox>

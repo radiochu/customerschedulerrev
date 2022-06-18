@@ -12,11 +12,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -91,6 +89,18 @@ public class MainScreen implements Initializable {
         custPhone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 
         allCustomers.setItems(customers);
+        allCustomers.setEditable(true);
+
+        custName.setCellFactory(TextFieldTableCell.forTableColumn());
+        custName.setOnEditCommit(
+                (event) -> {
+                    Customers customerToMod = event.getRowValue();
+                    String newValue = event.getNewValue();
+                    int customerID = customerToMod.getId();
+                    int indexToMod = event.getTableView().getSelectionModel().getSelectedIndex();
+                    Customers.setCustName(newValue, customerID);
+                    customers.set(indexToMod, DBCustomers.getCustomerByID(customerID));
+                });
 
         allApptID.setCellValueFactory(new PropertyValueFactory<>("apptID"));
         allApptTitle.setCellValueFactory(new PropertyValueFactory<>("apptTitle"));
@@ -132,42 +142,6 @@ public class MainScreen implements Initializable {
 
         ObservableList<Appointments> currWeekAppts = DBAppointments.getThisWeekAppts();
         currWeekApptsTable.setItems(currWeekAppts);
-    }
-
-    public void custNameUpdate(TableColumn.CellEditEvent cellEditEvent) {
-    }
-
-    public void custAddressUpdate(TableColumn.CellEditEvent cellEditEvent) {
-    }
-
-    public void custFLDUpdate(TableColumn.CellEditEvent cellEditEvent) {
-    }
-
-    public void custPostCodeUpdate(TableColumn.CellEditEvent cellEditEvent) {
-    }
-
-    public void custCountryUpdate(TableColumn.CellEditEvent cellEditEvent) {
-    }
-
-    public void custPhoneUpdate(TableColumn.CellEditEvent cellEditEvent) {
-    }
-
-    public void custEditName(TableColumn.CellEditEvent cellEditEvent) {
-    }
-
-    public void custEditAddress(TableColumn.CellEditEvent cellEditEvent) {
-    }
-
-    public void custEditFLD(TableColumn.CellEditEvent cellEditEvent) {
-    }
-
-    public void custEditPostCode(TableColumn.CellEditEvent cellEditEvent) {
-    }
-
-    public void custEditCountry(TableColumn.CellEditEvent cellEditEvent) {
-    }
-
-    public void custEditPhone(TableColumn.CellEditEvent cellEditEvent) {
     }
 
     public void onCustAdd(ActionEvent actionEvent) throws IOException {

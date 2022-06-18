@@ -3,6 +3,7 @@ package DBAccess;
 import DBConnection.JDBC;
 import Model.Customers;
 import Utilities.Alerts;
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -134,5 +135,77 @@ public class DBCustomers {
         }
 
         return b;
+    }
+
+    public static String getCustomerNameByID (int id) {
+        String custName = null;
+        try {
+            String sql = "SELECT * FROM customers WHERE customer_id = ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                custName = rs.getString("customer_name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return custName;
+    }
+
+
+    public static void updateCustomerName(String newValue, int customerID) {
+        try {
+            String sql = "UPDATE customers SET customer_name = ? WHERE customer_id = ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setString(1, newValue);
+            ps.setInt(2, customerID);
+            System.out.println(ps);
+            ps.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Customers getCustomerByID(int indexToMod) {
+        Customers c = null;
+        try {
+            String sql = "SELECT c.customer_id, " +
+                    "c.customer_name, " +
+                    "c.address, " +
+                    "c.division_id, " +
+                    "c.postal_code, " +
+                    "c.phone, " +
+                    "f.division, " +
+                    "f.country_id, " +
+                    "co.country " +
+                    "FROM customers AS c " +
+                    "INNER JOIN first_level_divisions AS f " +
+                    "INNER JOIN countries AS co " +
+                    "WHERE customer_id = ? AND c.Division_ID = f.Division_ID AND f.country_id = co.Country_ID " +
+                    "ORDER BY c.customer_id";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, indexToMod);
+            System.out.println(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int customerID = rs.getInt("Customer_ID");
+                String customerName = rs.getString("Customer_Name");
+                String customerAddress = rs.getString("Address");
+                String customerFLD = rs.getString("Division");
+                String customerPostCode = rs.getString("Postal_Code");
+                String customerCountry = rs.getString("Country");
+                String customerPhone = rs.getString("Phone");
+                c = new Customers(customerID, customerName, customerAddress, customerFLD, customerPostCode, customerCountry, customerPhone);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return c;
     }
 }
