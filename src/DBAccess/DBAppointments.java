@@ -2,6 +2,7 @@ package DBAccess;
 
 import DBConnection.JDBC;
 import Model.Appointments;
+import Utilities.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -194,5 +195,21 @@ public class DBAppointments {
         catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean deleteAppointment(int apptID) {
+        Boolean isDeleted = false;
+            try {
+                String sql = "DELETE FROM appointments WHERE appointment_id = ?";
+                PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+                ps.setInt(1, apptID);
+                ps.execute();
+
+                isDeleted = true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        return isDeleted;
     }
 }

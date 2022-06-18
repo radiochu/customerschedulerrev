@@ -46,7 +46,7 @@ public class Alerts {
     public static void noSelection() {
         a.setAlertType(Alert.AlertType.WARNING);
         a.setHeaderText(null);
-        a.setContentText("Nothing selected to modify! Please make a selection first.");
+        a.setContentText("Nothing selected! Please make a selection first.");
         a.show();
     }
 
@@ -57,6 +57,13 @@ public class Alerts {
         a.show();
     }
 
+    public static Boolean deleteAppointment() {
+        a.setAlertType(Alert.AlertType.CONFIRMATION);
+        a.setHeaderText(null);
+        a.setContentText("Are you sure you want to delete the selected appointment?");
+        Optional<ButtonType> result = a.showAndWait();
+        return result.get() == ButtonType.OK;
+    }
     public static void cancelWithoutSaving(ActionEvent actionEvent) {
         a.setAlertType(Alert.AlertType.CONFIRMATION);
         a.setHeaderText(null);
@@ -76,5 +83,12 @@ public class Alerts {
         if (result.get() == ButtonType.OK) {
             Platform.exit();
         }
+    }
+
+    public static void apptDeleted(int apptToDelete, String apptType) {
+        a.setAlertType(Alert.AlertType.INFORMATION);
+        a.setHeaderText(null);
+        a.setContentText("Appointment " + apptToDelete + " of type " + apptType + " has been deleted.");
+        a.show();
     }
 }

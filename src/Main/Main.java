@@ -36,7 +36,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
         Stage mainStage = new Stage();
         mainStage.setTitle("Customer Scheduling System");
-        mainStage.setScene(new Scene(root, 1000, 745));
+        mainStage.setScene(new Scene(root, 1020, 745));
         mainStage.show();
         upcomingAppointments(DBUsers.getUserIDByName(uname));
     }

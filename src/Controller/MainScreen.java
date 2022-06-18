@@ -26,59 +26,60 @@ import java.util.ResourceBundle;
 
 public class MainScreen implements Initializable {
 
+    static ObservableList<Customers> customers = DBCustomers.getAllCustomers();
+    static ObservableList<Appointments> appointments = DBAppointments.getAllAppointments();
     public TableView<Customers> allCustomers;
-    public TableColumn<Customers,Integer> custID;
-    public TableColumn<Customers,String> custName;
-    public TableColumn<Customers,String> custAddress;
-    public TableColumn<Customers,String> custFLD;
-    public TableColumn<Customers,String> custPostCode;
-    public TableColumn<Customers,String> custCountry;
-    public TableColumn<Customers,String> custPhone;
+    public TableColumn<Customers, Integer> custID;
+    public TableColumn<Customers, String> custName;
+    public TableColumn<Customers, String> custAddress;
+    public TableColumn<Customers, String> custFLD;
+    public TableColumn<Customers, String> custPostCode;
+    public TableColumn<Customers, String> custCountry;
+    public TableColumn<Customers, String> custPhone;
     public Button custAdd;
     public Button custModify;
+    public Button custDelete;
     public Tab allApptTab;
     public TableView<Appointments> allAppointments;
-    public TableColumn<Appointments,Integer> allApptID;
-    public TableColumn<Appointments,String> allApptTitle;
-    public TableColumn<Appointments,String> allApptDesc;
-    public TableColumn<Appointments,String> allApptLoc;
-    public TableColumn<Appointments,String> allApptContact;
-    public TableColumn<Appointments,String> allApptType;
-    public TableColumn<Appointments,LocalDateTime> allApptStarts;
-    public TableColumn<Appointments,LocalDateTime> allApptEnds;
-    public TableColumn<Appointments,Integer> allApptCustID;
-    public TableColumn<Appointments,Integer> allApptUserID;
+    public TableColumn<Appointments, Integer> allApptID;
+    public TableColumn<Appointments, String> allApptTitle;
+    public TableColumn<Appointments, String> allApptDesc;
+    public TableColumn<Appointments, String> allApptLoc;
+    public TableColumn<Appointments, String> allApptContact;
+    public TableColumn<Appointments, String> allApptType;
+    public TableColumn<Appointments, LocalDateTime> allApptStarts;
+    public TableColumn<Appointments, LocalDateTime> allApptEnds;
+    public TableColumn<Appointments, Integer> allApptCustID;
+    public TableColumn<Appointments, Integer> allApptUserID;
     public Tab currentMonthAppts;
     public TableView<Appointments> currMonthApptsTable;
-    public TableColumn<Appointments,Integer> currMonthApptID;
-    public TableColumn<Appointments,String> currMonthApptTitle;
-    public TableColumn<Appointments,String> currMonthApptDesc;
-    public TableColumn<Appointments,String> currMonthApptLoc;
-    public TableColumn<Appointments,String> currMonthApptContact;
-    public TableColumn<Appointments,String> currMonthApptType;
-    public TableColumn<Appointments,LocalDateTime> currMonthApptStarts;
-    public TableColumn<Appointments,LocalDateTime> currMonthApptEnds;
-    public TableColumn<Appointments,Integer> currMonthApptCustID;
-    public TableColumn<Appointments,Integer> currMonthApptUserID;
+    public TableColumn<Appointments, Integer> currMonthApptID;
+    public TableColumn<Appointments, String> currMonthApptTitle;
+    public TableColumn<Appointments, String> currMonthApptDesc;
+    public TableColumn<Appointments, String> currMonthApptLoc;
+    public TableColumn<Appointments, String> currMonthApptContact;
+    public TableColumn<Appointments, String> currMonthApptType;
+    public TableColumn<Appointments, LocalDateTime> currMonthApptStarts;
+    public TableColumn<Appointments, LocalDateTime> currMonthApptEnds;
+    public TableColumn<Appointments, Integer> currMonthApptCustID;
+    public TableColumn<Appointments, Integer> currMonthApptUserID;
     public Tab currentWeekAppts;
     public TableView<Appointments> currWeekApptsTable;
-    public TableColumn<Appointments,Integer> currWeekApptID;
-    public TableColumn<Appointments,String> currWeekApptTitle;
-    public TableColumn<Appointments,String> currWeekApptDesc;
-    public TableColumn<Appointments,String> currWeekApptLoc;
-    public TableColumn<Appointments,String> currWeekApptContact;
-    public TableColumn<Appointments,String> currWeekApptType;
-    public TableColumn<Appointments,LocalDateTime> currWeekApptStarts;
-    public TableColumn<Appointments,LocalDateTime> currWeekApptEnds;
-    public TableColumn<Appointments,Integer> currWeekApptCustID;
-    public TableColumn<Appointments,Integer> currWeekApptUserID;
+    public TableColumn<Appointments, Integer> currWeekApptID;
+    public TableColumn<Appointments, String> currWeekApptTitle;
+    public TableColumn<Appointments, String> currWeekApptDesc;
+    public TableColumn<Appointments, String> currWeekApptLoc;
+    public TableColumn<Appointments, String> currWeekApptContact;
+    public TableColumn<Appointments, String> currWeekApptType;
+    public TableColumn<Appointments, LocalDateTime> currWeekApptStarts;
+    public TableColumn<Appointments, LocalDateTime> currWeekApptEnds;
+    public TableColumn<Appointments, Integer> currWeekApptCustID;
+    public TableColumn<Appointments, Integer> currWeekApptUserID;
     public Button apptAdd;
     public Button apptModify;
     public Button apptDelete;
     public Button exitButton;
 
-    static ObservableList<Customers> customers = DBCustomers.getAllCustomers();
-    static ObservableList<Appointments> appointments = DBAppointments.getAllAppointments();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         custID.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -187,8 +188,7 @@ public class MainScreen implements Initializable {
             overlay.setTitle("Modify Customer");
             overlay.setScene(new Scene(root, 400, 400));
             overlay.show();
-        }
-        else {
+        } else {
             Alerts.noSelection();
         }
     }
@@ -205,12 +205,18 @@ public class MainScreen implements Initializable {
     }
 
     public void showAllAppts(Event event) {
+        allAppointments.setItems(DBAppointments.getAllAppointments());
+        apptDelete.setDisable(false);
     }
 
     public void showCurrentMonth(Event event) {
+        currMonthApptsTable.setItems(DBAppointments.getThisMonthAppts());
+        apptDelete.setDisable(true);
     }
 
     public void showCurrentWeek(Event event) {
+        currWeekApptsTable.setItems(DBAppointments.getThisWeekAppts());
+        apptDelete.setDisable(true);
     }
 
     public void onApptAdd(ActionEvent actionEvent) throws IOException {
@@ -237,7 +243,23 @@ public class MainScreen implements Initializable {
     }
 
     public void onApptDelete(ActionEvent actionEvent) {
+        Appointments appt = allAppointments.getSelectionModel().getSelectedItem();
+        if (appt == null) {Alerts.noSelection();}
+        else {
+            int apptToDelete = appt.getApptID();
+            {
+                if (Alerts.deleteAppointment()) {
+                    String apptType = allAppointments.getSelectionModel().getSelectedItem().getApptType();
+                    if (DBAppointments.deleteAppointment(apptToDelete)) {
+                        Alerts.apptDeleted(apptToDelete, apptType);
+                        allAppointments.setItems(DBAppointments.getAllAppointments());
+                    }
+
+                }
+            }
+        }
     }
+
 
     public void onExitButton(ActionEvent actionEvent) {
         Alerts.exitApplication();

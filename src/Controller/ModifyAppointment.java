@@ -43,6 +43,7 @@ public class ModifyAppointment implements Initializable {
         appointmentToMod = appointment;
         indexToMod = index;
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         apptContact.setItems(DBContacts.getAllContacts());
