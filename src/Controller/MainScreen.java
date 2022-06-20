@@ -168,12 +168,16 @@ public class MainScreen implements Initializable {
     }
 
     public void onCustDelete(ActionEvent actionEvent) {
-        if (Alerts.deleteCustomer()) {
-            int custToDelete = allCustomers.getSelectionModel().getSelectedItem().getId();
+        int custToDelete = allCustomers.getSelectionModel().getSelectedItem().getId();
+        if(Alerts.deleteCustomer()) {
+            if (DBAppointments.getApptsByCustID(custToDelete).size() != 0) {
+                DBAppointments.deleteApptsByCust(custToDelete);
 
-            if (DBCustomers.deleteCustomer(custToDelete)) {
-                Alerts.customerDeleted();
-                allCustomers.setItems(DBCustomers.getAllCustomers());
+                if (DBCustomers.deleteCustomer(custToDelete)) {
+                    Alerts.customerDeleted();
+                    customers.setAll(DBCustomers.getAllCustomers());
+                    appointments.setAll(DBAppointments.getAllAppointments());
+                }
             }
         }
     }

@@ -31,7 +31,7 @@ public class Alerts {
     public static Boolean deleteCustomer() {
         a.setAlertType(Alert.AlertType.CONFIRMATION);
         a.setHeaderText(null);
-        a.setContentText("Are you sure you want to delete the selected customer?");
+        a.setContentText("Are you sure you want to delete the selected customer?\nNote: This will also delete any appointments scheduled\n for this customer.");
         Optional<ButtonType> result = a.showAndWait();
         return result.get() == ButtonType.OK;
     }

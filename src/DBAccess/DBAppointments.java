@@ -197,18 +197,35 @@ public class DBAppointments {
         }
     }
 
+
     public static boolean deleteAppointment(int apptID) {
         Boolean isDeleted = false;
-            try {
-                String sql = "DELETE FROM appointments WHERE appointment_id = ?";
-                PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-                ps.setInt(1, apptID);
-                ps.execute();
+        try {
+            String sql = "DELETE FROM appointments WHERE appointment_id = ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, apptID);
+            ps.execute();
 
-                isDeleted = true;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            isDeleted = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return isDeleted;
+    }
+
+    public static boolean deleteApptsByCust(int custID) {
+        Boolean isDeleted = false;
+        try {
+            String sql = "DELETE FROM appointments WHERE customer_id = ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, custID);
+            ps.execute();
+
+            isDeleted = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return isDeleted;
     }
