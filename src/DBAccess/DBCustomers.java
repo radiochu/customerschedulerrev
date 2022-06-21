@@ -48,7 +48,6 @@ public class DBCustomers {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.print(cList);
         return cList;
     }
 
@@ -162,7 +161,6 @@ public class DBCustomers {
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ps.setString(1, newValue);
             ps.setInt(2, customerID);
-            System.out.println(ps);
             ps.execute();
         }
         catch (SQLException e) {
@@ -189,7 +187,6 @@ public class DBCustomers {
                     "ORDER BY c.customer_id";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ps.setInt(1, indexToMod);
-            System.out.println(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

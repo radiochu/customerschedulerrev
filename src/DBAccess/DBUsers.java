@@ -31,7 +31,7 @@ public class DBUsers {
     public static int getUserIDByName(String username) {
         int userID = 0;
         try {
-            String sql = "SELECT * FROM users WHERE user_id = ?";
+            String sql = "SELECT * FROM users WHERE user_name = ?";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();

@@ -80,8 +80,4 @@ public class Customers {
     public String getAddress() {
         return address;
     }
-
-    public static void setCustName(String newValue, int customerID) {
-        DBCustomers.updateCustomerName(newValue, customerID);
-    }
 }

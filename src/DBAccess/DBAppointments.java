@@ -11,10 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Calendar;
 
 public class DBAppointments {
-
-    public static ObservableList<String> apptTypes = FXCollections.observableArrayList();
 
     public static ObservableList<Appointments> getAllAppointments() {
         ObservableList<Appointments> aList = FXCollections.observableArrayList();
@@ -67,7 +67,6 @@ public class DBAppointments {
 
                 Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
                 currMonthAppts.add(a);
-                System.out.print(a);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -97,7 +96,6 @@ public class DBAppointments {
 
                 Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
                 currWeekAppts.add(a);
-                System.out.print(a);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -128,13 +126,12 @@ public class DBAppointments {
 
                 Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
                 userAppts.add(a);
-
             }
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-    return userAppts;
+        return userAppts;
     }
 
     public static ObservableList<Appointments> getApptsByCustID(int customerID) {

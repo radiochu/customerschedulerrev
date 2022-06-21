@@ -3,7 +3,11 @@ package Controller;
 import DBAccess.DBAppointments;
 import DBAccess.DBUsers;
 import DBConnection.JDBC;
+import Model.Appointments;
 import Utilities.Alerts;
+import Utilities.Reporter;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,6 +25,8 @@ import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
@@ -31,6 +37,7 @@ public class Login implements Initializable {
     public TextField username;
     Alert a = new Alert(Alert.AlertType.NONE);
     private ResourceBundle resourceBundle;
+    public boolean loginSuccess;
 
     public static String getUsername() {
         return uname;
@@ -54,8 +61,13 @@ public class Login implements Initializable {
             a.setHeaderText(null);
             a.setContentText(resourceBundle.getString("loginfail"));
             a.show();
+            loginSuccess = false;
+            uname = username.getText();
+            Reporter.logActivity("Login by user " + uname + " was unsuccessful at UTC" + Instant.now());
         } else {
             uname = username.getText();
+            loginSuccess = true;
+            Reporter.logActivity("Login by user " + uname + " was successful at UTC " + Instant.now());
             Stage previous = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             previous.close();
             Parent root = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
@@ -64,11 +76,28 @@ public class Login implements Initializable {
             mainStage.setScene(new Scene(root, 1000, 745));
             mainStage.show();
             upcomingAppointments(DBUsers.getUserIDByName(uname));
+
         }
     }
 
-    public void upcomingAppointments(int user) {
-        Alerts.upcomingAppointments(user);
+    private void upcomingAppointments(int user) {
+        System.out.println("Username is " + uname);
+        System.out.println("User ID is " + user);
+        ObservableList<Appointments> userAppointments = DBAppointments.getApptsByUserID(user);
+        for (Appointments i:userAppointments) {
+            System.out.println(i);
+        }
+        ObservableList<Appointments> upcomingAppts = FXCollections.observableArrayList();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime in15Minutes = now.plusMinutes(15);
+        for (Appointments a : userAppointments) {
+            LocalDateTime apptTime = a.getApptStart();
+            if (apptTime.isAfter(now.minusMinutes(1)) && apptTime.isBefore(in15Minutes)) {
+                upcomingAppts.add(a);
+            }
+        }
+        System.out.println(upcomingAppts);
+        Alerts.upcomingAppointments(upcomingAppts.size());
     }
 
     public void onCancel(ActionEvent actionEvent) {

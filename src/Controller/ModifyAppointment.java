@@ -121,7 +121,7 @@ public class ModifyAppointment implements Initializable {
             LocalTime endTime = apptEndTime.getValue();
             LocalDateTime startLDT = DateTimeHandler.startTime(date, LocalTime.from(startTime));
             LocalDateTime endLDT = DateTimeHandler.endTime(date, LocalTime.from(endTime));
-            appointmentToMod = new Appointments(DBContacts.getContactIDByName(apptContact.getValue()), apptTitle.getText(), apptDesc.getText(), apptLocation.getText(), apptContact.getValue(), startLDT, endLDT, apptType.getText(), Integer.parseInt(apptCustID.getText()), apptUserID.getValue());
+            appointmentToMod = new Appointments(Integer.parseInt(apptID.getText()), apptTitle.getText(), apptDesc.getText(), apptLocation.getText(), apptContact.getValue(), startLDT, endLDT, apptType.getText(), Integer.parseInt(apptCustID.getText()), apptUserID.getValue());
             DBAppointments.modifyAppointment(appointmentToMod);
             MainScreen.appointments.set(indexToMod, appointmentToMod);
 

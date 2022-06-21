@@ -14,10 +14,10 @@ public class Alerts {
 
     public static Alert a = new Alert(Alert.AlertType.NONE);
 
-    public static void upcomingAppointments(int user) {
+    public static void upcomingAppointments(int upcoming) {
         a.setAlertType(Alert.AlertType.INFORMATION);
         a.setHeaderText(null);
-        a.setContentText(DBAppointments.getApptsByUserID(user).size() + " Upcoming appointments in the next 15 minutes");
+        a.setContentText(upcoming + " Upcoming appointments in the next 15 minutes.");
         a.show();
     }
 

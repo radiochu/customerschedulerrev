@@ -89,18 +89,6 @@ public class MainScreen implements Initializable {
         custPhone.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 
         allCustomers.setItems(customers);
-        allCustomers.setEditable(true);
-
-        custName.setCellFactory(TextFieldTableCell.forTableColumn());
-        custName.setOnEditCommit(
-                (event) -> {
-                    Customers customerToMod = event.getRowValue();
-                    String newValue = event.getNewValue();
-                    int customerID = customerToMod.getId();
-                    int indexToMod = event.getTableView().getSelectionModel().getSelectedIndex();
-                    Customers.setCustName(newValue, customerID);
-                    customers.set(indexToMod, DBCustomers.getCustomerByID(customerID));
-                });
 
         allApptID.setCellValueFactory(new PropertyValueFactory<>("apptID"));
         allApptTitle.setCellValueFactory(new PropertyValueFactory<>("apptTitle"));
