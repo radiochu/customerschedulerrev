@@ -31,7 +31,6 @@ public class DBCustomers {
                     "WHERE c.Division_ID = f.Division_ID AND f.country_id = co.Country_ID " +
                     "ORDER BY c.customer_id";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            System.out.println(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
