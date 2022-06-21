@@ -17,6 +17,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
 public class ModifyAppointment implements Initializable {
@@ -48,8 +49,9 @@ public class ModifyAppointment implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         apptContact.setItems(DBContacts.getAllContacts());
         apptUserID.setItems(DBUsers.getAllUsers());
-        apptStartTime.setItems(DateTimeHandler.setTimeList());
-        apptEndTime.setItems(DateTimeHandler.setTimeList());
+        apptDate.setValue(appointmentToMod.getApptStart().toLocalDate());
+        apptStartTime.setItems(DateTimeHandler.setTimeList(apptDate.getValue()));
+        apptEndTime.setItems(DateTimeHandler.setTimeList(apptDate.getValue()));
         apptID.setText(String.valueOf(appointmentToMod.getApptID()));
         apptCustID.setText(String.valueOf(appointmentToMod.getCustID()));
         apptUserID.setValue(appointmentToMod.getUserID());
@@ -58,7 +60,6 @@ public class ModifyAppointment implements Initializable {
         apptType.setText(appointmentToMod.getApptType());
         apptStartTime.setValue(appointmentToMod.getApptStart().toLocalTime());
         apptEndTime.setValue(appointmentToMod.getApptEnd().toLocalTime());
-        apptDate.setValue(appointmentToMod.getApptStart().toLocalDate());
         apptContact.setValue(appointmentToMod.getApptContact());
         apptLocation.setText(appointmentToMod.getApptLocation());
     }
@@ -118,8 +119,8 @@ public class ModifyAppointment implements Initializable {
             LocalDate date = apptDate.getValue();
             LocalTime startTime = apptStartTime.getValue();
             LocalTime endTime = apptEndTime.getValue();
-            LocalDateTime startLDT = DateTimeHandler.startTime(date, startTime);
-            LocalDateTime endLDT = DateTimeHandler.endTime(date, endTime);
+            LocalDateTime startLDT = DateTimeHandler.startTime(date, LocalTime.from(startTime));
+            LocalDateTime endLDT = DateTimeHandler.endTime(date, LocalTime.from(endTime));
             appointmentToMod = new Appointments(DBContacts.getContactIDByName(apptContact.getValue()), apptTitle.getText(), apptDesc.getText(), apptLocation.getText(), apptContact.getValue(), startLDT, endLDT, apptType.getText(), Integer.parseInt(apptCustID.getText()), apptUserID.getValue());
             DBAppointments.modifyAppointment(appointmentToMod);
             MainScreen.appointments.set(indexToMod, appointmentToMod);

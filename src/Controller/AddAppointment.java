@@ -18,6 +18,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
 
@@ -40,8 +41,9 @@ public class AddAppointment implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         apptContact.setItems(DBContacts.getAllContacts());
         apptUserID.setItems(DBUsers.getAllUsers());
-        apptStartTime.setItems(DateTimeHandler.setTimeList());
-        apptEndTime.setItems(DateTimeHandler.setTimeList());
+        apptDate.setValue(LocalDate.now());
+        apptStartTime.setItems(DateTimeHandler.setTimeList(apptDate.getValue()));
+        apptEndTime.setItems(DateTimeHandler.setTimeList(apptDate.getValue()));
     }
 
     private boolean validateInput() {
@@ -97,8 +99,8 @@ public class AddAppointment implements Initializable {
     public void onSaveButton(ActionEvent actionEvent) {
         if (validateInput() && validateCustomer(Integer.parseInt(apptCustID.getText()))) {
             LocalDate date = apptDate.getValue();
-            LocalTime startTime = apptStartTime.getValue();
-            LocalTime endTime = apptEndTime.getValue();
+            LocalTime startTime = LocalTime.from(apptStartTime.getValue());
+            LocalTime endTime = LocalTime.from(apptEndTime.getValue());
             LocalDateTime startLDT = DateTimeHandler.startTime(date, startTime);
             LocalDateTime endLDT = DateTimeHandler.endTime(date, endTime);
             try {
