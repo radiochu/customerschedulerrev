@@ -8,7 +8,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The type Db countries.
+ */
 public class DBCountries {
+    /**
+     * Gets all countries.
+     *
+     * @return the all countries
+     */
     public static ObservableList<String> getAllCountries() {
         ObservableList<String> countries = FXCollections.observableArrayList();
         try {
@@ -26,6 +34,12 @@ public class DBCountries {
         return countries;
     }
 
+    /**
+     * Gets country id by name.
+     *
+     * @param countryName the country name
+     * @return the country id by name
+     */
     public static int getCountryIDByName(String countryName) {
         int countryID = 0;
         try {

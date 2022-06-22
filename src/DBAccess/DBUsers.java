@@ -8,9 +8,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The type Db users.
+ */
 public class DBUsers {
+    /**
+     * The constant userIDs.
+     */
     public static final ObservableList<Integer> userIDs = FXCollections.observableArrayList();
 
+    /**
+     * Gets all users.
+     *
+     * @return the all users
+     */
     public static ObservableList<Integer> getAllUsers() {
         try {
             String sql = "SELECT * FROM users";
@@ -28,6 +39,12 @@ public class DBUsers {
         return userIDs;
     }
 
+    /**
+     * Gets user id by name.
+     *
+     * @param username the username
+     * @return the user id by name
+     */
     public static int getUserIDByName(String username) {
         int userID = 0;
         try {

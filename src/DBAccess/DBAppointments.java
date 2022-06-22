@@ -5,14 +5,19 @@ import Model.Appointments;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.LocalDateTime;
 
+/**
+ * The type Db appointments.
+ */
 public class DBAppointments {
 
+    /**
+     * Gets all appointments.
+     *
+     * @return the all appointments
+     */
     public static ObservableList<Appointments> getAllAppointments() {
         ObservableList<Appointments> aList = FXCollections.observableArrayList();
         try {
@@ -33,7 +38,6 @@ public class DBAppointments {
                 int userID = rs.getInt("User_ID");
 
 
-
                 Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
                 aList.add(a);
             }
@@ -43,6 +47,11 @@ public class DBAppointments {
         return aList;
     }
 
+    /**
+     * Gets this month appts.
+     *
+     * @return the this month appts
+     */
     public static ObservableList<Appointments> getThisMonthAppts() {
         ObservableList<Appointments> currMonthAppts = FXCollections.observableArrayList();
         try {
@@ -72,6 +81,11 @@ public class DBAppointments {
         return currMonthAppts;
     }
 
+    /**
+     * Gets this week appts.
+     *
+     * @return the this week appts
+     */
     public static ObservableList<Appointments> getThisWeekAppts() {
         ObservableList<Appointments> currWeekAppts = FXCollections.observableArrayList();
         try {
@@ -101,6 +115,12 @@ public class DBAppointments {
         return currWeekAppts;
     }
 
+    /**
+     * Gets appts by user id.
+     *
+     * @param user the user
+     * @return the appts by user id
+     */
     public static ObservableList<Appointments> getApptsByUserID(int user) {
         ObservableList<Appointments> userAppts = FXCollections.observableArrayList();
         try {
@@ -124,13 +144,18 @@ public class DBAppointments {
                 Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
                 userAppts.add(a);
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return userAppts;
     }
 
+    /**
+     * Gets appts by cust id.
+     *
+     * @param customerID the customer id
+     * @return the appts by cust id
+     */
     public static ObservableList<Appointments> getApptsByCustID(int customerID) {
         ObservableList<Appointments> custAppts = FXCollections.observableArrayList();
         try {
@@ -154,27 +179,56 @@ public class DBAppointments {
                 Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
                 custAppts.add(a);
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return custAppts;
     }
 
+    public static int addAppointment(Appointments appointmentToAdd) {
+        int newApptID = 0;
+        try {
+            String sql = "INSERT INTO appointments VALUES (NULL, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, NULL, ?, ?, ?)";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, appointmentToAdd.getApptTitle());
+            ps.setString(2, appointmentToAdd.getApptDescription());
+            ps.setString(3, appointmentToAdd.getApptLocation());
+            ps.setString(4, appointmentToAdd.getApptType());
+            ps.setTimestamp(5, Timestamp.valueOf(appointmentToAdd.getApptStart()));
+            ps.setTimestamp(6, Timestamp.valueOf(appointmentToAdd.getApptEnd()));
+            ps.setInt(7, appointmentToAdd.getCustID());
+            ps.setInt(8, appointmentToAdd.getUserID());
+            ps.setInt(9, DBContacts.getContactIDByName(appointmentToAdd.getApptContact()));
+            ps.execute();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            rs.next();
+            newApptID = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return newApptID;
+    }
+
+    /**
+     * Modify appointment.
+     *
+     * @param appointmentToMod the appointment to mod
+     */
     public static void modifyAppointment(Appointments appointmentToMod) {
         try {
             String sql = "UPDATE appointments " +
-                         "SET title = ?, " +
-                         "description = ?, " +
-                         "location = ?, " +
-                         "type = ?, " +
-                         "start = ?, " +
-                         "end = ?, " +
-                         "customer_id = ?, " +
-                         "user_id = ?, " +
-                         "contact_id = ? " +
-                         "WHERE appointment_id = ?";
+                    "SET title = ?, " +
+                    "description = ?, " +
+                    "location = ?, " +
+                    "type = ?, " +
+                    "start = ?, " +
+                    "end = ?, " +
+                    "customer_id = ?, " +
+                    "user_id = ?, " +
+                    "contact_id = ? " +
+                    "WHERE appointment_id = ?";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ps.setString(1, appointmentToMod.getApptTitle());
             ps.setString(2, appointmentToMod.getApptDescription());
@@ -187,13 +241,18 @@ public class DBAppointments {
             ps.setInt(9, DBContacts.getContactIDByName(appointmentToMod.getApptContact()));
             ps.setInt(10, appointmentToMod.getApptID());
             ps.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
 
+    /**
+     * Delete appointment boolean.
+     *
+     * @param apptID the appt id
+     * @return the boolean
+     */
     public static boolean deleteAppointment(int apptID) {
         boolean isDeleted = false;
         try {
@@ -210,6 +269,11 @@ public class DBAppointments {
         return isDeleted;
     }
 
+    /**
+     * Delete appts by cust.
+     *
+     * @param custID the cust id
+     */
     public static void deleteApptsByCust(int custID) {
         boolean isDeleted = false;
         try {

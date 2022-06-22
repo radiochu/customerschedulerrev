@@ -19,26 +19,79 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+/**
+ * The type Modify appointment.
+ */
 public class ModifyAppointment implements Initializable {
+    /**
+     * The Appt id.
+     */
     public TextField apptID;
+    /**
+     * The Appt cust id.
+     */
     public TextField apptCustID;
+    /**
+     * The Appt user id.
+     */
     public ComboBox<Integer> apptUserID;
+    /**
+     * The Appt title.
+     */
     public TextField apptTitle;
+    /**
+     * The Appt desc.
+     */
     public TextField apptDesc;
+    /**
+     * The Appt type.
+     */
     public TextField apptType;
+    /**
+     * The Appt contact.
+     */
     public ComboBox<String> apptContact;
+    /**
+     * The Appt date.
+     */
     public DatePicker apptDate;
+    /**
+     * The Appt start time.
+     */
     public ComboBox<LocalTime> apptStartTime;
+    /**
+     * The Appt end time.
+     */
     public ComboBox<LocalTime> apptEndTime;
+    /**
+     * The Appt location.
+     */
     public TextField apptLocation;
+    /**
+     * The Submit.
+     */
     public Button Submit;
+    /**
+     * The Cancel.
+     */
     public Button Cancel;
 
+    /**
+     * The constant appointmentToMod.
+     */
     public static Appointments appointmentToMod = null;
+    /**
+     * The constant indexToMod.
+     */
     public static int indexToMod = 0;
 
 
-
+    /**
+     * Sets appointment to mod.
+     *
+     * @param appointment the appointment
+     * @param index       the index
+     */
     public static void setAppointmentToMod(Appointments appointment, int index) {
         appointmentToMod = appointment;
         indexToMod = index;
@@ -113,6 +166,11 @@ public class ModifyAppointment implements Initializable {
         return b;
     }
 
+    /**
+     * On submit.
+     *
+     * @param actionEvent the action event
+     */
     public void onSubmit(ActionEvent actionEvent) {
         if (validateInput() && validateCustomer(Integer.parseInt(apptCustID.getText()))) {
             LocalDate date = apptDate.getValue();
@@ -129,6 +187,11 @@ public class ModifyAppointment implements Initializable {
         }
     }
 
+    /**
+     * On cancel.
+     *
+     * @param actionEvent the action event
+     */
     public void onCancel(ActionEvent actionEvent) {
         Alerts.cancelWithoutSaving(actionEvent);
     }

@@ -17,20 +17,65 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The type Modify customer.
+ */
 public class ModifyCustomer implements Initializable {
+    /**
+     * The constant customerToMod.
+     */
     public static Customers customerToMod = null;
+    /**
+     * The constant indexToMod.
+     */
     public static int indexToMod = 0;
+    /**
+     * The Cust name field.
+     */
     public TextField custNameField;
+    /**
+     * The Cust address field.
+     */
     public TextField custAddressField;
+    /**
+     * The Cust country cb.
+     */
     public ComboBox<String> custCountryCB;
+    /**
+     * The Division label.
+     */
     public Label divisionLabel;
+    /**
+     * The Cust fldcb.
+     */
     public ComboBox<String> custFLDCB;
+    /**
+     * The Cust post code field.
+     */
     public TextField custPostCodeField;
+    /**
+     * The Cust phone field.
+     */
     public TextField custPhoneField;
+    /**
+     * The Customer id.
+     */
     public TextField customerID;
+    /**
+     * The Mod cust save btn.
+     */
     public Button modCustSaveBtn;
+    /**
+     * The Mod cust cancel btn.
+     */
     public Button modCustCancelBtn;
 
+    /**
+     * Sets customer to mod.
+     *
+     * @param customer the customer
+     * @param index    the index
+     */
     public static void setCustomerToMod(Customers customer, int index) {
         customerToMod = customer;
         indexToMod = index;
@@ -79,6 +124,11 @@ public class ModifyCustomer implements Initializable {
         return b;
     }
 
+    /**
+     * Filter divisions.
+     *
+     * @param actionEvent the action event
+     */
     public void filterDivisions(ActionEvent actionEvent) {
         String countryName = custCountryCB.getValue();
         if (countryName.equals("U.S")) {
@@ -94,6 +144,11 @@ public class ModifyCustomer implements Initializable {
     }
 
 
+    /**
+     * On save button.
+     *
+     * @param actionEvent the action event
+     */
     public void onSaveButton(ActionEvent actionEvent) {
         if (validateInput()) {
             customerToMod = new Customers(customerToMod.getId(), custNameField.getText(), custAddressField.getText(), custFLDCB.getValue(), custPostCodeField.getText(), custCountryCB.getValue(), custPhoneField.getText());
@@ -105,6 +160,11 @@ public class ModifyCustomer implements Initializable {
         }
     }
 
+    /**
+     * On cancel button.
+     *
+     * @param actionEvent the action event
+     */
     public void onCancelButton(ActionEvent actionEvent) {
         Alerts.cancelWithoutSaving(actionEvent);
     }

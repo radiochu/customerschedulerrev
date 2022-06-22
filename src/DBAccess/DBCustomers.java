@@ -11,7 +11,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * The type Db customers.
+ */
 public class DBCustomers {
+    /**
+     * Gets all customers.
+     *
+     * @return the all customers
+     */
     public static ObservableList<Customers> getAllCustomers() {
         ObservableList<Customers> cList = FXCollections.observableArrayList();
         try {
@@ -49,6 +57,12 @@ public class DBCustomers {
         return cList;
     }
 
+    /**
+     * Add customer int.
+     *
+     * @param customer the customer
+     * @return the int
+     */
     public static int addCustomer(Customers customer) {
         int divisionID = DBDivisions.getDivisionIDByName(customer.getFld());
         int newCustID = 0;
@@ -71,6 +85,12 @@ public class DBCustomers {
         return newCustID;
     }
 
+    /**
+     * Delete customer boolean.
+     *
+     * @param custID the cust id
+     * @return the boolean
+     */
     public static boolean deleteCustomer(int custID) {
         boolean isDeleted = false;
         if (DBAppointments.getApptsByCustID(custID).size() != 0) {
@@ -91,6 +111,11 @@ public class DBCustomers {
         return isDeleted;
     }
 
+    /**
+     * Modify customer.
+     *
+     * @param customerToMod the customer to mod
+     */
     public static void modifyCustomer(Customers customerToMod) {
         int divisionID = DBDivisions.getDivisionIDByName(customerToMod.getFld());
         try {
@@ -114,6 +139,12 @@ public class DBCustomers {
         }
     }
 
+    /**
+     * Customer exists boolean.
+     *
+     * @param custID the cust id
+     * @return the boolean
+     */
     public static boolean customerExists(int custID) {
         boolean b = false;
         try {
@@ -132,6 +163,12 @@ public class DBCustomers {
         return b;
     }
 
+    /**
+     * Gets customer name by id.
+     *
+     * @param id the id
+     * @return the customer name by id
+     */
     public static String getCustomerNameByID(int id) {
         String custName = null;
         try {
@@ -151,6 +188,12 @@ public class DBCustomers {
     }
 
 
+    /**
+     * Update customer name.
+     *
+     * @param newValue   the new value
+     * @param customerID the customer id
+     */
     public static void updateCustomerName(String newValue, int customerID) {
         try {
             String sql = "UPDATE customers SET customer_name = ? WHERE customer_id = ?";
@@ -163,6 +206,12 @@ public class DBCustomers {
         }
     }
 
+    /**
+     * Gets customer by id.
+     *
+     * @param indexToMod the index to mod
+     * @return the customer by id
+     */
     public static Customers getCustomerByID(int indexToMod) {
         Customers c = null;
         try {
@@ -201,6 +250,12 @@ public class DBCustomers {
         return c;
     }
 
+    /**
+     * Validate customer boolean.
+     *
+     * @param custID the cust id
+     * @return the boolean
+     */
     public boolean validateCustomer(int custID) {
         boolean b = false;
         if (customerExists(custID)) {

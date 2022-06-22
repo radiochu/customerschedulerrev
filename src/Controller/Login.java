@@ -30,12 +30,33 @@ import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
+/**
+ * The type Login.
+ */
 public class Login implements Initializable {
+    /**
+     * The constant uname.
+     */
     public static String uname;
+    /**
+     * The A.
+     */
     final Alert a = new Alert(Alert.AlertType.NONE);
+    /**
+     * The Timezone.
+     */
     public Label timezone;
+    /**
+     * The Password.
+     */
     public PasswordField password;
+    /**
+     * The Username.
+     */
     public TextField username;
+    /**
+     * The Login success.
+     */
     public boolean loginSuccess;
     private ResourceBundle resourceBundle;
 
@@ -46,6 +67,13 @@ public class Login implements Initializable {
         this.resourceBundle = resourceBundle;
     }
 
+    /**
+     * On submit.
+     *
+     * @param actionEvent the action event
+     * @throws IOException  the io exception
+     * @throws SQLException the sql exception
+     */
     public void onSubmit(ActionEvent actionEvent) throws IOException, SQLException {
         uname = username.getText();
         String sql = "SELECT * FROM users WHERE user_name = ? AND password = ?";
@@ -88,6 +116,11 @@ public class Login implements Initializable {
         Alerts.upcomingAppointments(upcomingAppts.size());
     }
 
+    /**
+     * On cancel.
+     *
+     * @param actionEvent the action event
+     */
     public void onCancel(ActionEvent actionEvent) {
         Alerts.exitApplication();
     }

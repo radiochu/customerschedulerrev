@@ -9,8 +9,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The type Db divisions.
+ */
 public class DBDivisions {
 
+    /**
+     * Gets all divisions.
+     *
+     * @return the all divisions
+     */
     public static ObservableList<String> getAllDivisions() {
         ObservableList<String> divisions = FXCollections.observableArrayList();
         try {
@@ -28,6 +36,11 @@ public class DBDivisions {
         return divisions;
     }
 
+    /**
+     * Gets us divisions.
+     *
+     * @return the us divisions
+     */
     public static ObservableList<String> getUSDivisions() {
         ObservableList<String> USDivisions = FXCollections.observableArrayList();
         try {
@@ -45,6 +58,11 @@ public class DBDivisions {
         return USDivisions;
     }
 
+    /**
+     * Gets uk divisions.
+     *
+     * @return the uk divisions
+     */
     public static ObservableList<String> getUKDivisions() {
         ObservableList<String> UKDivisions = FXCollections.observableArrayList();
         try {
@@ -62,6 +80,11 @@ public class DBDivisions {
         return UKDivisions;
     }
 
+    /**
+     * Gets canada divisions.
+     *
+     * @return the canada divisions
+     */
     public static ObservableList<String> getCanadaDivisions() {
         ObservableList<String> canadaDivisions = FXCollections.observableArrayList();
         try {
@@ -79,6 +102,12 @@ public class DBDivisions {
         return canadaDivisions;
     }
 
+    /**
+     * Gets division id by name.
+     *
+     * @param divisionName the division name
+     * @return the division id by name
+     */
     public static int getDivisionIDByName(String divisionName) {
         int divID = 0;
         try {

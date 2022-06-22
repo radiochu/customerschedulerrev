@@ -56,7 +56,7 @@
     </VBox>
     <VBox GridPane.columnSpan="2" GridPane.rowIndex="3">
         <TabPane side="LEFT" tabClosingPolicy="UNAVAILABLE">
-            <Tab fx:id="allApptTab" onSelectionChanged="#showAllAppts" text="All Appointments">
+            <Tab fx:id="allApptTab" onSelectionChanged="#refreshTables" text="All Appointments">
                 <AnchorPane minHeight="0.0" minWidth="0.0">
                     <TableView fx:id="allAppointments" prefHeight="295.0" prefWidth="985.0">
                         <columns>
@@ -74,7 +74,7 @@
                     </TableView>
                 </AnchorPane>
             </Tab>
-            <Tab fx:id="currentMonthAppts" onSelectionChanged="#showCurrentMonth" text="Current Month">
+            <Tab fx:id="currentMonthAppts" onSelectionChanged="#refreshTables" text="Current Month">
                 <AnchorPane minHeight="0.0" minWidth="0.0">
                     <TableView fx:id="currMonthApptsTable" prefHeight="295.0" prefWidth="985.0">
                         <columns>
@@ -92,7 +92,7 @@
                     </TableView>
                 </AnchorPane>
             </Tab>
-            <Tab fx:id="currentWeekAppts" onSelectionChanged="#showCurrentWeek" text="Current Week">
+            <Tab fx:id="currentWeekAppts" onSelectionChanged="#refreshTables" text="Current Week">
                 <AnchorPane minHeight="0.0" minWidth="0.0">
                     <TableView fx:id="currWeekApptsTable" prefHeight="295.0" prefWidth="985.0">
                         <columns>

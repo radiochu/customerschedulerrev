@@ -8,10 +8,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The type Db contacts.
+ */
 public class DBContacts {
 
+    /**
+     * The Contacts.
+     */
     static final ObservableList<String> contacts = FXCollections.observableArrayList();
 
+    /**
+     * Gets all contacts.
+     *
+     * @return the all contacts
+     */
     public static ObservableList<String> getAllContacts() {
         try {
             String sql = "SELECT Contact_Name FROM contacts";
@@ -29,6 +40,12 @@ public class DBContacts {
         return contacts;
     }
 
+    /**
+     * Gets contact name by id.
+     *
+     * @param apptContact the appt contact
+     * @return the contact name by id
+     */
     public static String getContactNameByID(int apptContact) {
         String contactName = null;
         try {
@@ -46,6 +63,12 @@ public class DBContacts {
         return contactName;
     }
 
+    /**
+     * Gets contact id by name.
+     *
+     * @param contactName the contact name
+     * @return the contact id by name
+     */
     public static int getContactIDByName(String contactName) {
 
         int contactID = 0;

@@ -9,10 +9,21 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
+/**
+ * The type Alerts.
+ */
 public class Alerts {
 
+    /**
+     * The constant a.
+     */
     public static final Alert a = new Alert(Alert.AlertType.NONE);
 
+    /**
+     * Upcoming appointments.
+     *
+     * @param upcoming the upcoming
+     */
     public static void upcomingAppointments(int upcoming) {
         a.setAlertType(Alert.AlertType.INFORMATION);
         a.setHeaderText(null);
@@ -20,6 +31,11 @@ public class Alerts {
         a.show();
     }
 
+    /**
+     * Invalid data.
+     *
+     * @param message the message
+     */
     public static void invalidData(String message) {
         a.setAlertType(Alert.AlertType.WARNING);
         a.setHeaderText(null);
@@ -27,6 +43,11 @@ public class Alerts {
         a.show();
     }
 
+    /**
+     * Delete customer boolean.
+     *
+     * @return the boolean
+     */
     public static Boolean deleteCustomer() {
         a.setAlertType(Alert.AlertType.CONFIRMATION);
         a.setHeaderText(null);
@@ -35,6 +56,9 @@ public class Alerts {
         return result.get() == ButtonType.OK;
     }
 
+    /**
+     * Existing appts.
+     */
     public static void existingAppts() {
         a.setAlertType(Alert.AlertType.WARNING);
         a.setHeaderText(null);
@@ -42,6 +66,9 @@ public class Alerts {
         a.show();
     }
 
+    /**
+     * No selection.
+     */
     public static void noSelection() {
         a.setAlertType(Alert.AlertType.WARNING);
         a.setHeaderText(null);
@@ -49,6 +76,9 @@ public class Alerts {
         a.show();
     }
 
+    /**
+     * Customer deleted.
+     */
     public static void customerDeleted() {
         a.setAlertType(Alert.AlertType.INFORMATION);
         a.setHeaderText(null);
@@ -56,6 +86,11 @@ public class Alerts {
         a.show();
     }
 
+    /**
+     * Delete appointment boolean.
+     *
+     * @return the boolean
+     */
     public static Boolean deleteAppointment() {
         a.setAlertType(Alert.AlertType.CONFIRMATION);
         a.setHeaderText(null);
@@ -64,6 +99,11 @@ public class Alerts {
         return result.get() == ButtonType.OK;
     }
 
+    /**
+     * Cancel without saving.
+     *
+     * @param actionEvent the action event
+     */
     public static void cancelWithoutSaving(ActionEvent actionEvent) {
         a.setAlertType(Alert.AlertType.CONFIRMATION);
         a.setHeaderText(null);
@@ -75,6 +115,9 @@ public class Alerts {
         }
     }
 
+    /**
+     * Exit application.
+     */
     public static void exitApplication() {
         a.setAlertType(Alert.AlertType.CONFIRMATION);
         a.setHeaderText(null);
@@ -85,6 +128,12 @@ public class Alerts {
         }
     }
 
+    /**
+     * Appt deleted.
+     *
+     * @param apptToDelete the appt to delete
+     * @param apptType     the appt type
+     */
     public static void apptDeleted(int apptToDelete, String apptType) {
         a.setAlertType(Alert.AlertType.INFORMATION);
         a.setHeaderText(null);

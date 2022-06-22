@@ -10,7 +10,15 @@ import javafx.stage.Stage;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * The type Main.
+ */
 public class Main extends Application {
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         JDBC.openConnection();
         launch(args);

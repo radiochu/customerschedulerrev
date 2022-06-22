@@ -1,9 +1,9 @@
 package Controller;
 
+import DBAccess.DBAppointments;
 import DBAccess.DBContacts;
 import DBAccess.DBCustomers;
 import DBAccess.DBUsers;
-import DBConnection.JDBC;
 import Model.Appointments;
 import Utilities.Alerts;
 import Utilities.DateTimeHandler;
@@ -17,27 +17,70 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 
+/**
+ * Controller that handles the logic for the Add Appointment screen based on addAppointment.fxml.
+ */
 public class AddAppointment implements Initializable {
+    /**
+     * Appointment ID.
+     */
     public TextField apptID;
+    /**
+     * Customer ID for the customer associated with this appointment.
+     */
     public TextField apptCustID;
+    /**
+     * User ID for the user associated with this appointment.
+     */
     public ComboBox<Integer> apptUserID;
+    /**
+     * Appointment title.
+     */
     public TextField apptTitle;
+    /**
+     * Appointment description.
+     */
     public TextField apptDesc;
+    /**
+     *
+     * Appointment type.
+     */
     public TextField apptType;
-    public ComboBox<String> apptContact;
-    public DatePicker apptDate;
-    public ComboBox<LocalTime> apptStartTime;
-    public ComboBox<LocalTime> apptEndTime;
-    public Button Submit;
-    public Button Cancel;
+    /**
+     * Appointment location.
+     */
     public TextField apptLoc;
+    /**
+     * Appointment contact.
+     */
+    public ComboBox<String> apptContact;
+    /**
+     * Appointment date.
+     */
+    public DatePicker apptDate;
+    /**
+     * Appointment start time.
+     */
+    public ComboBox<LocalTime> apptStartTime;
+    /**
+     * Appointment end time.
+     */
+    public ComboBox<LocalTime> apptEndTime;
+    /**
+     * Button to submit form elements.
+     */
+    public Button Submit;
+    /**
+     * Button to cancel adding the customer and exit the screen.
+     */
+    public Button Cancel;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -48,6 +91,11 @@ public class AddAppointment implements Initializable {
         apptEndTime.setItems(DateTimeHandler.setTimeList(apptDate.getValue()));
     }
 
+    /**
+     * Validates the data entered into the add appointment fields. If any field is found invalid, the user is alerted
+     * via a custom notification from the Alerts class, populated with the provided string to explain the error.
+     * @return boolean b; false if information is not valid, true if it is.
+     */
     private boolean validateInput() {
         boolean b = false;
 
@@ -77,6 +125,12 @@ public class AddAppointment implements Initializable {
         return b;
     }
 
+    /**
+     * Checks to see if the customer entered for the appointment actually exists. Provides an alert
+     * from the Alerts class if the customer does not exist.
+     * @param custID The customer ID to check for in the database.
+     * @return boolean b; returns false if customer does not exist, true if the customer is found.
+     */
     private boolean validateCustomer(int custID) {
         boolean b = false;
         if (DBCustomers.customerExists(custID)) {
@@ -87,6 +141,14 @@ public class AddAppointment implements Initializable {
         return b;
     }
 
+    /**
+     * Method to handle saving the new appointment. After validating input and checking to be sure the customer entered exists,
+     * reads in data from all fields and creates a new Appointments object to pass to the DBAppointments class for adding to the database.
+     * The database transaction will return the ID for the new appointment, which will be set just before the object is
+     * added to the list of appointments in the MainScreen controller.
+     *
+     * @param actionEvent Used to identify the window from which the save was triggered to close it on a successful execution.
+     */
     public void onSaveButton(ActionEvent actionEvent) {
         if (validateInput() && validateCustomer(Integer.parseInt(apptCustID.getText()))) {
             LocalDate date = apptDate.getValue();
@@ -94,33 +156,21 @@ public class AddAppointment implements Initializable {
             LocalTime endTime = LocalTime.from(apptEndTime.getValue());
             LocalDateTime startLDT = DateTimeHandler.startTime(date, startTime);
             LocalDateTime endLDT = DateTimeHandler.endTime(date, endTime);
-            try {
-                String sql = "INSERT INTO appointments VALUES (NULL, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, NULL, ?, ?, ?)";
-                PreparedStatement ps = JDBC.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, apptTitle.getText());
-                ps.setString(2, apptDesc.getText());
-                ps.setString(3, apptLoc.getText());
-                ps.setString(4, apptType.getText());
-                ps.setTimestamp(5, Timestamp.valueOf(startLDT));
-                ps.setTimestamp(6, Timestamp.valueOf(endLDT));
-                ps.setInt(7, Integer.parseInt(apptCustID.getText()));
-                ps.setInt(8, apptUserID.getValue());
-                ps.setInt(9, DBContacts.getContactIDByName(apptContact.getValue()));
-                ps.execute();
+            Appointments apptToAdd = new Appointments(0, apptTitle.getText(), apptDesc.getText(), apptLoc.getText(), apptContact.getValue(), startLDT, endLDT, apptType.getText(), Integer.parseInt(apptCustID.getText()), apptUserID.getValue());
+            apptToAdd.setApptID(DBAppointments.addAppointment(apptToAdd));
+            MainScreen.appointments.add(apptToAdd);
 
-                ResultSet rs = ps.getGeneratedKeys();
-                rs.next();
-                int newApptID = rs.getInt(1);
-                MainScreen.appointments.add(new Appointments(newApptID, apptTitle.getText(), apptDesc.getText(), apptLoc.getText(), apptContact.getValue(), startLDT, endLDT, apptType.getText(), Integer.parseInt(apptCustID.getText()), apptUserID.getValue()));
-
-                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                stage.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.close();
         }
     }
 
+    /**
+     * Confirms that the user wants to cancel adding the new appointment by providing an alert from the Alerts class.
+     *
+     * @param actionEvent Passed to a method in the Alerts class; used to close the window if the user confirms they want
+     *                    to close without saving.
+     */
     public void onCancel(ActionEvent actionEvent) {
         Alerts.cancelWithoutSaving(actionEvent);
     }

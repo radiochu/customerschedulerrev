@@ -17,16 +17,49 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The type Add customer.
+ */
 public class AddCustomer implements Initializable {
+    /**
+     * The Cust name field.
+     */
     public TextField custNameField;
+    /**
+     * The Cust address field.
+     */
     public TextField custAddressField;
+    /**
+     * The Cust country cb.
+     */
     public ComboBox<String> custCountryCB;
+    /**
+     * The Cust fldcb.
+     */
     public ComboBox<String> custFLDCB;
+    /**
+     * The Cust post code field.
+     */
     public TextField custPostCodeField;
+    /**
+     * The Cust phone field.
+     */
     public TextField custPhoneField;
+    /**
+     * The Customer id.
+     */
     public TextField customerID;
+    /**
+     * The Add cust save btn.
+     */
     public Button addCustSaveBtn;
+    /**
+     * The Add cust cancel btn.
+     */
     public Button addCustCancelBtn;
+    /**
+     * The Division label.
+     */
     public Label divisionLabel;
 
     @Override
@@ -54,6 +87,11 @@ public class AddCustomer implements Initializable {
         return b;
     }
 
+    /**
+     * Filter divisions.
+     *
+     * @param actionEvent the action event
+     */
     public void filterDivisions(ActionEvent actionEvent) {
         String countryName = custCountryCB.getValue();
         if (countryName.equals("U.S")) {
@@ -68,6 +106,11 @@ public class AddCustomer implements Initializable {
         }
     }
 
+    /**
+     * On save button.
+     *
+     * @param actionEvent the action event
+     */
     public void onSaveButton(ActionEvent actionEvent) {
         if (validateInput()) {
             Customers customer = new Customers(0, custNameField.getText(), custAddressField.getText(), custFLDCB.getValue(), custPostCodeField.getText(), custCountryCB.getValue(), custPhoneField.getText());
@@ -80,6 +123,11 @@ public class AddCustomer implements Initializable {
         }
     }
 
+    /**
+     * On cancel button.
+     *
+     * @param actionEvent the action event
+     */
     public void onCancelButton(ActionEvent actionEvent) {
         Alerts.cancelWithoutSaving(actionEvent);
     }
