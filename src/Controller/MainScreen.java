@@ -12,9 +12,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,6 +28,8 @@ public class MainScreen implements Initializable {
 
     static ObservableList<Customers> customers = DBCustomers.getAllCustomers();
     static ObservableList<Appointments> appointments = DBAppointments.getAllAppointments();
+    static ObservableList<Appointments> currMonthAppts = DBAppointments.getThisMonthAppts();
+    static ObservableList<Appointments> currWeekAppts = DBAppointments.getThisWeekAppts();
     public TableView<Customers> allCustomers;
     public TableColumn<Customers, Integer> custID;
     public TableColumn<Customers, String> custName;
@@ -114,7 +118,6 @@ public class MainScreen implements Initializable {
         currMonthApptCustID.setCellValueFactory(new PropertyValueFactory<>("custID"));
         currMonthApptUserID.setCellValueFactory(new PropertyValueFactory<>("userID"));
 
-        ObservableList<Appointments> currMonthAppts = DBAppointments.getThisMonthAppts();
         currMonthApptsTable.setItems(currMonthAppts);
 
         currWeekApptID.setCellValueFactory(new PropertyValueFactory<>("apptID"));
@@ -128,7 +131,6 @@ public class MainScreen implements Initializable {
         currWeekApptCustID.setCellValueFactory(new PropertyValueFactory<>("custID"));
         currWeekApptUserID.setCellValueFactory(new PropertyValueFactory<>("userID"));
 
-        ObservableList<Appointments> currWeekAppts = DBAppointments.getThisWeekAppts();
         currWeekApptsTable.setItems(currWeekAppts);
     }
 
@@ -157,7 +159,7 @@ public class MainScreen implements Initializable {
 
     public void onCustDelete(ActionEvent actionEvent) {
         int custToDelete = allCustomers.getSelectionModel().getSelectedItem().getId();
-        if(Alerts.deleteCustomer()) {
+        if (Alerts.deleteCustomer()) {
             if (DBAppointments.getApptsByCustID(custToDelete).size() != 0) {
                 DBAppointments.deleteApptsByCust(custToDelete);
 
@@ -206,8 +208,8 @@ public class MainScreen implements Initializable {
     }
 
     public void onApptDelete(ActionEvent actionEvent) {
-        Appointments appt = null;
-        String apptType = "";
+        Appointments appt;
+        String apptType;
         if (allApptTab.isSelected()) {
             appt = allAppointments.getSelectionModel().getSelectedItem();
             apptType = allAppointments.getSelectionModel().getSelectedItem().getApptType();

@@ -5,15 +5,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Customers {
-    private int id;
+    public static ObservableList<Customers> customers = FXCollections.observableArrayList();
     private final String name;
     private final String address;
+    private int id;
     private String fld;
     private String postCode;
     private String country;
     private String phoneNumber;
-
-    public static ObservableList<Customers> customers = FXCollections.observableArrayList();
 
     public Customers(int id, String name, String address, String fld, String postCode, String country, String phoneNumber) {
         this.id = id;

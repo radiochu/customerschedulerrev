@@ -5,7 +5,7 @@ import DBAccess.DBUsers;
 import DBConnection.JDBC;
 import Model.Appointments;
 import Utilities.Alerts;
-import Utilities.Reporter;
+import Utilities.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,16 +32,12 @@ import java.util.TimeZone;
 
 public class Login implements Initializable {
     public static String uname;
+    final Alert a = new Alert(Alert.AlertType.NONE);
     public Label timezone;
     public PasswordField password;
     public TextField username;
-    Alert a = new Alert(Alert.AlertType.NONE);
-    private ResourceBundle resourceBundle;
     public boolean loginSuccess;
-
-    public static String getUsername() {
-        return uname;
-    }
+    private ResourceBundle resourceBundle;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,6 +47,7 @@ public class Login implements Initializable {
     }
 
     public void onSubmit(ActionEvent actionEvent) throws IOException, SQLException {
+        uname = username.getText();
         String sql = "SELECT * FROM users WHERE user_name = ? AND password = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
         ps.setString(1, password.getText());
@@ -62,12 +59,9 @@ public class Login implements Initializable {
             a.setContentText(resourceBundle.getString("loginfail"));
             a.show();
             loginSuccess = false;
-            uname = username.getText();
-            Reporter.logActivity("Login by user " + uname + " was unsuccessful at UTC" + Instant.now());
+            Logger.logActivity("Login by user " + uname + " was unsuccessful at UTC" + Instant.now());
         } else {
-            uname = username.getText();
-            loginSuccess = true;
-            Reporter.logActivity("Login by user " + uname + " was successful at UTC " + Instant.now());
+            Logger.logActivity("Login by user " + uname + " was successful at UTC " + Instant.now());
             Stage previous = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             previous.close();
             Parent root = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
@@ -81,12 +75,7 @@ public class Login implements Initializable {
     }
 
     private void upcomingAppointments(int user) {
-        System.out.println("Username is " + uname);
-        System.out.println("User ID is " + user);
         ObservableList<Appointments> userAppointments = DBAppointments.getApptsByUserID(user);
-        for (Appointments i:userAppointments) {
-            System.out.println(i);
-        }
         ObservableList<Appointments> upcomingAppts = FXCollections.observableArrayList();
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime in15Minutes = now.plusMinutes(15);
@@ -96,7 +85,6 @@ public class Login implements Initializable {
                 upcomingAppts.add(a);
             }
         }
-        System.out.println(upcomingAppts);
         Alerts.upcomingAppointments(upcomingAppts.size());
     }
 

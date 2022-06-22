@@ -18,6 +18,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ModifyCustomer implements Initializable {
+    public static Customers customerToMod = null;
+    public static int indexToMod = 0;
     public TextField custNameField;
     public TextField custAddressField;
     public ComboBox<String> custCountryCB;
@@ -29,11 +31,7 @@ public class ModifyCustomer implements Initializable {
     public Button modCustSaveBtn;
     public Button modCustCancelBtn;
 
-    public static Customers customerToMod = null;
-    public static int indexToMod = 0;
-
-
-    public static void setCustomerToMod (Customers customer, int index) {
+    public static void setCustomerToMod(Customers customer, int index) {
         customerToMod = customer;
         indexToMod = index;
     }
@@ -62,26 +60,20 @@ public class ModifyCustomer implements Initializable {
     }
 
     private boolean validateInput() {
-        Boolean b = false;
+        boolean b = false;
         if (custNameField.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input a customer name.\n");
-        }
-        else if (custAddressField.getText().isEmpty()) {
+        } else if (custAddressField.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input a customer address.\n");
-        }
-        else if (custCountryCB.getSelectionModel().isSelected(-1)) {
+        } else if (custCountryCB.getSelectionModel().isSelected(-1)) {
             Alerts.invalidData("\nYou must choose a country.\n");
-        }
-        else if (custFLDCB.getSelectionModel().isSelected(-1)) {
+        } else if (custFLDCB.getSelectionModel().isSelected(-1)) {
             Alerts.invalidData("\nYou must choose a first-level division.\n");
-        }
-        else if (custPhoneField.getText().isEmpty()) {
+        } else if (custPhoneField.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input a customer phone number.\n");
-        }
-        else if (custPostCodeField.getText().isEmpty()) {
+        } else if (custPostCodeField.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input a customer post code.\n");
-        }
-        else {
+        } else {
             b = true;
         }
         return b;
@@ -103,7 +95,7 @@ public class ModifyCustomer implements Initializable {
 
 
     public void onSaveButton(ActionEvent actionEvent) {
-        if(validateInput()) {
+        if (validateInput()) {
             customerToMod = new Customers(customerToMod.getId(), custNameField.getText(), custAddressField.getText(), custFLDCB.getValue(), custPostCodeField.getText(), custCountryCB.getValue(), custPhoneField.getText());
             DBCustomers.modifyCustomer(customerToMod);
             MainScreen.customers.set(indexToMod, customerToMod);

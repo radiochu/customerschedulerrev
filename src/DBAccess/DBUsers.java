@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBUsers {
-    public static ObservableList<Integer> userIDs = FXCollections.observableArrayList();
+    public static final ObservableList<Integer> userIDs = FXCollections.observableArrayList();
 
     public static ObservableList<Integer> getAllUsers() {
         try {

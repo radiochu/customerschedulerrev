@@ -10,7 +10,10 @@ import Utilities.DateTimeHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -18,7 +21,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
 
@@ -51,46 +53,35 @@ public class AddAppointment implements Initializable {
 
         if (apptCustID.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input a customer ID.\n");
-        }
-        else if (apptUserID.getSelectionModel().isSelected(-1)) {
+        } else if (apptUserID.getSelectionModel().isSelected(-1)) {
             Alerts.invalidData("\nYou must choose a user.\n");
-        }
-        else if (apptTitle.getText().isEmpty()) {
+        } else if (apptTitle.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input an appointment title.\n");
-        }
-        else if (apptDesc.getText().isEmpty()) {
+        } else if (apptDesc.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input an appointment description.\n");
-        }
-        else if (apptType.getText().isEmpty()) {
+        } else if (apptType.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input an appointment type.\n");
-        }
-        else if (apptLoc.getText().isEmpty()) {
+        } else if (apptLoc.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input an appointment location.\n");
-        }
-        else if (apptDate.getValue() == null) {
+        } else if (apptDate.getValue() == null) {
             Alerts.invalidData("\nYou must choose an appointment date.\n");
-        }
-        else if (apptStartTime.getSelectionModel().isSelected(-1)) {
+        } else if (apptStartTime.getSelectionModel().isSelected(-1)) {
             Alerts.invalidData("\nYou must choose a start time.\n");
-        }
-        else if (apptEndTime.getSelectionModel().isSelected(-1)) {
+        } else if (apptEndTime.getSelectionModel().isSelected(-1)) {
             Alerts.invalidData("\nYou must choose an end time.\n");
-        }
-        else if (apptContact.getSelectionModel().isSelected(-1)) {
+        } else if (apptContact.getSelectionModel().isSelected(-1)) {
             Alerts.invalidData("\nYou must choose a contact.\n");
-        }
-        else {
+        } else {
             b = true;
         }
         return b;
     }
 
-    public boolean validateCustomer(int custID) {
+    private boolean validateCustomer(int custID) {
         boolean b = false;
         if (DBCustomers.customerExists(custID)) {
             b = true;
-        }
-        else {
+        } else {
             Alerts.invalidData("\nThe chosen customer does not exist.\n");
         }
         return b;

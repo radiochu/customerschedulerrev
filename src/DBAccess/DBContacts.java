@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class DBContacts {
 
-    static ObservableList<String> contacts = FXCollections.observableArrayList();
+    static final ObservableList<String> contacts = FXCollections.observableArrayList();
 
     public static ObservableList<String> getAllContacts() {
         try {

@@ -2,7 +2,6 @@ package DBAccess;
 
 import DBConnection.JDBC;
 import Model.Appointments;
-import Utilities.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -11,8 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Calendar;
 
 public class DBAppointments {
 
@@ -198,7 +195,7 @@ public class DBAppointments {
 
 
     public static boolean deleteAppointment(int apptID) {
-        Boolean isDeleted = false;
+        boolean isDeleted = false;
         try {
             String sql = "DELETE FROM appointments WHERE appointment_id = ?";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -213,8 +210,8 @@ public class DBAppointments {
         return isDeleted;
     }
 
-    public static boolean deleteApptsByCust(int custID) {
-        Boolean isDeleted = false;
+    public static void deleteApptsByCust(int custID) {
+        boolean isDeleted = false;
         try {
             String sql = "DELETE FROM appointments WHERE customer_id = ?";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -226,6 +223,5 @@ public class DBAppointments {
             e.printStackTrace();
         }
 
-        return isDeleted;
     }
 }

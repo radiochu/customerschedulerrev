@@ -37,8 +37,7 @@ public class DBCountries {
             while (rs.next()) {
                 countryID = rs.getInt("country_id");
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

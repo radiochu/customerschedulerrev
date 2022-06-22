@@ -1,6 +1,5 @@
 package Utilities;
 
-import DBAccess.DBAppointments;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -12,7 +11,7 @@ import java.util.Optional;
 
 public class Alerts {
 
-    public static Alert a = new Alert(Alert.AlertType.NONE);
+    public static final Alert a = new Alert(Alert.AlertType.NONE);
 
     public static void upcomingAppointments(int upcoming) {
         a.setAlertType(Alert.AlertType.INFORMATION);
@@ -64,6 +63,7 @@ public class Alerts {
         Optional<ButtonType> result = a.showAndWait();
         return result.get() == ButtonType.OK;
     }
+
     public static void cancelWithoutSaving(ActionEvent actionEvent) {
         a.setAlertType(Alert.AlertType.CONFIRMATION);
         a.setHeaderText(null);

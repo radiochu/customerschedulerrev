@@ -3,7 +3,6 @@ package Controller;
 import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
 import DBAccess.DBDivisions;
-import Main.Main;
 import Model.Customers;
 import Utilities.Alerts;
 import javafx.event.ActionEvent;
@@ -36,30 +35,25 @@ public class AddCustomer implements Initializable {
     }
 
     private boolean validateInput() {
-        Boolean b = false;
+        boolean b = false;
         if (custNameField.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input a customer name.\n");
-        }
-        else if (custAddressField.getText().isEmpty()) {
+        } else if (custAddressField.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input a customer address.\n");
-        }
-        else if (custCountryCB.getSelectionModel().isSelected(-1)) {
+        } else if (custCountryCB.getSelectionModel().isSelected(-1)) {
             Alerts.invalidData("\nYou must choose a country.\n");
-        }
-        else if (custFLDCB.getSelectionModel().isSelected(-1)) {
+        } else if (custFLDCB.getSelectionModel().isSelected(-1)) {
             Alerts.invalidData("\nYou must choose a first-level division.\n");
-        }
-        else if (custPhoneField.getText().isEmpty()) {
+        } else if (custPhoneField.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input a customer phone number.\n");
-        }
-        else if (custPostCodeField.getText().isEmpty()) {
+        } else if (custPostCodeField.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input a customer post code.\n");
-        }
-        else {
+        } else {
             b = true;
         }
         return b;
     }
+
     public void filterDivisions(ActionEvent actionEvent) {
         String countryName = custCountryCB.getValue();
         if (countryName.equals("U.S")) {
@@ -75,7 +69,7 @@ public class AddCustomer implements Initializable {
     }
 
     public void onSaveButton(ActionEvent actionEvent) {
-        if(validateInput()) {
+        if (validateInput()) {
             Customers customer = new Customers(0, custNameField.getText(), custAddressField.getText(), custFLDCB.getValue(), custPostCodeField.getText(), custCountryCB.getValue(), custPhoneField.getText());
             int newCustID = DBCustomers.addCustomer(customer);
             customer.setId(newCustID);

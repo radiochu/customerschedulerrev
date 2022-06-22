@@ -17,7 +17,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
 public class ModifyAppointment implements Initializable {
@@ -103,7 +102,7 @@ public class ModifyAppointment implements Initializable {
         return b;
     }
 
-    public boolean validateCustomer(int custID) {
+    private boolean validateCustomer(int custID) {
         boolean b = false;
         if (DBCustomers.customerExists(custID)) {
             b = true;

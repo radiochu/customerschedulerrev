@@ -3,7 +3,6 @@ package DBAccess;
 import DBConnection.JDBC;
 import Model.Customers;
 import Utilities.Alerts;
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -73,11 +72,10 @@ public class DBCustomers {
     }
 
     public static boolean deleteCustomer(int custID) {
-        Boolean isDeleted = false;
+        boolean isDeleted = false;
         if (DBAppointments.getApptsByCustID(custID).size() != 0) {
             Alerts.existingAppts();
-        }
-        else {
+        } else {
             try {
                 String sql = "DELETE FROM customers WHERE customer_id = ?";
                 PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -102,7 +100,7 @@ public class DBCustomers {
                     "postal_code = ?, " +
                     "phone = ?, " +
                     "division_id = ? " +
-                    "WHERE customer_id = ?";                    ;
+                    "WHERE customer_id = ?";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ps.setString(1, customerToMod.getName());
             ps.setString(2, customerToMod.getAddress());
@@ -127,15 +125,14 @@ public class DBCustomers {
             if (rs.next()) {
                 b = true;
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return b;
     }
 
-    public static String getCustomerNameByID (int id) {
+    public static String getCustomerNameByID(int id) {
         String custName = null;
         try {
             String sql = "SELECT * FROM customers WHERE customer_id = ?";
@@ -161,8 +158,7 @@ public class DBCustomers {
             ps.setString(1, newValue);
             ps.setInt(2, customerID);
             ps.execute();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -203,5 +199,15 @@ public class DBCustomers {
         }
 
         return c;
+    }
+
+    public boolean validateCustomer(int custID) {
+        boolean b = false;
+        if (customerExists(custID)) {
+            b = true;
+        } else {
+            Alerts.invalidData("\nThe chosen customer does not exist.\n");
+        }
+        return b;
     }
 }
