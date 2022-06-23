@@ -57,7 +57,7 @@ public class Login implements Initializable {
     /**
      * The Login success.
      */
-    public boolean loginSuccess;
+    //public boolean loginSuccess;
     private ResourceBundle resourceBundle;
 
     @Override
@@ -86,7 +86,7 @@ public class Login implements Initializable {
             a.setHeaderText(null);
             a.setContentText(resourceBundle.getString("loginfail"));
             a.show();
-            loginSuccess = false;
+            //loginSuccess = false;
             Logger.logActivity("Login by user " + uname + " was unsuccessful at UTC" + Instant.now());
         } else {
             Logger.logActivity("Login by user " + uname + " was successful at UTC " + Instant.now());
@@ -98,7 +98,6 @@ public class Login implements Initializable {
             mainStage.setScene(new Scene(root, 1000, 745));
             mainStage.show();
             upcomingAppointments(DBUsers.getUserIDByName(uname));
-
         }
     }
 
