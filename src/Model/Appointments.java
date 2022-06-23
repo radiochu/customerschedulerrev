@@ -13,7 +13,7 @@ public class Appointments {
      * The Appt types.
      */
     public static ObservableList<String> apptTypes = FXCollections.observableArrayList();
-    private final int apptID;
+    private int apptID;
     private final String apptTitle;
     private final String apptDescription;
     private final String apptLocation;
@@ -141,6 +141,7 @@ public class Appointments {
         return apptContact;
     }
 
-    public void setApptID(int addAppointment) {
+    public void setApptID(int apptID) {
+        this.apptID = apptID;
     }
 }

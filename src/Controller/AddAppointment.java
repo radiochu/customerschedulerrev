@@ -7,6 +7,7 @@ import DBAccess.DBUsers;
 import Model.Appointments;
 import Utilities.Alerts;
 import Utilities.DateTimeHandler;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -81,11 +82,14 @@ public class AddAppointment implements Initializable {
      */
     public Button Cancel;
 
+    ObservableList<Integer> allUsers = DBUsers.getAllUsers();
+    ObservableList<String> allContacts = DBContacts.getAllContacts();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        apptContact.setItems(DBContacts.getAllContacts());
-        apptUserID.setItems(DBUsers.getAllUsers());
+        apptContact.setItems(allContacts);
+        apptUserID.setItems(allUsers);
         apptDate.setValue(LocalDate.now());
         apptStartTime.setItems(DateTimeHandler.setTimeList(apptDate.getValue()));
         apptEndTime.setItems(DateTimeHandler.setTimeList(apptDate.getValue()));
@@ -125,15 +129,36 @@ public class AddAppointment implements Initializable {
         return b;
     }
 
+    private boolean validateTime() {
+        boolean b = true;
+        ObservableList<Appointments> custAppts = DBAppointments.getApptsByCustID(Integer.parseInt(apptCustID.getText()));
+        for (Appointments i : custAppts) {
+            LocalDateTime aStart = i.getApptStart();
+            LocalDateTime aEnd = i.getApptEnd();
+            LocalDateTime bStart = LocalDateTime.of(apptDate.getValue(), apptStartTime.getValue());
+            LocalDateTime bEnd = LocalDateTime.of(apptDate.getValue(), apptEndTime.getValue());
+            if (aStart.isEqual(bStart) || aStart.isAfter(bStart) && aStart.isBefore(bEnd)) {
+                Alerts.timeOverlap();
+                b = false;
+            } else if (aEnd.isEqual(bEnd) || aEnd.isBefore(bEnd) && aEnd.isAfter(bStart)){
+                Alerts.timeOverlap();
+                b = false;
+            } else if ((bStart.isAfter(aStart) && bEnd.isBefore(aEnd)) || (aStart.isEqual(bStart) && aEnd.isEqual(bEnd))) {
+                Alerts.timeOverlap();
+                b = false;
+            }
+        }
+        return b;
+    }
+
     /**
      * Checks to see if the customer entered for the appointment actually exists. Provides an alert
      * from the Alerts class if the customer does not exist.
-     * @param custID The customer ID to check for in the database.
      * @return boolean b; returns false if customer does not exist, true if the customer is found.
      */
-    private boolean validateCustomer(int custID) {
+    private boolean validateCustomer() {
         boolean b = false;
-        if (DBCustomers.customerExists(custID)) {
+        if (DBCustomers.customerExists(Integer.parseInt(apptCustID.getText()))) {
             b = true;
         } else {
             Alerts.invalidData("\nThe chosen customer does not exist.\n");
@@ -150,7 +175,7 @@ public class AddAppointment implements Initializable {
      * @param actionEvent Used to identify the window from which the save was triggered to close it on a successful execution.
      */
     public void onSaveButton(ActionEvent actionEvent) {
-        if (validateInput() && validateCustomer(Integer.parseInt(apptCustID.getText()))) {
+        if (validateInput() && (validateCustomer() && validateTime())) {
             LocalDate date = apptDate.getValue();
             LocalTime startTime = LocalTime.from(apptStartTime.getValue());
             LocalTime endTime = LocalTime.from(apptEndTime.getValue());

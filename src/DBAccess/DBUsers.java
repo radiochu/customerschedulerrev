@@ -12,10 +12,6 @@ import java.sql.SQLException;
  * The type Db users.
  */
 public class DBUsers {
-    /**
-     * The constant userIDs.
-     */
-    public static final ObservableList<Integer> userIDs = FXCollections.observableArrayList();
 
     /**
      * Gets all users.
@@ -23,6 +19,7 @@ public class DBUsers {
      * @return the all users
      */
     public static ObservableList<Integer> getAllUsers() {
+        ObservableList<Integer> userIDs = FXCollections.observableArrayList();
         try {
             String sql = "SELECT * FROM users";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);

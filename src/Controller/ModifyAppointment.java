@@ -7,6 +7,7 @@ import DBAccess.DBUsers;
 import Model.Appointments;
 import Utilities.Alerts;
 import Utilities.DateTimeHandler;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -155,14 +156,38 @@ public class ModifyAppointment implements Initializable {
         return b;
     }
 
-    private boolean validateCustomer(int custID) {
+    private boolean validateCustomer() {
         boolean b = false;
-        if (DBCustomers.customerExists(custID)) {
+        if (DBCustomers.customerExists(Integer.parseInt(apptCustID.getText()))) {
             b = true;
         }
         else {
             Alerts.invalidData("\nThe chosen customer does not exist.\n");
         }
+        return b;
+    }
+
+    private boolean validateTime() {
+        boolean b = true;
+        ObservableList<Appointments> custAppts = DBAppointments.getApptsByCustID(Integer.parseInt(apptCustID.getText()));
+        for (Appointments i : custAppts) {
+            LocalDateTime aStart = i.getApptStart();
+            LocalDateTime aEnd = i.getApptEnd();
+            LocalDateTime bStart = LocalDateTime.of(apptDate.getValue(), apptStartTime.getValue());
+            LocalDateTime bEnd = LocalDateTime.of(apptDate.getValue(), apptEndTime.getValue());
+            if (i.getApptID() != Integer.parseInt(apptID.getText()))
+                if (aStart.isEqual(bStart) || aStart.isAfter(bStart) && aStart.isBefore(bEnd)) {
+                    Alerts.timeOverlap();
+                    b = false;
+                } else if (aEnd.isEqual(bEnd) || aEnd.isBefore(bEnd) && aEnd.isAfter(bStart)) {
+                    Alerts.timeOverlap();
+                    b = false;
+                } else if ((bStart.isAfter(aStart) && bEnd.isBefore(aEnd)) || (aStart.isEqual(bStart) && aEnd.isEqual(bEnd))) {
+                    Alerts.timeOverlap();
+                    b = false;
+                }
+            }
+
         return b;
     }
 
@@ -172,7 +197,7 @@ public class ModifyAppointment implements Initializable {
      * @param actionEvent the action event
      */
     public void onSubmit(ActionEvent actionEvent) {
-        if (validateInput() && validateCustomer(Integer.parseInt(apptCustID.getText()))) {
+        if (validateInput() && (validateCustomer() && validateTime())) {
             LocalDate date = apptDate.getValue();
             LocalTime startTime = apptStartTime.getValue();
             LocalTime endTime = apptEndTime.getValue();

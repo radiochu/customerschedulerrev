@@ -140,4 +140,11 @@ public class Alerts {
         a.setContentText("Appointment " + apptToDelete + " of type " + apptType + " has been deleted.");
         a.show();
     }
+
+    public static void timeOverlap() {
+        a.setAlertType(Alert.AlertType.WARNING);
+        a.setHeaderText(null);
+        a.setContentText("The proposed appointment overlaps an existing appointment\n for this customer. Please choose another time.");
+        a.show();
+    }
 }
