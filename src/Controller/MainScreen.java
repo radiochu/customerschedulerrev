@@ -245,10 +245,12 @@ public class MainScreen implements Initializable {
      * The Appt delete.
      */
     public Button apptDelete;
+    public Button reportsButton;
     /**
      * The Exit button.
      */
     public Button exitButton;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -445,6 +447,13 @@ public class MainScreen implements Initializable {
         }
     }
 
+    public void viewReports(ActionEvent actionEvent) throws IOException{
+        Parent root = FXMLLoader.load(getClass().getResource("/view/reporter.fxml"));
+        Stage overlay = new Stage();
+        overlay.setTitle("Add Appointment");
+        overlay.setScene(new Scene(root, 600, 400));
+        overlay.show();
+    }
 
     /**
      * On exit button.
@@ -454,4 +463,6 @@ public class MainScreen implements Initializable {
     public void onExitButton(ActionEvent actionEvent) {
         Alerts.exitApplication();
     }
+
+
 }

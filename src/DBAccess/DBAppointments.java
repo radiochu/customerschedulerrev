@@ -2,9 +2,11 @@ package DBAccess;
 
 import DBConnection.JDBC;
 import Model.Appointments;
+import Model.Types;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.time.LocalDateTime;
 
@@ -287,5 +289,35 @@ public class DBAppointments {
             e.printStackTrace();
         }
 
+    }
+
+    public static ObservableList<Types> getApptTypesByMonth() {
+        ObservableList<Types> apptTypesByMonth = FXCollections.observableArrayList();
+        String currYear = String.valueOf(LocalDateTime.now().getYear());
+        for (int i = 1; i <= 12; i++) {
+            try {
+                String sql = "SELECT MONTHNAME(start) AS Month, Type, COUNT(type) AS Total FROM appointments WHERE MONTH(start) = ? and year(start) = ? GROUP BY type;";
+                PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+                ps.setInt(1, i);
+                ps.setString(2, currYear);
+                System.out.print(ps);
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    String month = rs.getString(1);
+                    String type = rs.getString(2);
+                    int count = rs.getInt(3);
+                    Types newType = new Types(month, type, count);
+                    apptTypesByMonth.add(newType);
+                }
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        System.out.println(apptTypesByMonth);
+        return apptTypesByMonth;
     }
 }

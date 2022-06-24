@@ -41,7 +41,7 @@ public class Login implements Initializable {
     /**
      * The A.
      */
-    final Alert a = new Alert(Alert.AlertType.NONE);
+    public Alert a = new Alert(Alert.AlertType.NONE);
     /**
      * The Timezone.
      */
@@ -54,10 +54,7 @@ public class Login implements Initializable {
      * The Username.
      */
     public TextField username;
-    /**
-     * The Login success.
-     */
-    //public boolean loginSuccess;
+
     private ResourceBundle resourceBundle;
 
     @Override
@@ -95,7 +92,7 @@ public class Login implements Initializable {
             Parent root = FXMLLoader.load(getClass().getResource("/view/mainScreen.fxml"));
             Stage mainStage = new Stage();
             mainStage.setTitle("Customer Scheduling System");
-            mainStage.setScene(new Scene(root, 1000, 745));
+            mainStage.setScene(new Scene(root, 1020, 750));
             mainStage.show();
             upcomingAppointments(DBUsers.getUserIDByName(uname));
         }
