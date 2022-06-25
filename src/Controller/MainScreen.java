@@ -451,7 +451,7 @@ public class MainScreen implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("/view/reporter.fxml"));
         Stage overlay = new Stage();
         overlay.setTitle("Add Appointment");
-        overlay.setScene(new Scene(root, 600, 400));
+        overlay.setScene(new Scene(root, 715, 466));
         overlay.show();
     }
 

@@ -144,4 +144,5 @@ public class Appointments {
     public void setApptID(int apptID) {
         this.apptID = apptID;
     }
+
 }

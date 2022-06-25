@@ -188,6 +188,35 @@ public class DBAppointments {
         return custAppts;
     }
 
+    public static ObservableList<Appointments> getApptsByContact(int contactID) {
+        ObservableList<Appointments> contactAppts = FXCollections.observableArrayList();
+        try {
+            String sql = "SELECT * FROM appointments WHERE contact_id = ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, contactID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int apptID = rs.getInt("Appointment_ID");
+                String apptTitle = rs.getString("Title");
+                String apptDescription = rs.getString("Description");
+                String apptLocation = rs.getString("Location");
+                int apptContact = rs.getInt("Contact_ID");
+                String apptType = rs.getString("Type");
+                LocalDateTime apptStart = rs.getTimestamp("Start").toLocalDateTime();
+                LocalDateTime apptEnd = rs.getTimestamp("End").toLocalDateTime();
+                int custID = rs.getInt("Customer_ID");
+                int userID = rs.getInt("User_ID");
+
+                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
+                contactAppts.add(a);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return contactAppts;
+    }
     public static int addAppointment(Appointments appointmentToAdd) {
         int newApptID = 0;
         try {
@@ -291,6 +320,32 @@ public class DBAppointments {
 
     }
 
+    public static ObservableList<String> getApptsByMonth() {
+        ObservableList<String> apptsByMonth = FXCollections.observableArrayList();
+        String currYear = String.valueOf(LocalDateTime.now().getYear());
+        for (int i = 1; i <= 12; i++) {
+            try {
+                String sql = "SELECT MONTHNAME(start) AS Month, COUNT(appointment_id) AS Total FROM appointments WHERE MONTH(start) = ? and year(start) = ?";
+                PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+                ps.setInt(1, i);
+                ps.setString(2, currYear);
+                ResultSet rs = ps.executeQuery();
+
+                while (rs.next()) {
+                    if (rs.getString(1) != null) {
+                        apptsByMonth.add(rs.getString(1) + " - " + rs.getString(2) + "\n");
+                    }
+                }
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return apptsByMonth;
+    }
+
     public static ObservableList<Types> getApptTypesByMonth() {
         ObservableList<Types> apptTypesByMonth = FXCollections.observableArrayList();
         String currYear = String.valueOf(LocalDateTime.now().getYear());
@@ -316,7 +371,6 @@ public class DBAppointments {
             }
 
         }
-        System.out.println(apptTypesByMonth);
         return apptTypesByMonth;
     }
 }
