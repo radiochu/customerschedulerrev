@@ -1,6 +1,7 @@
 package DBAccess;
 
 import DBConnection.JDBC;
+import Model.Appointments;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -87,5 +88,23 @@ public class DBContacts {
 
         return contactID;
 
+    }
+
+    public static ObservableList<String> getScheduleByContact() {
+        ObservableList<String> contactAppts = FXCollections.observableArrayList();
+        try {
+            String sql = "SELECT c.contact_name, a.start, a.end, a.appointment_id, a.title FROM contacts as c, appointments as a WHERE c.contact_id = a.contact_id ORDER BY c.contact_name, a.start";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                contactAppts.add(rs.getString(1) + " - " + rs.getTimestamp(2) + " to " + rs.getTimestamp(3) + " - Appointment ID " + rs.getInt(4) + " - " + rs.getString(5));
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(contactAppts);
+        return contactAppts;
     }
 }

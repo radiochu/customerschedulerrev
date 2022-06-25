@@ -300,7 +300,6 @@ public class DBAppointments {
                 PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
                 ps.setInt(1, i);
                 ps.setString(2, currYear);
-                System.out.print(ps);
                 ResultSet rs = ps.executeQuery();
 
                 while (rs.next()) {

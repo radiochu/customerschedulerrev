@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -17,17 +19,28 @@
     <TabPane layoutX="14.0" layoutY="34.0" prefHeight="342.0" prefWidth="572.0" tabClosingPolicy="UNAVAILABLE">
         <Tab fx:id="typesByMonth" closable="false" onSelectionChanged="#showTypesByMonth" text="Appointment Types by Month">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <TextArea fx:id="typesByMonthTA" layoutX="14.0" layoutY="14.0" prefHeight="290.0" prefWidth="540.0" />
+                <TableView fx:id="apptByMonthTV" layoutX="14.0" layoutY="14.0" prefHeight="290.0" prefWidth="540.0">
+                    <columns>
+                        <TableColumn fx:id="monthCol" editable="false" prefWidth="144.0" sortable="false" text="Month" />
+                        <TableColumn fx:id="typeCol" editable="false" prefWidth="316.79998779296875" sortable="false" text="Appointment Type" />
+                        <TableColumn fx:id="totalCol" editable="false" minWidth="0.0" prefWidth="79.2000732421875" sortable="false" text="Total" />
+                    </columns>
+                </TableView>
             </AnchorPane>
         </Tab>
-        <Tab fx:id="scheduleByContact" closable="false" onSelectionChanged="#showScheduleByContact" text="Schedule By Contact">
+        <Tab fx:id="scheduleByContact" closable="false" text="Schedule By Contact">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <TextArea fx:id="scheduleByContactTA" layoutX="14.0" layoutY="14.0" prefHeight="290.0" prefWidth="540.0" />
+                <TextArea fx:id="scheduleTA" layoutX="14.0" layoutY="14.0" prefHeight="290.0" prefWidth="540.0" />
             </AnchorPane>
         </Tab>
         <Tab fx:id="apptsByCustomer" closable="false" onSelectionChanged="#showApptsByCustomer" text="Appointments By Customer">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <TextArea fx:id="apptsByCustomerTA" layoutX="14.0" layoutY="14.0" prefHeight="290.0" prefWidth="540.0" />
+                <TableView fx:id="apptByCustomerTV" layoutX="14.0" layoutY="14.0" prefHeight="290.0" prefWidth="540.0">
+                    <columns>
+                        <TableColumn fx:id="custNameCol" prefWidth="372.800048828125" text="Customer Name" />
+                        <TableColumn fx:id="totalApptsCol" prefWidth="166.39996337890625" text="Total Appointments" />
+                    </columns>
+                </TableView>
             </AnchorPane>
         </Tab>
     </TabPane>
