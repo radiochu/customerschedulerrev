@@ -77,13 +77,15 @@ public class ModifyCustomer implements Initializable {
      */
     private boolean validateInput() {
         boolean b = false;
+        Countries country = custCountryCB.getValue();
+        Divisions division = custFLDCB.getValue();
         if (custNameField.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input a customer name.\n");
         } else if (custAddressField.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input a customer address.\n");
-        } else if (custCountryCB.getSelectionModel().isSelected(-1)) {
-            Alerts.invalidData("\nYou must choose a country.\n");
-        } else if (custFLDCB.getSelectionModel().isSelected(-1)) {
+        } else if (country == null) {
+           Alerts.invalidData("\nYou must choose a country.\n");
+        } else if (division == null) {
             Alerts.invalidData("\nYou must choose a first-level division.\n");
         } else if (custPhoneField.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input a customer phone number.\n");
@@ -111,12 +113,12 @@ public class ModifyCustomer implements Initializable {
     }
 
     /**
-     * Clears FLD list when country combo box selection is changed to avoid mismatch between country and divisions.
+     * Clears FLD selection when country combo box selection is changed to avoid mismatch between country and divisions.
      *
      * @param mouseEvent - not used
      */
     public void clearDivisions(MouseEvent mouseEvent) {
-        custFLDCB.getSelectionModel().select(null);
+        custFLDCB.setValue(null);
     }
 
 
