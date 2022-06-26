@@ -9,6 +9,7 @@ import Utilities.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -57,7 +58,7 @@ public class Login implements Initializable {
     /**
      * Resource bundle used for localization of the login screen.
      */
-    private ResourceBundle resourceBundle;
+    public ResourceBundle resourceBundle;
 
     /**
      * Initializes the Login window and sets initial values for all fields.
@@ -81,7 +82,8 @@ public class Login implements Initializable {
      * @throws IOException  Thrown if exceptions occur writing to log file
      * @throws SQLException Thrown if exceptions occur during SQL queries
      */
-    private void onSubmit(ActionEvent actionEvent) throws IOException, SQLException {
+
+    public void onSubmit(ActionEvent actionEvent) throws IOException, SQLException {
         uname = username.getText();
         String sql = "SELECT * FROM users WHERE user_name = ? AND password = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -111,7 +113,7 @@ public class Login implements Initializable {
      * Method to display upcoming appointments within 15 minutes past the corresponding user's login.
      * @param user The user to scan for appointments for.
      */
-    private void upcomingAppointments(int user) {
+    public void upcomingAppointments(int user) {
         ObservableList<Appointments> userAppointments = DBAppointments.getApptsByUserID(user);
         ObservableList<Appointments> upcomingAppts = FXCollections.observableArrayList();
         LocalDateTime now = LocalDateTime.now();

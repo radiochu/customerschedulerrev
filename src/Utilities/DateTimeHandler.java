@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-public class DateTimeHandler {
+public abstract class DateTimeHandler {
     /**
      * Formatter to pull just the hours out of a LocalDateTime.
      */

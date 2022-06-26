@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 
-public class Logger {
+public abstract class Logger {
     /**
      * Creates a file to which the log will be written.
      */
-    public static final File logFile = new File("src/login_activity.txt");
+    private static final File logFile = new File("src/login_activity.txt");
 
     /**
      * Creates a FileWriter and PrintWriter object. When passed a string, it will append the string to the named log file.

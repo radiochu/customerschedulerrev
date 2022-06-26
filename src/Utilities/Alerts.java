@@ -9,10 +9,7 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
-/**
- * The type Alerts.
- */
-public class Alerts {
+public abstract class Alerts {
 
     /**
      * Alert a that is used as a base on which to create the custom alerts used throughout the application.

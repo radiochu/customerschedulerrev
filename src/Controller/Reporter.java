@@ -75,10 +75,10 @@ public class Reporter implements Initializable {
 
     }
 
-    /**
-     * Pulls all appointments for the contact selected in the contact combo box and sets the list to be displayed
-     * in the appropriate tableview.
-     */
+    public void showTypesByMonth(Event event) {
+
+    }
+
     public void showScheduleByContact() {
         scheduleTV.setItems(DBAppointments.getApptsByContact(contactCB.getValue().getId()));
     }
@@ -88,7 +88,7 @@ public class Reporter implements Initializable {
      * tableview for displaying the report.
      */
     public void showApptsByMonth() {
-        apptByMonthTA.setText("Current Year Appointments By Month\n");
+        apptByMonthTA.setText("Total Appointments By Month And Year\n");
         for (String i : DBAppointments.getApptsByMonth()) {
             apptByMonthTA.appendText(i);
         }

@@ -7,15 +7,15 @@ public class Types {
     /**
      * The month for which to total types.
      */
-    private final String month;
+    public final String month;
     /**
      * The appointment type to count.
      */
-    private final String type;
+    public final String type;
     /**
      * The amount of appointments of this type per month.
      */
-    private final int count;
+    public final int count;
 
     /**
      * Instantiates a new Types object.
@@ -36,5 +36,21 @@ public class Types {
      */
     public String getType() {
         return type;
+    }
+
+    /**
+     * Gets month.
+     * @return String month
+     */
+    public String getMonth() {
+        return month;
+    }
+
+    /**
+     * Gets appointment count.
+     * @return int count
+     */
+    public int getCount() {
+        return count;
     }
 }
