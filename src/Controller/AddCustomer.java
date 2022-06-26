@@ -25,45 +25,15 @@ import java.util.stream.Collectors;
  * Controller that handles the logic for the Add Customer screen based on addCustomer.fxml.
  */
 public class AddCustomer implements Initializable {
-    /**
-     * Customer name.
-     */
     public TextField custNameField;
-    /**
-     * Customer address.
-     */
     public TextField custAddressField;
-    /**
-     * Combo box to select country for customer address.
-     */
     public ComboBox<Countries> custCountryCB;
-    /**
-     * Combo box to select first-level division for customer address.
-     */
     public ComboBox<Divisions> custFLDCB;
-    /**
-     * Customer address postal code.
-     */
     public TextField custPostCodeField;
-    /**
-     * Customer phone number.
-     */
     public TextField custPhoneField;
-    /**
-     * Customer ID.
-     */
     public TextField customerID;
-    /**
-     * Calls function on save button press to add new customer.
-     */
     public Button addCustSaveBtn;
-    /**
-     * Calls function on cancel button press to cancel adding new customer.
-     */
     public Button addCustCancelBtn;
-    /**
-     * Label for the first-level division field.
-     */
     public Label divisionLabel;
 
     /**
@@ -107,7 +77,9 @@ public class AddCustomer implements Initializable {
      * Called when country combo box is changed to populate the first-level division combo box with the appropriate divisions.
      *
      * INCLUDES LAMBDA - streams all Divisions, filtering them by divisions that contain country IDs matching what the country
-     * combo box is currently set to.
+     * combo box is currently set to. This reduces the amount of code needed versus the way I initially implemented this
+     * function, which was by using multiple if statements to compare whether the country matched one of the three possible.
+     * This also allows for code not to require updating if more countries are added in the future.
      *
      * @param actionEvent - not used
      */

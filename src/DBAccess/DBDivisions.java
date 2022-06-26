@@ -10,15 +10,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * The type Db divisions.
- */
 public class DBDivisions {
 
     /**
-     * Gets all divisions.
+     * Gets all rows from the first_level_divisions table of the database and creates a Divisions object for each row.
+     * The objects are then added to an ObservableList for use elsewhere in the application.
      *
-     * @return the all divisions
+     * @return the ObservableList divisions containing objects for all divisions.
      */
     public static ObservableList<Divisions> getAllDivisions() {
         ObservableList<Divisions> divisions = FXCollections.observableArrayList();
@@ -40,96 +38,10 @@ public class DBDivisions {
     }
 
     /**
-     * Gets us divisions.
+     * Gets the division ID from the database that has a division name matching the value passed to the method and stores
+     * the division_ID returned by the query into the divID variable.
      *
-     * @return the us divisions
-     */
-    public static ObservableList<String> getUSDivisions() {
-        ObservableList<String> USDivisions = FXCollections.observableArrayList();
-        try {
-            String sql = "Select Division FROM first_level_divisions WHERE country_id = 1";
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                USDivisions.add(rs.getString("Division"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return USDivisions;
-    }
-
-    /**
-     * Gets uk divisions.
-     *
-     * @return the uk divisions
-     */
-    public static ObservableList<String> getUKDivisions() {
-        ObservableList<String> UKDivisions = FXCollections.observableArrayList();
-        try {
-            String sql = "Select Division FROM first_level_divisions WHERE country_id = 2";
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                UKDivisions.add(rs.getString("Division"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return UKDivisions;
-    }
-
-    /**
-     * Gets canada divisions.
-     *
-     * @return the canada divisions
-     */
-    public static ObservableList<String> getCanadaDivisions() {
-        ObservableList<String> canadaDivisions = FXCollections.observableArrayList();
-        try {
-            String sql = "Select Division FROM first_level_divisions WHERE country_id = 3";
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                canadaDivisions.add(rs.getString("Division"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return canadaDivisions;
-    }
-
-    public static ObservableList<Divisions> getDivisionsByCountry(int country_id) {
-        ObservableList<Divisions> divisions = FXCollections.observableArrayList();
-        try {
-            String sql = "Select Division FROM first_level_divisions WHERE country_id = ?";
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            ps.setInt(1, country_id);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                String divName = rs.getString(1);
-                int countryID = rs.getInt(2);
-                divisions.add(new Divisions(divName, countryID));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return divisions;
-    }
-
-    /**
-     * Gets division id by name.
-     *
-     * @param divisionName the division name
-     * @return the division id by name
+     * @return int divID containing the ID matching the division name.
      */
     public static int getDivisionIDByName(String divisionName) {
         int divID = 0;

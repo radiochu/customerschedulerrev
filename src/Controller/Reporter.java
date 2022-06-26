@@ -18,6 +18,9 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
+/**
+ * Controller that handles the logic for the main screen based on mainScreen.fxml.
+ */
 public class Reporter implements Initializable {
     public Tab typesByMonth;
     public Button closeButton;
@@ -42,6 +45,14 @@ public class Reporter implements Initializable {
     ObservableList<Types> typesByMonthList = DBAppointments.getApptTypesByMonth();
     ObservableList<Contacts> allContacts = DBContacts.getAllContacts();
 
+    /**
+     * Initializes the report screen. Sets up the combo box for listing contacts on the contact schedule tab.
+     * Sets up factories for cell and property values to pull the correct properties from each object and
+     * display them in the tableview.
+     *
+     * @param url - not used
+     * @param resourceBundle - not used
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         contactCB.setItems(allContacts);
@@ -64,14 +75,18 @@ public class Reporter implements Initializable {
 
     }
 
-    public void showTypesByMonth(Event event) {
-
-    }
-
+    /**
+     * Pulls all appointments for the contact selected in the contact combo box and sets the list to be displayed
+     * in the appropriate tableview.
+     */
     public void showScheduleByContact() {
         scheduleTV.setItems(DBAppointments.getApptsByContact(contactCB.getValue().getId()));
     }
 
+    /**
+     * Pulls results from the database for appointments grouped by month and appends the returned strings to the
+     * tableview for displaying the report.
+     */
     public void showApptsByMonth() {
         apptByMonthTA.setText("Current Year Appointments By Month\n");
         for (String i : DBAppointments.getApptsByMonth()) {
@@ -79,6 +94,11 @@ public class Reporter implements Initializable {
         }
     }
 
+    /**
+     * Closes the reporting window.
+     *
+     * @param actionEvent Used to identify the window for which the close was triggered.
+     */
     public void onClose(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();

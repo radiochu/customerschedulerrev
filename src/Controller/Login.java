@@ -31,32 +31,40 @@ import java.util.ResourceBundle;
 import java.util.TimeZone;
 
 /**
- * The type Login.
+ * Controller that handles the logic for the Login screen based on login.fxml.
  */
 public class Login implements Initializable {
     /**
-     * The constant uname.
+     * Username field.
      */
     public static String uname;
     /**
-     * The A.
+     * An alert used for displaying errors with login.
      */
     public Alert a = new Alert(Alert.AlertType.NONE);
     /**
-     * The Timezone.
+     * Label to display user's current time zone.
      */
     public Label timezone;
     /**
-     * The Password.
+     * Password field.
      */
     public PasswordField password;
     /**
      * The Username.
      */
     public TextField username;
-
+    /**
+     * Resource bundle used for localization of the login screen.
+     */
     private ResourceBundle resourceBundle;
 
+    /**
+     * Initializes the Login window and sets initial values for all fields.
+     *
+     * @param url - not used
+     * @param resourceBundle - used to specify the resource bundle to use for localization.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         TimeZone tz = TimeZone.getDefault();
@@ -65,13 +73,15 @@ public class Login implements Initializable {
     }
 
     /**
-     * On submit.
+     * Method to handle user login. First, username and password are validated against the database.
+     * The login attempt and whether it was successful or unsuccessful is sent to the Logger to be written
+     * to a log file. If the login was successful, loads and moves to the main screen of the application.
      *
-     * @param actionEvent the action event
-     * @throws IOException  the io exception
-     * @throws SQLException the sql exception
+     * @param actionEvent Used to identify the window from which the login was triggered to close it on a successful execution.
+     * @throws IOException  Thrown if exceptions occur writing to log file
+     * @throws SQLException Thrown if exceptions occur during SQL queries
      */
-    public void onSubmit(ActionEvent actionEvent) throws IOException, SQLException {
+    private void onSubmit(ActionEvent actionEvent) throws IOException, SQLException {
         uname = username.getText();
         String sql = "SELECT * FROM users WHERE user_name = ? AND password = ?";
         PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -83,7 +93,6 @@ public class Login implements Initializable {
             a.setHeaderText(null);
             a.setContentText(resourceBundle.getString("loginfail"));
             a.show();
-            //loginSuccess = false;
             Logger.logActivity("Login by user " + uname + " was unsuccessful at UTC" + Instant.now());
         } else {
             Logger.logActivity("Login by user " + uname + " was successful at UTC " + Instant.now());
@@ -98,6 +107,10 @@ public class Login implements Initializable {
         }
     }
 
+    /**
+     * Method to display upcoming appointments within 15 minutes past the corresponding user's login.
+     * @param user The user to scan for appointments for.
+     */
     private void upcomingAppointments(int user) {
         ObservableList<Appointments> userAppointments = DBAppointments.getApptsByUserID(user);
         ObservableList<Appointments> upcomingAppts = FXCollections.observableArrayList();
@@ -113,9 +126,9 @@ public class Login implements Initializable {
     }
 
     /**
-     * On cancel.
+     * Confirms that the user wants to cancel login and close the application by providing an alert from the Alerts class.
      *
-     * @param actionEvent the action event
+     * @param actionEvent - not used
      */
     public void onCancel(ActionEvent actionEvent) {
         Alerts.exitApplication();

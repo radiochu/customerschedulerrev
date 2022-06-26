@@ -8,15 +8,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * The type Db users.
- */
 public class DBUsers {
 
     /**
-     * Gets all users.
+     * Gets all rows from the users table of the database and creates a list containing the user_id for each row.
+     * The IDs are then added to an ObservableList for use elsewhere in the application.
      *
-     * @return the all users
+     * @return the ObservableList userIDs containing user_ids for all users.
      */
     public static ObservableList<Integer> getAllUsers() {
         ObservableList<Integer> userIDs = FXCollections.observableArrayList();
@@ -37,10 +35,10 @@ public class DBUsers {
     }
 
     /**
-     * Gets user id by name.
+     * Gets the user ID from the database that has a username matching the value passed to the method and stores
+     * the user_id returned by the query into the userID variable.
      *
-     * @param username the username
-     * @return the user id by name
+     * @return int userID containing the ID matching the username.
      */
     public static int getUserIDByName(String username) {
         int userID = 0;

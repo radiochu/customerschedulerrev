@@ -17,240 +17,80 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 /**
- * The type Main screen.
+ * Controller that handles the logic for the main screen based on mainScreen.fxml.
  */
 public class MainScreen implements Initializable {
 
-    /**
-     * The Customers.
-     */
     static ObservableList<Customers> customers = DBCustomers.getAllCustomers();
-    /**
-     * The Appointments.
-     */
     static ObservableList<Appointments> appointments = DBAppointments.getAllAppointments();
-    /**
-     * The Curr month appts.
-     */
     static ObservableList<Appointments> currMonthAppts = DBAppointments.getThisMonthAppts();
-    /**
-     * The Curr week appts.
-     */
     static ObservableList<Appointments> currWeekAppts = DBAppointments.getThisWeekAppts();
-    /**
-     * The All customers.
-     */
     public TableView<Customers> allCustomers;
-    /**
-     * The Cust id.
-     */
     public TableColumn<Customers, Integer> custID;
-    /**
-     * The Cust name.
-     */
     public TableColumn<Customers, String> custName;
-    /**
-     * The Cust address.
-     */
     public TableColumn<Customers, String> custAddress;
-    /**
-     * The Cust fld.
-     */
     public TableColumn<Customers, String> custFLD;
-    /**
-     * The Cust post code.
-     */
     public TableColumn<Customers, String> custPostCode;
-    /**
-     * The Cust country.
-     */
     public TableColumn<Customers, String> custCountry;
-    /**
-     * The Cust phone.
-     */
     public TableColumn<Customers, String> custPhone;
-    /**
-     * The Cust add.
-     */
     public Button custAdd;
-    /**
-     * The Cust modify.
-     */
     public Button custModify;
-    /**
-     * The Cust delete.
-     */
     public Button custDelete;
-    /**
-     * The All appt tab.
-     */
     public Tab allApptTab;
-    /**
-     * The All appointments.
-     */
     public TableView<Appointments> allAppointments;
-    /**
-     * The All appt id.
-     */
     public TableColumn<Appointments, Integer> allApptID;
-    /**
-     * The All appt title.
-     */
     public TableColumn<Appointments, String> allApptTitle;
-    /**
-     * The All appt desc.
-     */
     public TableColumn<Appointments, String> allApptDesc;
-    /**
-     * The All appt loc.
-     */
     public TableColumn<Appointments, String> allApptLoc;
-    /**
-     * The All appt contact.
-     */
     public TableColumn<Appointments, String> allApptContact;
-    /**
-     * The All appt type.
-     */
     public TableColumn<Appointments, String> allApptType;
-    /**
-     * The All appt starts.
-     */
     public TableColumn<Appointments, LocalDateTime> allApptStarts;
-    /**
-     * The All appt ends.
-     */
     public TableColumn<Appointments, LocalDateTime> allApptEnds;
-    /**
-     * The All appt cust id.
-     */
     public TableColumn<Appointments, Integer> allApptCustID;
-    /**
-     * The All appt user id.
-     */
     public TableColumn<Appointments, Integer> allApptUserID;
-    /**
-     * The Current month appts.
-     */
     public Tab currentMonthAppts;
-    /**
-     * The Curr month appts table.
-     */
     public TableView<Appointments> currMonthApptsTable;
-    /**
-     * The Curr month appt id.
-     */
     public TableColumn<Appointments, Integer> currMonthApptID;
-    /**
-     * The Curr month appt title.
-     */
     public TableColumn<Appointments, String> currMonthApptTitle;
-    /**
-     * The Curr month appt desc.
-     */
     public TableColumn<Appointments, String> currMonthApptDesc;
-    /**
-     * The Curr month appt loc.
-     */
     public TableColumn<Appointments, String> currMonthApptLoc;
-    /**
-     * The Curr month appt contact.
-     */
     public TableColumn<Appointments, String> currMonthApptContact;
-    /**
-     * The Curr month appt type.
-     */
     public TableColumn<Appointments, String> currMonthApptType;
-    /**
-     * The Curr month appt starts.
-     */
     public TableColumn<Appointments, LocalDateTime> currMonthApptStarts;
-    /**
-     * The Curr month appt ends.
-     */
     public TableColumn<Appointments, LocalDateTime> currMonthApptEnds;
-    /**
-     * The Curr month appt cust id.
-     */
     public TableColumn<Appointments, Integer> currMonthApptCustID;
-    /**
-     * The Curr month appt user id.
-     */
     public TableColumn<Appointments, Integer> currMonthApptUserID;
-    /**
-     * The Current week appts.
-     */
     public Tab currentWeekAppts;
-    /**
-     * The Curr week appts table.
-     */
     public TableView<Appointments> currWeekApptsTable;
-    /**
-     * The Curr week appt id.
-     */
     public TableColumn<Appointments, Integer> currWeekApptID;
-    /**
-     * The Curr week appt title.
-     */
     public TableColumn<Appointments, String> currWeekApptTitle;
-    /**
-     * The Curr week appt desc.
-     */
     public TableColumn<Appointments, String> currWeekApptDesc;
-    /**
-     * The Curr week appt loc.
-     */
     public TableColumn<Appointments, String> currWeekApptLoc;
-    /**
-     * The Curr week appt contact.
-     */
     public TableColumn<Appointments, String> currWeekApptContact;
-    /**
-     * The Curr week appt type.
-     */
     public TableColumn<Appointments, String> currWeekApptType;
-    /**
-     * The Curr week appt starts.
-     */
     public TableColumn<Appointments, LocalDateTime> currWeekApptStarts;
-    /**
-     * The Curr week appt ends.
-     */
     public TableColumn<Appointments, LocalDateTime> currWeekApptEnds;
-    /**
-     * The Curr week appt cust id.
-     */
     public TableColumn<Appointments, Integer> currWeekApptCustID;
-    /**
-     * The Curr week appt user id.
-     */
     public TableColumn<Appointments, Integer> currWeekApptUserID;
-    /**
-     * The Appt add.
-     */
     public Button apptAdd;
-    /**
-     * The Appt modify.
-     */
     public Button apptModify;
-    /**
-     * The Appt delete.
-     */
     public Button apptDelete;
     public Button reportsButton;
-    /**
-     * The Exit button.
-     */
     public Button exitButton;
 
-
+    /**
+     * Initializes the main screen. Sets up factories for cell and property values to pull the correct properties
+     * from each object and display them in the tableview.
+     *
+     * @param url - not used
+     * @param resourceBundle - not used
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         custID.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -304,7 +144,7 @@ public class MainScreen implements Initializable {
     }
 
     /**
-     * Refresh tables.
+     * Method used to reload all tables on the main screen with updated information pulled from the database.
      */
     public void refreshTables() {
         customers.setAll(DBCustomers.getAllCustomers());
@@ -314,10 +154,10 @@ public class MainScreen implements Initializable {
     }
 
     /**
-     * On cust add.
+     * Handles loading the Add Customer screen when the add button is pressed on the customer menu.
      *
-     * @param actionEvent the action event
-     * @throws IOException the io exception
+     * @param actionEvent - not used
+     * @throws IOException - not used
      */
     public void onCustAdd(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/addCustomer.fxml"));
@@ -328,10 +168,10 @@ public class MainScreen implements Initializable {
     }
 
     /**
-     * On cust modify.
+     * Handles loading the Modify Customer screen when the modify button is pressed on the customer menu.
      *
-     * @param actionEvent the action event
-     * @throws IOException the io exception
+     * @param actionEvent - not used
+     * @throws IOException - not used
      */
     public void onCustModify(ActionEvent actionEvent) throws IOException {
         Customers customerToMod = allCustomers.getSelectionModel().getSelectedItem();
@@ -349,9 +189,10 @@ public class MainScreen implements Initializable {
     }
 
     /**
-     * On cust delete.
+     * Handles the delete button being pressed on the customer menu.
+     * Also provides for deleting any appointments belonging to the selected customer.
      *
-     * @param actionEvent the action event
+     * @param actionEvent - not used
      */
     public void onCustDelete(ActionEvent actionEvent) {
         int custToDelete = allCustomers.getSelectionModel().getSelectedItem().getId();
@@ -368,10 +209,10 @@ public class MainScreen implements Initializable {
 
 
     /**
-     * On appt add.
+     * Handles loading the Add Appointment screen when the add button is pressed on the appointment menu.
      *
-     * @param actionEvent the action event
-     * @throws IOException the io exception
+     * @param actionEvent - not used
+     * @throws IOException - not used
      */
     public void onApptAdd(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/addAppointment.fxml"));
@@ -382,10 +223,10 @@ public class MainScreen implements Initializable {
     }
 
     /**
-     * On appt modify.
+     * Handles loading the Modify Appointment screen when the modify button is pressed on the appointment menu.
      *
-     * @param actionEvent the action event
-     * @throws IOException the io exception
+     * @param actionEvent - not used
+     * @throws IOException - not used
      */
     public void onApptModify(ActionEvent actionEvent) throws IOException {
         Appointments appt;
@@ -413,9 +254,10 @@ public class MainScreen implements Initializable {
     }
 
     /**
-     * On appt delete.
+     * Handles the delete button being pressed on the appointment menu with a conditional check for
+     * which tab is currently selected. Afterwards, calls refreshTables() to be sure all tables are updated.
      *
-     * @param actionEvent the action event
+     * @param actionEvent - not used
      */
     public void onApptDelete(ActionEvent actionEvent) {
         Appointments appt;
@@ -446,6 +288,12 @@ public class MainScreen implements Initializable {
         }
     }
 
+    /**
+     * Handles loading the Reports screen when the reports button is pressed on the appointment menu.
+     *
+     * @param actionEvent - not used
+     * @throws IOException - not used
+     */
     public void viewReports(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/reporter.fxml"));
         Stage overlay = new Stage();
@@ -455,9 +303,9 @@ public class MainScreen implements Initializable {
     }
 
     /**
-     * On exit button.
+     * Confirms that the user wants to close the application by providing an alert from the Alerts class.
      *
-     * @param actionEvent the action event
+     * @param actionEvent - not used
      */
     public void onExitButton(ActionEvent actionEvent) {
         Alerts.exitApplication();

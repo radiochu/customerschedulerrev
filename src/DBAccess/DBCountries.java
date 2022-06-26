@@ -2,7 +2,6 @@ package DBAccess;
 
 import DBConnection.JDBC;
 import Model.Countries;
-import Model.Divisions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -10,14 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * The type Db countries.
- */
 public class DBCountries {
+
     /**
-     * Gets all countries.
+     * Gets all rows from the countries table of the database and creates a Countries object for each row.
+     * The objects are then added to an ObservableList for use elsewhere in the application.
      *
-     * @return the all countries
+     * @return the ObservableList countries containing objects for all countries.
      */
     public static ObservableList<Countries> getAllCountries() {
         ObservableList<Countries> countries = FXCollections.observableArrayList();
@@ -36,29 +34,5 @@ public class DBCountries {
         }
 
         return countries;
-    }
-
-    /**
-     * Gets country id by name.
-     *
-     * @param countryName the country name
-     * @return the country id by name
-     */
-    public static int getCountryIDByName(String countryName) {
-        int countryID = 0;
-        try {
-            String sql = "SELECT country_id FROM countries WHERE country = ?";
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            ps.setString(1, countryName);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                countryID = rs.getInt("country_id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return countryID;
     }
 }

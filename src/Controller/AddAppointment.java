@@ -29,57 +29,18 @@ import java.util.ResourceBundle;
  * Controller that handles the logic for the Add Appointment screen based on addAppointment.fxml.
  */
 public class AddAppointment implements Initializable {
-    /**
-     * Appointment ID.
-     */
     public TextField apptID;
-    /**
-     * Customer ID for the customer associated with this appointment.
-     */
     public TextField apptCustID;
-    /**
-     * User ID for the user associated with this appointment.
-     */
     public ComboBox<Integer> apptUserID;
-    /**
-     * Appointment title.
-     */
     public TextField apptTitle;
-    /**
-     * Appointment description.
-     */
     public TextField apptDesc;
-    /**
-     * Appointment type.
-     */
     public TextField apptType;
-    /**
-     * Appointment location.
-     */
     public TextField apptLoc;
-    /**
-     * Appointment contact.
-     */
     public ComboBox<Contacts> apptContact;
-    /**
-     * Appointment date.
-     */
     public DatePicker apptDate;
-    /**
-     * Appointment start time.
-     */
     public ComboBox<LocalTime> apptStartTime;
-    /**
-     * Appointment end time.
-     */
     public ComboBox<LocalTime> apptEndTime;
-    /**
-     * Button to submit form elements.
-     */
     public Button Submit;
-    /**
-     * Button to cancel adding the customer and exit the screen.
-     */
     public Button Cancel;
 
     ObservableList<Integer> allUsers = DBUsers.getAllUsers();
@@ -167,6 +128,7 @@ public class AddAppointment implements Initializable {
      * from the Alerts class if the customer does not exist.
      *
      * INCLUDES LAMBDA - streams all customers list, checking each to see if any ID is a match for the chosen ID.
+     * This is more concise than running the same comparison using a for loop.
      *
      * @return boolean b; returns false if customer does not exist, true if the customer is found.
      */

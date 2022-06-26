@@ -27,53 +27,17 @@ import java.util.stream.Collectors;
  * Controller that handles the logic for the Modify Customer screen based on modifyCustomer.fxml.
  */
 public class ModifyCustomer implements Initializable {
-    /**
-     * Variable to store the Customers object to be modified.
-     */
-     public static Customers customerToMod = null;
-    /**
-     * Variable to hold the index of the object to be modified where it appears in the list of customers.
-     */
+    public static Customers customerToMod = null;
     public static int indexToMod = 0;
-    /**
-     * Customer name.
-     */
     public TextField custNameField;
-    /**
-     * Customer address.
-     */
     public TextField custAddressField;
-    /**
-     * Combo box to select country for customer address.
-     */
     public ComboBox<Countries> custCountryCB;
-    /**
-     * Combo box to select first-level division for customer address.
-     */
     public ComboBox<Divisions> custFLDCB;
-    /**
-     * Customer address postal code.
-     */
     public TextField custPostCodeField;
-    /**
-     * Customer phone number.
-     */
     public TextField custPhoneField;
-    /**
-     * Customer ID.
-     */
     public TextField customerID;
-    /**
-     * Calls function on save button press to save modified customer.
-     */
     public Button modCustSaveBtn;
-    /**
-     * Calls function on cancel button press to cancel modifying customer.
-     */
     public Button modCustCancelBtn;
-    /**
-     * Label for the first-level division field.
-     */
     public Label divisionLabel;
 
     /**

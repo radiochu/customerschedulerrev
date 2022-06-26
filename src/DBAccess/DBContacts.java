@@ -9,20 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * The type Db contacts.
- */
 public class DBContacts {
 
     /**
-     * The Contacts.
-     */
-    static final ObservableList<String> contacts = FXCollections.observableArrayList();
-
-    /**
-     * Gets all contacts.
+     * Gets all rows from the contacts table of the database and creates a Contacts object for each row.
+     * The objects are then added to an ObservableList for use elsewhere in the application.
      *
-     * @return the all contacts
+     * @return the ObservableList contacts containing objects for all contacts.
      */
     public static ObservableList<Contacts> getAllContacts() {
         ObservableList<Contacts> contacts = FXCollections.observableArrayList();
@@ -44,10 +37,11 @@ public class DBContacts {
     }
 
     /**
-     * Gets contact name by id.
+     * /**
+     * Gets all contacts from the database that have a user_id matching the value passed to the method and creates
+     * a Contacts object for each row. The objects are then added to an ObservableList for use elsewhere in the application.
      *
-     * @param apptContact the appt contact
-     * @return the contact name by id
+     * @return ObservableList c containing the objects for the retrieved list of contacts.
      */
     public static Contacts getContactByID(int apptContact) {
         String contactName = null;
@@ -68,48 +62,5 @@ public class DBContacts {
             e.printStackTrace();
         }
         return c;
-    }
-
-    /**
-     * Gets contact id by name.
-     *
-     * @param contactName the contact name
-     * @return the contact id by name
-     */
-    public static int getContactIDByName(String contactName) {
-
-        int contactID = 0;
-        try {
-            String sql = "SELECT * FROM contacts WHERE Contact_Name = ?";
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            ps.setString(1, contactName);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                contactID = rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return contactID;
-
-    }
-
-    public static ObservableList<String> getScheduleByContact() {
-        ObservableList<String> contactAppts = FXCollections.observableArrayList();
-        try {
-            String sql = "SELECT c.contact_name, a.start, a.end, a.appointment_id, a.title FROM contacts as c, appointments as a WHERE c.contact_id = a.contact_id ORDER BY c.contact_name, a.start";
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                contactAppts.add(rs.getString(1) + " - " + rs.getTimestamp(2) + " to " + rs.getTimestamp(3) + " - Appointment ID " + rs.getInt(4) + " - " + rs.getString(5));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println(contactAppts);
-        return contactAppts;
     }
 }

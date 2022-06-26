@@ -21,18 +21,18 @@ public class Appointments {
     private int apptID;
 
     /**
-     * Instantiates a new Appointments.
+     * Instantiates a new Appointments object.
      *
-     * @param apptID          the appt id
-     * @param apptTitle       the appt title
-     * @param apptDescription the appt description
-     * @param apptLocation    the appt location
-     * @param apptContact     the appt contact
-     * @param apptStart       the appt start
-     * @param apptEnd         the appt end
-     * @param apptType        the appt type
-     * @param custID          the cust id
-     * @param userID          the user id
+     * @param apptID          appointment id - int
+     * @param apptTitle       appointment title - String
+     * @param apptDescription appointment description - String
+     * @param apptLocation    appointment location - String
+     * @param apptContact     appointment contact - Contacts object
+     * @param apptStart       appointment start - LocalDateTime
+     * @param apptEnd         appointment end - LocalDateTime
+     * @param apptType        appointment type - String
+     * @param custID          appointment customer ID - int
+     * @param userID          appointment user ID - int
      */
     public Appointments(int apptID, String apptTitle, String apptDescription, String apptLocation, Contacts apptContact, LocalDateTime apptStart, LocalDateTime apptEnd, String apptType, int custID, int userID) {
         this.apptID = apptID;
@@ -48,94 +48,99 @@ public class Appointments {
     }
 
     /**
-     * Gets appt id.
+     * Gets appointment ID.
      *
-     * @return the appt id
+     * @return int apptID containing the appointment ID.
      */
     public int getApptID() {
         return apptID;
     }
 
+    /**
+     * Sets appointment ID.
+     *
+     * @param apptID int; the ID to set to the Appointments object.
+     */
     public void setApptID(int apptID) {
         this.apptID = apptID;
     }
 
     /**
-     * Gets appt title.
+     * Gets appointment title.
      *
-     * @return the appt title
+     * @return String apptTitle containing the appointment title.
      */
     public String getApptTitle() {
         return apptTitle;
     }
 
     /**
-     * Gets appt description.
+     * Gets appointment description.
      *
-     * @return the appt description
+     * @return String apptDescription containing the appointment description.
      */
     public String getApptDescription() {
         return apptDescription;
     }
 
     /**
-     * Gets appt location.
+     * Gets appointment location.
      *
-     * @return the appt location
+     * @return String apptLocation containing the appointment location.
      */
     public String getApptLocation() {
         return apptLocation;
     }
 
     /**
-     * Gets appt type.
+     * Gets appointment type.
      *
-     * @return the appt type
+     * @return String apptType containing the appointment type.
      */
     public String getApptType() {
         return apptType;
     }
 
     /**
-     * Gets appt start.
+     * Gets appointment start time.
      *
-     * @return the appt start
+     * @return LocalDateTime apptStart containing the appointment start time.
      */
     public LocalDateTime getApptStart() {
         return apptStart;
     }
 
     /**
-     * Gets appt end.
+     * Gets appointment end time.
      *
-     * @return the appt end
+     * @return LocalDateTime apptEnd containing the appointment end time.
      */
     public LocalDateTime getApptEnd() {
         return apptEnd;
     }
 
     /**
-     * Gets cust id.
+     * Gets ID of this appointment's associated customer.
      *
-     * @return the cust id
+     * @return int custID containing the appointment's customer ID.
      */
     public int getCustID() {
         return custID;
     }
 
     /**
-     * Gets user id.
+     * Gets ID of this appointment's associated user.
      *
-     * @return the user id
+     * @return int userID containing the appointment's user ID.
      */
     public int getUserID() {
         return userID;
     }
 
     /**
-     * Gets appt contact.
+     * Gets the contact associated with this appointment.
      *
-     * @return the appt contact
+     * @return Contacts apptContact containing the appointment's associated contact.
      */
     public Contacts getApptContact() {
         return apptContact;

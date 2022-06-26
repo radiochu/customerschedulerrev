@@ -28,69 +28,26 @@ import java.util.ResourceBundle;
  * Controller that handles the logic for the Modify Appointment screen based on modifyAppointment.fxml.
  */
 public class ModifyAppointment implements Initializable {
-    /**
-     * Variable to store the Appointments object to be modified.
-     */
+
     public static Appointments appointmentToMod = null;
-    /**
-     * Variable to hold the index of the object to be modified where it appears in the list of appointments.
-     */
     public static int indexToMod = 0;
-    /**
-     * Appointment ID.
-     */
+
     public TextField apptID;
-    /**
-     * Appointment customer ID.
-     */
     public TextField apptCustID;
-    /**
-     * Appointment user ID>
-     */
     public ComboBox<Integer> apptUserID;
-    /**
-     * Appointment title.
-     */
     public TextField apptTitle;
-    /**
-     * Appointment description.
-     */
     public TextField apptDesc;
-    /**
-     * Appointment type.
-     */
     public TextField apptType;
-    /**
-     * Appointment contact.
-     */
     public ComboBox<Contacts> apptContact;
-    /**
-     * Appointment date.
-     */
     public DatePicker apptDate;
-    /**
-     * Appointment start time.
-     */
     public ComboBox<LocalTime> apptStartTime;
-    /**
-     * Appointment end time.
-     */
     public ComboBox<LocalTime> apptEndTime;
-    /**
-     * Appointment location.
-     */
     public TextField apptLocation;
-    /**
-     * Calls function on save button press to save modified appointment.
-     */
     public Button Submit;
-    /**
-     * Calls function on cancel button press to cancel adding new appointment.
-     */
     public Button Cancel;
 
     /**
-     * Sets appointment to mod, pulled from the main screen controller.
+     * Sets appointmentToMod and indexToMod, pulled from the main screen controller.
      *
      * @param appointment the appointment chosen from main screen to modify.
      * @param index       the index of the appointment in the list of all appointments.
