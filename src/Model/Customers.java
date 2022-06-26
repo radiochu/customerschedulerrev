@@ -1,30 +1,45 @@
 package Model;
 
-/**
- * The type Customers.
- */
 public class Customers {
     /**
-     * The Customers.
+     * The customer name.
      */
     private String name;
+    /**
+     * The customer address.
+     */
     private String address;
+    /**
+     * The customer ID.
+     */
     private int id;
+    /**
+     * The first-level division for the customer address.
+     */
     private Divisions fld;
+    /**
+     * The postal code for the customer address.
+     */
     private String postCode;
+    /**
+     * The country for the customer address.
+     */
     private Countries country;
+    /**
+     * The customer phone number.
+     */
     private String phoneNumber;
 
     /**
-     * Instantiates a new Customers.
+     * Instantiates a new Customers object.
      *
-     * @param id          the id
-     * @param name        the name
-     * @param address     the address
-     * @param fld         the fld
-     * @param postCode    the post code
-     * @param country     the country
-     * @param phoneNumber the phone number
+     * @param id          customer ID - int
+     * @param name        customer name - String
+     * @param address     customer address - String
+     * @param fld         customer first-level division - Divisions object
+     * @param postCode    customer postal code - String
+     * @param country     customer country - Countries object
+     * @param phoneNumber customer phone number - String
      */
     public Customers(int id, String name, String address, Divisions fld, String postCode, Countries country, String phoneNumber) {
         this.id = id;
@@ -37,121 +52,85 @@ public class Customers {
     }
 
     /**
-     * Gets phone number.
+     * Gets customer phone number.
      *
-     * @return the phone number
+     * @return String phoneNumber containing the phone number.
      */
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     /**
-     * Sets phone number.
+     * Gets customer address post code.
      *
-     * @param phoneNumber the phone number
-     */
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    /**
-     * Gets post code.
-     *
-     * @return the post code
+     * @return String postCode containing the post code for the customer's address.
      */
     public String getPostCode() {
         return postCode;
     }
 
     /**
-     * Sets post code.
+     * Gets customer address country.
      *
-     * @param postCode the post code
-     */
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
-    }
-
-
-    /**
-     * Gets country.
-     *
-     * @return the country
+     * @return Countries country, the Countries object representing the country for the customer's address.
      */
     public Countries getCountry() {
         return country;
     }
 
-    /**
-     * Sets country.
-     *
-     * @param country the country
-     */
-    public void setCountry(Countries country) {
-        this.country = country;
-    }
-
 
     /**
-     * Gets fld.
+     * Gets customer address first-level division.
      *
-     * @return the fld
+     * @return Divisions fld, the Divisions object representing the first-level division for the customer's address.
      */
     public Divisions getFld() {
         return fld;
     }
 
-    /**
-     * Sets fld.
-     *
-     * @param fld the fld
-     */
-    public void setFld(Divisions fld) {
-        this.fld = fld;
-    }
-
 
     /**
-     * Gets id.
+     * Gets customer ID.
      *
-     * @return the id
+     * @return int id, the customer's ID.
      */
     public int getId() {
         return id;
     }
 
     /**
-     * Sets id.
+     * Sets customer ID.
      *
-     * @param id the id
+     * @param id int; The ID to be assigned to this customer.
      */
     public void setId(int id) {
         this.id = id;
     }
 
     /**
-     * Gets name.
+     * Gets customer name.
      *
-     * @return the name
+     * @return String name, the customer's name.
      */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets customer name.
+     *
+     * @param name String; name to be assigned to this customer.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * Gets address.
+     * Gets customer address.
      *
-     * @return the address
+     * @return String address, the customer's address.
      */
     public String getAddress() {
         return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }

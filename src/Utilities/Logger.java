@@ -5,20 +5,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-/**
- * The type Logger.
- */
-public interface Logger {
+
+public class Logger {
     /**
-     * The constant logFile.
+     * Creates a file to which the log will be written.
      */
     public static final File logFile = new File("src/login_activity.txt");
 
     /**
-     * Log activity.
+     * Creates a FileWriter and PrintWriter object. When passed a string, it will append the string to the named log file.
      *
-     * @param log the log
-     * @throws IOException the io exception
+     * @param log String to add to the log file.
+     * @throws IOException Thrown if file to be written to does not exist.
      */
     public static void logActivity(String log) throws IOException {
 

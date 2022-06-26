@@ -2,22 +2,47 @@ package Model;
 
 import java.time.LocalDateTime;
 
-/**
- * The type Appointments.
- */
+
 public class Appointments {
     /**
-     * The Appt types.
+     * The title for the appointment.
      */
     private final String apptTitle;
+    /**
+     * The description of the appointment.
+     */
     private final String apptDescription;
+    /**
+     * The location of the appointment.
+     */
     private final String apptLocation;
+    /**
+     * The contact associated with this appointment.
+     */
     private final Contacts apptContact;
+    /**
+     * The type of the appointment.
+     */
     private final String apptType;
+    /**
+     * Start date and time for the appointment.
+     */
     private final LocalDateTime apptStart;
+    /**
+     * End date and time for the appointment.
+     */
     private final LocalDateTime apptEnd;
+    /**
+     * The ID of the customer associated with this appointment.
+     */
     private final int custID;
+    /**
+     * The ID of the user associated with this appointment.
+     */
     private final int userID;
+    /**
+     * The ID associated with this appointment.
+     */
     private int apptID;
 
     /**
