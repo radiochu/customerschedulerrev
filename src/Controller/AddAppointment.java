@@ -85,7 +85,12 @@ public class AddAppointment implements Initializable {
     ObservableList<Integer> allUsers = DBUsers.getAllUsers();
     ObservableList<Contacts> allContacts = DBContacts.getAllContacts();
 
-
+    /**
+     * Initializes the Add Appointment window and sets initial values for all fields.
+     *
+     * @param url - not used
+     * @param resourceBundle - not used
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         apptContact.setItems(allContacts);
@@ -130,6 +135,11 @@ public class AddAppointment implements Initializable {
         return b;
     }
 
+    /**
+     * Validates times chosen for appointment start and end do not overlap. Generates an alert if overlap is found.
+     *
+     * @return boolean b - false if overlaps found, true if no overlaps
+     */
     private boolean validateTime() {
         boolean b = true;
         ObservableList<Appointments> custAppts = DBAppointments.getApptsByCustID(Integer.parseInt(apptCustID.getText()));
@@ -156,13 +166,13 @@ public class AddAppointment implements Initializable {
      * Checks to see if the customer entered for the appointment actually exists. Provides an alert
      * from the Alerts class if the customer does not exist.
      *
+     * INCLUDES LAMBDA - streams all customers list, checking each to see if any ID is a match for the chosen ID.
+     *
      * @return boolean b; returns false if customer does not exist, true if the customer is found.
      */
     private boolean validateCustomer() {
-        boolean b = false;
-        if (DBCustomers.customerExists(Integer.parseInt(apptCustID.getText()))) {
-            b = true;
-        } else {
+        boolean b = DBCustomers.getAllCustomers().stream().anyMatch(s -> s.getId() == Integer.parseInt(apptCustID.getText()));
+        if (!b) {
             Alerts.invalidData("\nThe chosen customer does not exist.\n");
         }
         return b;
@@ -193,7 +203,7 @@ public class AddAppointment implements Initializable {
      * Confirms that the user wants to cancel adding the new appointment by providing an alert from the Alerts class.
      *
      * @param actionEvent Passed to a method in the Alerts class; used to close the window if the user confirms they want
-     *                    to close without saving.
+     * to close without saving.
      */
     public void onCancel(ActionEvent actionEvent) {
         Alerts.cancelWithoutSaving(actionEvent);

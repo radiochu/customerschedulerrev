@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 /**
  * The type Logger.
  */
-public class Logger {
+public interface Logger {
     /**
      * The constant logFile.
      */

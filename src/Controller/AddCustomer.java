@@ -17,62 +17,72 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 /**
- * The type Add customer.
+ * Controller that handles the logic for the Add Customer screen based on addCustomer.fxml.
  */
 public class AddCustomer implements Initializable {
     /**
-     * The Cust name field.
+     * Customer name.
      */
     public TextField custNameField;
     /**
-     * The Cust address field.
+     * Customer address.
      */
     public TextField custAddressField;
     /**
-     * The Cust country cb.
+     * Combo box to select country for customer address.
      */
     public ComboBox<Countries> custCountryCB;
     /**
-     * The Cust fldcb.
+     * Combo box to select first-level division for customer address.
      */
     public ComboBox<Divisions> custFLDCB;
     /**
-     * The Cust post code field.
+     * Customer address postal code.
      */
     public TextField custPostCodeField;
     /**
-     * The Cust phone field.
+     * Customer phone number.
      */
     public TextField custPhoneField;
     /**
-     * The Customer id.
+     * Customer ID.
      */
     public TextField customerID;
     /**
-     * The Add cust save btn.
+     * Calls function on save button press to add new customer.
      */
     public Button addCustSaveBtn;
     /**
-     * The Add cust cancel btn.
+     * Calls function on cancel button press to cancel adding new customer.
      */
     public Button addCustCancelBtn;
     /**
-     * The Division label.
+     * Label for the first-level division field.
      */
     public Label divisionLabel;
 
+    /**
+     * Initializes the Add Customer window and sets initial values for all fields.
+     *
+     * @param url - not used
+     * @param resourceBundle - not used
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         custCountryCB.setItems(DBCountries.getAllCountries());
     }
 
+    /**
+     * Validates the data entered into the add customer fields. If any field is found invalid, the user is alerted
+     * via a custom notification from the Alerts class, populated with the provided string to explain the error.
+     *
+     * @return boolean b; false if information is not valid, true if it is.
+     */
     private boolean validateInput() {
         boolean b = false;
         if (custNameField.getText().isEmpty()) {
@@ -94,9 +104,12 @@ public class AddCustomer implements Initializable {
     }
 
     /**
-     * Filter divisions.
+     * Called when country combo box is changed to populate the first-level division combo box with the appropriate divisions.
      *
-     * @param actionEvent the action event
+     * INCLUDES LAMBDA - streams all Divisions, filtering them by divisions that contain country IDs matching what the country
+     * combo box is currently set to.
+     *
+     * @param actionEvent - not used
      */
     public void filterDivisions(ActionEvent actionEvent) {
         ObservableList<Divisions> allDivisions = DBDivisions.getAllDivisions();
@@ -106,9 +119,9 @@ public class AddCustomer implements Initializable {
     }
 
     /**
-     * On save button.
+     * Method to handle saving the new customer.
      *
-     * @param actionEvent the action event
+     * @param actionEvent Used to identify the window from which the save was triggered to close it on a successful execution.
      */
     public void onSaveButton(ActionEvent actionEvent) {
         if (validateInput()) {
@@ -123,9 +136,10 @@ public class AddCustomer implements Initializable {
     }
 
     /**
-     * On cancel button.
+     * Confirms that the user wants to cancel adding the new customer by providing an alert from the Alerts class.
      *
-     * @param actionEvent the action event
+     * @param actionEvent Passed to a method in the Alerts class; used to close the window if the user confirms they want
+     * to close without saving.
      */
     public void onCancelButton(ActionEvent actionEvent) {
         Alerts.cancelWithoutSaving(actionEvent);

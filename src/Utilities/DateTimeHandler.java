@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * The type Date time handler.
  */
-public interface DateTimeHandler {
+public class DateTimeHandler {
     /**
      * The Get hours.
      */
@@ -23,29 +23,6 @@ public interface DateTimeHandler {
      */
     static final DateTimeFormatter getSeconds = DateTimeFormatter.ofPattern("ss");
 
-    /**
-     * Local to et zoned date time.
-     *
-     * @param localTime the local time
-     * @return the zoned date time
-     */
-    public static ZonedDateTime localToET(LocalDateTime localTime) {
-        ZoneId zoneId = ZoneId.of(ZoneId.systemDefault().getId());
-        ZonedDateTime zdtAtSystemDefault = localTime.atZone(zoneId);
-        return zdtAtSystemDefault.withZoneSameInstant(ZoneId.of("America/New_York"));
-    }
-
-    /**
-     * Et to local local date time.
-     *
-     * @param zoneDateTime the zone date time
-     * @return the local date time
-     */
-    public static LocalDateTime etToLocal(ZonedDateTime zoneDateTime) {
-        ZonedDateTime zdtAtET = ZonedDateTime.now(ZoneId.of("America/New_York"));
-
-        return zdtAtET.toLocalDateTime();
-    }
     /**
      * Start time local date time.
      *

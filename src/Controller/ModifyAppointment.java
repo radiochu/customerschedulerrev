@@ -25,81 +25,87 @@ import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 /**
- * The type Modify appointment.
+ * Controller that handles the logic for the Modify Appointment screen based on modifyAppointment.fxml.
  */
 public class ModifyAppointment implements Initializable {
     /**
-     * The constant appointmentToMod.
+     * Variable to store the Appointments object to be modified.
      */
     public static Appointments appointmentToMod = null;
     /**
-     * The constant indexToMod.
+     * Variable to hold the index of the object to be modified where it appears in the list of appointments.
      */
     public static int indexToMod = 0;
     /**
-     * The Appt id.
+     * Appointment ID.
      */
     public TextField apptID;
     /**
-     * The Appt cust id.
+     * Appointment customer ID.
      */
     public TextField apptCustID;
     /**
-     * The Appt user id.
+     * Appointment user ID>
      */
     public ComboBox<Integer> apptUserID;
     /**
-     * The Appt title.
+     * Appointment title.
      */
     public TextField apptTitle;
     /**
-     * The Appt desc.
+     * Appointment description.
      */
     public TextField apptDesc;
     /**
-     * The Appt type.
+     * Appointment type.
      */
     public TextField apptType;
     /**
-     * The Appt contact.
+     * Appointment contact.
      */
     public ComboBox<Contacts> apptContact;
     /**
-     * The Appt date.
+     * Appointment date.
      */
     public DatePicker apptDate;
     /**
-     * The Appt start time.
+     * Appointment start time.
      */
     public ComboBox<LocalTime> apptStartTime;
     /**
-     * The Appt end time.
+     * Appointment end time.
      */
     public ComboBox<LocalTime> apptEndTime;
     /**
-     * The Appt location.
+     * Appointment location.
      */
     public TextField apptLocation;
     /**
-     * The Submit.
+     * Calls function on save button press to save modified appointment.
      */
     public Button Submit;
     /**
-     * The Cancel.
+     * Calls function on cancel button press to cancel adding new appointment.
      */
     public Button Cancel;
 
     /**
-     * Sets appointment to mod.
+     * Sets appointment to mod, pulled from the main screen controller.
      *
-     * @param appointment the appointment
-     * @param index       the index
+     * @param appointment the appointment chosen from main screen to modify.
+     * @param index       the index of the appointment in the list of all appointments.
      */
     public static void setAppointmentToMod(Appointments appointment, int index) {
         appointmentToMod = appointment;
         indexToMod = index;
     }
 
+    /**
+     * Initializes the Modify Appointment window and sets initial values for all fields.
+     *
+     * @param url - not used
+     * @param resourceBundle - not used
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         apptContact.setItems(DBContacts.getAllContacts());
@@ -119,6 +125,12 @@ public class ModifyAppointment implements Initializable {
         apptLocation.setText(appointmentToMod.getApptLocation());
     }
 
+    /**
+     * Validates the data entered into the modify appointment fields. If any field is found invalid, the user is alerted
+     * via a custom notification from the Alerts class, populated with the provided string to explain the error.
+     *
+     * @return boolean b; false if information is not valid, true if it is.
+     */
     private boolean validateInput() {
         boolean b = false;
 
@@ -148,16 +160,27 @@ public class ModifyAppointment implements Initializable {
         return b;
     }
 
+    /**
+     * Checks to see if the customer entered for the appointment actually exists. Provides an alert
+     * from the Alerts class if the customer does not exist.
+     *
+     * INCLUDES LAMBDA - streams all customers list, checking each to see if any ID is a match for the chosen ID.
+     *
+     * @return boolean b; returns false if customer does not exist, true if the customer is found.
+     */
     private boolean validateCustomer() {
-        boolean b = false;
-        if (DBCustomers.customerExists(Integer.parseInt(apptCustID.getText()))) {
-            b = true;
-        } else {
+        boolean b = DBCustomers.getAllCustomers().stream().anyMatch(s -> s.getId() == Integer.parseInt(apptCustID.getText()));
+        if (!b) {
             Alerts.invalidData("\nThe chosen customer does not exist.\n");
         }
         return b;
     }
 
+    /**
+     * Validates times chosen for appointment start and end do not overlap. Generates an alert if overlap is found.
+     *
+     * @return boolean b - false if overlaps found, true if no overlaps
+     */
     private boolean validateTime() {
         boolean b = true;
         ObservableList<Appointments> custAppts = DBAppointments.getApptsByCustID(Integer.parseInt(apptCustID.getText()));
@@ -183,9 +206,9 @@ public class ModifyAppointment implements Initializable {
     }
 
     /**
-     * On submit.
+     * Method to handle saving the modified appointment.
      *
-     * @param actionEvent the action event
+     * @param actionEvent Used to identify the window from which the save was triggered to close it on a successful execution.
      */
     public void onSubmit(ActionEvent actionEvent) {
         if (validateInput() && (validateCustomer() && validateTime())) {
@@ -204,9 +227,10 @@ public class ModifyAppointment implements Initializable {
     }
 
     /**
-     * On cancel.
+     * Confirms that the user wants to cancel modifying the appointment by providing an alert from the Alerts class.
      *
-     * @param actionEvent the action event
+     * @param actionEvent Passed to a method in the Alerts class; used to close the window if the user confirms they want
+     * to close without saving.
      */
     public void onCancel(ActionEvent actionEvent) {
         Alerts.cancelWithoutSaving(actionEvent);

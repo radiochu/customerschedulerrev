@@ -24,69 +24,75 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 /**
- * The type Modify customer.
+ * Controller that handles the logic for the Modify Customer screen based on modifyCustomer.fxml.
  */
 public class ModifyCustomer implements Initializable {
     /**
-     * The constant customerToMod.
+     * Variable to store the Customers object to be modified.
      */
-    public static Customers customerToMod = null;
+     public static Customers customerToMod = null;
     /**
-     * The constant indexToMod.
+     * Variable to hold the index of the object to be modified where it appears in the list of customers.
      */
     public static int indexToMod = 0;
     /**
-     * The Cust name field.
+     * Customer name.
      */
     public TextField custNameField;
     /**
-     * The Cust address field.
+     * Customer address.
      */
     public TextField custAddressField;
     /**
-     * The Cust country cb.
+     * Combo box to select country for customer address.
      */
     public ComboBox<Countries> custCountryCB;
     /**
-     * The Division label.
-     */
-    public Label divisionLabel;
-    /**
-     * The Cust fldcb.
+     * Combo box to select first-level division for customer address.
      */
     public ComboBox<Divisions> custFLDCB;
     /**
-     * The Cust post code field.
+     * Customer address postal code.
      */
     public TextField custPostCodeField;
     /**
-     * The Cust phone field.
+     * Customer phone number.
      */
     public TextField custPhoneField;
     /**
-     * The Customer id.
+     * Customer ID.
      */
     public TextField customerID;
     /**
-     * The Mod cust save btn.
+     * Calls function on save button press to save modified customer.
      */
     public Button modCustSaveBtn;
     /**
-     * The Mod cust cancel btn.
+     * Calls function on cancel button press to cancel modifying customer.
      */
     public Button modCustCancelBtn;
+    /**
+     * Label for the first-level division field.
+     */
+    public Label divisionLabel;
 
     /**
-     * Sets customer to mod.
+     * Sets customer to mod, pulled from the main screen controller.
      *
-     * @param customer the customer
-     * @param index    the index
+     * @param customer the customer chosen from main screen to modify.
+     * @param index       the index of the customer in the list of all customers.
      */
     public static void setCustomerToMod(Customers customer, int index) {
         customerToMod = customer;
         indexToMod = index;
     }
 
+    /**
+     * Initializes the Modify Customer window and sets initial values for all fields.
+     *
+     * @param url - not used
+     * @param resourceBundle - not used
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         custNameField.setText(customerToMod.getName());
@@ -99,6 +105,12 @@ public class ModifyCustomer implements Initializable {
         customerID.setText(String.valueOf(customerToMod.getId()));
     }
 
+    /**
+     * Validates the data entered into the add customer fields. If any field is found invalid, the user is alerted
+     * via a custom notification from the Alerts class, populated with the provided string to explain the error.
+     *
+     * @return boolean b; false if information is not valid, true if it is.
+     */
     private boolean validateInput() {
         boolean b = false;
         if (custNameField.getText().isEmpty()) {
@@ -120,9 +132,12 @@ public class ModifyCustomer implements Initializable {
     }
 
     /**
-     * Filter divisions.
+     * Called when country combo box is changed to populate the first-level division combo box with the appropriate divisions.
      *
-     * @param actionEvent the action event
+     * INCLUDES LAMBDA - streams all Divisions, filtering them by divisions that contain country IDs matching what the country
+     * combo box is currently set to.
+     *
+     * @param actionEvent - not used
      */
     public void filterDivisions(ActionEvent actionEvent) {
         ObservableList<Divisions> allDivisions = DBDivisions.getAllDivisions();
@@ -131,11 +146,20 @@ public class ModifyCustomer implements Initializable {
                 .collect(Collectors.toCollection(FXCollections::observableArrayList)));
     }
 
+    /**
+     * Clears FLD list when country combo box selection is changed to avoid mismatch between country and divisions.
+     *
+     * @param mouseEvent - not used
+     */
+    public void clearDivisions(MouseEvent mouseEvent) {
+        custFLDCB.getSelectionModel().select(null);
+    }
+
 
     /**
-     * On save button.
+     * Method to handle saving the modified customer.
      *
-     * @param actionEvent the action event
+     * @param actionEvent Used to identify the window from which the save was triggered to close it on a successful execution.
      */
     public void onSaveButton(ActionEvent actionEvent) {
         if (validateInput()) {
@@ -149,15 +173,12 @@ public class ModifyCustomer implements Initializable {
     }
 
     /**
-     * On cancel button.
+     * Confirms that the user wants to cancel modifying the appointment by providing an alert from the Alerts class.
      *
-     * @param actionEvent the action event
+     * @param actionEvent Passed to a method in the Alerts class; used to close the window if the user confirms they want
+     * to close without saving.
      */
     public void onCancelButton(ActionEvent actionEvent) {
         Alerts.cancelWithoutSaving(actionEvent);
-    }
-
-    public void clearDivisions(MouseEvent mouseEvent) {
-        custFLDCB.getSelectionModel().select(null);
     }
 }
