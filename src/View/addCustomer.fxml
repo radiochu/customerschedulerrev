@@ -14,7 +14,7 @@
     <Label layoutX="37.0" layoutY="114.0" prefHeight="18.0" prefWidth="92.0" text="Customer Name"/>
     <Label layoutX="38.0" layoutY="171.0" text="Street Address and City"/>
     <Label layoutX="39.0" layoutY="233.0" prefHeight="18.0" prefWidth="50.0" text="Country"/>
-    <Label layoutX="215.0" layoutY="233.0" text="(select country first)" fx:id="divisionLabel"/>
+    <Label layoutX="215.0" layoutY="233.0" text="Division" fx:id="divisionLabel"/>
     <Label layoutX="43.0" layoutY="289.0" text="Postal Code"/>
     <Label layoutX="216.0" layoutY="289.0" text="Phone Number"/>
     <TextField fx:id="custNameField" layoutX="38.0" layoutY="132.0" prefHeight="26.0" prefWidth="244.0"
@@ -23,7 +23,7 @@
                promptText="e.g. 42 Wallaby Way, Sydney"/>
     <ComboBox fx:id="custCountryCB" layoutX="41.0" layoutY="251.0" onAction="#filterDivisions"
               prefWidth="150.0" promptText="Select Country"/>
-    <ComboBox fx:id="custFLDCB" layoutX="215.0" layoutY="251.0" prefWidth="150.0"/>
+    <ComboBox fx:id="custFLDCB" layoutX="215.0" layoutY="251.0" prefWidth="150.0" promptText="(select country first)"/>
     <TextField fx:id="custPostCodeField" layoutX="42.0" layoutY="307.0" promptText="e.g. 12345"/>
     <TextField fx:id="custPhoneField" layoutX="216.0" layoutY="307.0" promptText="e.g. 1234567890"/>
     <TextField fx:id="customerID" disable="true" editable="false" layoutX="39.0" layoutY="76.0" prefHeight="26.0"

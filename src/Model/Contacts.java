@@ -1,8 +1,8 @@
 package Model;
 
 public class Contacts {
-    public String name;
-    public int id;
+    private final String name;
+    private final int id;
 
     public Contacts(String name, int id) {
         this.name = name;
@@ -15,5 +15,10 @@ public class Contacts {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

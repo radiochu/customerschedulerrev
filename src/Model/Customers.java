@@ -1,9 +1,5 @@
 package Model;
 
-import DBAccess.DBCustomers;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 /**
  * The type Customers.
  */
@@ -11,13 +7,12 @@ public class Customers {
     /**
      * The Customers.
      */
-    public static ObservableList<Customers> customers = FXCollections.observableArrayList();
-    private final String name;
-    private final String address;
+    private String name;
+    private String address;
     private int id;
-    private String fld;
+    private Divisions fld;
     private String postCode;
-    private String country;
+    private Countries country;
     private String phoneNumber;
 
     /**
@@ -31,7 +26,7 @@ public class Customers {
      * @param country     the country
      * @param phoneNumber the phone number
      */
-    public Customers(int id, String name, String address, String fld, String postCode, String country, String phoneNumber) {
+    public Customers(int id, String name, String address, Divisions fld, String postCode, Countries country, String phoneNumber) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -39,16 +34,6 @@ public class Customers {
         this.postCode = postCode;
         this.country = country;
         this.phoneNumber = phoneNumber;
-    }
-
-    /**
-     * Gets all customers.
-     *
-     * @return the all customers
-     */
-    public static ObservableList<Customers> getAllCustomers() {
-        customers = DBCustomers.getAllCustomers();
-        return customers;
     }
 
     /**
@@ -93,7 +78,7 @@ public class Customers {
      *
      * @return the country
      */
-    public String getCountry() {
+    public Countries getCountry() {
         return country;
     }
 
@@ -102,7 +87,7 @@ public class Customers {
      *
      * @param country the country
      */
-    public void setCountry(String country) {
+    public void setCountry(Countries country) {
         this.country = country;
     }
 
@@ -112,7 +97,7 @@ public class Customers {
      *
      * @return the fld
      */
-    public String getFld() {
+    public Divisions getFld() {
         return fld;
     }
 
@@ -121,7 +106,7 @@ public class Customers {
      *
      * @param fld the fld
      */
-    public void setFld(String fld) {
+    public void setFld(Divisions fld) {
         this.fld = fld;
     }
 
@@ -153,6 +138,10 @@ public class Customers {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /**
      * Gets address.
      *
@@ -160,5 +149,9 @@ public class Customers {
      */
     public String getAddress() {
         return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

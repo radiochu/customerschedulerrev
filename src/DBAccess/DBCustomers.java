@@ -1,7 +1,9 @@
 package DBAccess;
 
 import DBConnection.JDBC;
+import Model.Countries;
 import Model.Customers;
+import Model.Divisions;
 import Utilities.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,9 +48,12 @@ public class DBCustomers {
                 String customerAddress = rs.getString("Address");
                 String customerFLD = rs.getString("Division");
                 String customerPostCode = rs.getString("Postal_Code");
-                String customerCountry = rs.getString("Country");
+                String countryName = rs.getString("Country");
+                int countryID = rs.getInt("Country_Id");
                 String customerPhone = rs.getString("Phone");
-                Customers c = new Customers(customerID, customerName, customerAddress, customerFLD, customerPostCode, customerCountry, customerPhone);
+                Countries customerCountry = new Countries(countryName,  countryID);
+                Divisions customerDivision = new Divisions(customerFLD, countryID);
+                Customers c = new Customers(customerID, customerName, customerAddress, customerDivision, customerPostCode, customerCountry, customerPhone);
                 cList.add(c);
             }
         } catch (SQLException e) {
@@ -64,7 +69,7 @@ public class DBCustomers {
      * @return the int
      */
     public static int addCustomer(Customers customer) {
-        int divisionID = DBDivisions.getDivisionIDByName(customer.getFld());
+        int divisionID = DBDivisions.getDivisionIDByName(customer.getFld().getDivName());
         int newCustID = 0;
         try {
             String sql = "INSERT INTO customers VALUES (NULL, ?, ?, ?, ?, NULL, NULL, NULL, NULL, ?)";
@@ -117,7 +122,7 @@ public class DBCustomers {
      * @param customerToMod the customer to mod
      */
     public static void modifyCustomer(Customers customerToMod) {
-        int divisionID = DBDivisions.getDivisionIDByName(customerToMod.getFld());
+        int divisionID = DBDivisions.getDivisionIDByName(customerToMod.getFld().getDivName());
         try {
             String sql = "UPDATE customers " +
                     "SET customer_name = ?, " +
@@ -239,9 +244,12 @@ public class DBCustomers {
                 String customerAddress = rs.getString("Address");
                 String customerFLD = rs.getString("Division");
                 String customerPostCode = rs.getString("Postal_Code");
-                String customerCountry = rs.getString("Country");
+                String countryName = rs.getString("Country");
+                int countryID = rs.getInt("country_id");
                 String customerPhone = rs.getString("Phone");
-                c = new Customers(customerID, customerName, customerAddress, customerFLD, customerPostCode, customerCountry, customerPhone);
+                Countries customerCountry = new Countries(countryName,  countryID);
+                Divisions customerDivision = new Divisions(customerFLD, countryID);
+                c = new Customers(customerID, customerName, customerAddress, customerDivision, customerPostCode, customerCountry, customerPhone);
             }
         } catch (SQLException e) {
             e.printStackTrace();

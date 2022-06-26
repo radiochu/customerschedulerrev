@@ -20,7 +20,7 @@
     <TabPane layoutX="14.0" layoutY="34.0" prefHeight="407.0" prefWidth="687.0" tabClosingPolicy="UNAVAILABLE">
         <Tab fx:id="typesByMonth" closable="false" onSelectionChanged="#showTypesByMonth" text="Appointment Types by Month">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <TableView fx:id="apptByMonthTV" layoutX="14.0" layoutY="14.0" prefHeight="360.0" prefWidth="666.0">
+                <TableView fx:id="apptByMonthTV" layoutX="14.0" layoutY="14.0" prefHeight="346.0" prefWidth="666.0">
                     <columns>
                         <TableColumn fx:id="monthCol" editable="false" prefWidth="144.0" sortable="false" text="Month" />
                         <TableColumn fx:id="typeCol" editable="false" prefWidth="316.79998779296875" sortable="false" text="Appointment Type" />

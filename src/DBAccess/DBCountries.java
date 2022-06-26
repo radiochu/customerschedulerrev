@@ -1,6 +1,8 @@
 package DBAccess;
 
 import DBConnection.JDBC;
+import Model.Countries;
+import Model.Divisions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -17,15 +19,17 @@ public class DBCountries {
      *
      * @return the all countries
      */
-    public static ObservableList<String> getAllCountries() {
-        ObservableList<String> countries = FXCollections.observableArrayList();
+    public static ObservableList<Countries> getAllCountries() {
+        ObservableList<Countries> countries = FXCollections.observableArrayList();
         try {
-            String sql = "SELECT Country FROM countries";
+            String sql = "SELECT Country, country_id FROM countries";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                countries.add(rs.getString("Country"));
+                String countryName = rs.getString(1);
+                int countryID = rs.getInt(2);
+                countries.add(new Countries(countryName, countryID));
             }
         } catch (SQLException e) {
             e.printStackTrace();

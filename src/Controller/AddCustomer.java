@@ -3,8 +3,12 @@ package Controller;
 import DBAccess.DBCountries;
 import DBAccess.DBCustomers;
 import DBAccess.DBDivisions;
+import Model.Countries;
 import Model.Customers;
+import Model.Divisions;
 import Utilities.Alerts;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -14,8 +18,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * The type Add customer.
@@ -32,11 +38,11 @@ public class AddCustomer implements Initializable {
     /**
      * The Cust country cb.
      */
-    public ComboBox<String> custCountryCB;
+    public ComboBox<Countries> custCountryCB;
     /**
      * The Cust fldcb.
      */
-    public ComboBox<String> custFLDCB;
+    public ComboBox<Divisions> custFLDCB;
     /**
      * The Cust post code field.
      */
@@ -93,17 +99,10 @@ public class AddCustomer implements Initializable {
      * @param actionEvent the action event
      */
     public void filterDivisions(ActionEvent actionEvent) {
-        String countryName = custCountryCB.getValue();
-        if (countryName.equals("U.S")) {
-            custFLDCB.setItems(DBDivisions.getUSDivisions());
-            divisionLabel.setText("State");
-        } else if (countryName.equals("UK")) {
-            custFLDCB.setItems(DBDivisions.getUKDivisions());
-            divisionLabel.setText("Region");
-        } else {
-            custFLDCB.setItems(DBDivisions.getCanadaDivisions());
-            divisionLabel.setText("Province");
-        }
+        ObservableList<Divisions> allDivisions = DBDivisions.getAllDivisions();
+        custFLDCB.setItems(allDivisions.stream()
+               .filter(x -> x.getCountryID() == (custCountryCB.getValue().getCountryID()))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList)));
     }
 
     /**

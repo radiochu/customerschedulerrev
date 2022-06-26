@@ -1,7 +1,7 @@
 package DBAccess;
 
 import DBConnection.JDBC;
-import Model.Appointments;
+import Model.Contacts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -24,15 +24,17 @@ public class DBContacts {
      *
      * @return the all contacts
      */
-    public static ObservableList<String> getAllContacts() {
+    public static ObservableList<Contacts> getAllContacts() {
+        ObservableList<Contacts> contacts = FXCollections.observableArrayList();
         try {
-            String sql = "SELECT Contact_Name FROM contacts";
+            String sql = "SELECT Contact_Name, contact_id FROM contacts";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             contacts.clear();
             while (rs.next()) {
-                contacts.add(rs.getString("Contact_Name"));
+                Contacts c = new Contacts(rs.getString(1), rs.getInt(2));
+                contacts.add(c);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,8 +49,10 @@ public class DBContacts {
      * @param apptContact the appt contact
      * @return the contact name by id
      */
-    public static String getContactNameByID(int apptContact) {
+    public static Contacts getContactByID(int apptContact) {
         String contactName = null;
+        int contactID = 0;
+        Contacts c = null;
         try {
             String sql = "SELECT * FROM contacts WHERE Contact_ID = ?";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
@@ -57,11 +61,13 @@ public class DBContacts {
 
             while (rs.next()) {
                 contactName = rs.getString("Contact_Name");
+                contactID = rs.getInt("contact_id");
+                c = new Contacts(contactName, contactID);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return contactName;
+        return c;
     }
 
     /**
@@ -100,8 +106,7 @@ public class DBContacts {
             while (rs.next()) {
                 contactAppts.add(rs.getString(1) + " - " + rs.getTimestamp(2) + " to " + rs.getTimestamp(3) + " - Appointment ID " + rs.getInt(4) + " - " + rs.getString(5));
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         System.out.println(contactAppts);

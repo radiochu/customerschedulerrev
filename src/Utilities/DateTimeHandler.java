@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 /**
  * The type Date time handler.
  */
-public class DateTimeHandler {
+public interface DateTimeHandler {
     /**
      * The Get hours.
      */
@@ -46,7 +46,6 @@ public class DateTimeHandler {
 
         return zdtAtET.toLocalDateTime();
     }
-
     /**
      * Start time local date time.
      *

@@ -5,13 +5,17 @@ import DBAccess.DBContacts;
 import DBAccess.DBCustomers;
 import DBAccess.DBUsers;
 import Model.Appointments;
+import Model.Contacts;
 import Utilities.Alerts;
 import Utilities.DateTimeHandler;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -24,6 +28,14 @@ import java.util.ResourceBundle;
  * The type Modify appointment.
  */
 public class ModifyAppointment implements Initializable {
+    /**
+     * The constant appointmentToMod.
+     */
+    public static Appointments appointmentToMod = null;
+    /**
+     * The constant indexToMod.
+     */
+    public static int indexToMod = 0;
     /**
      * The Appt id.
      */
@@ -51,7 +63,7 @@ public class ModifyAppointment implements Initializable {
     /**
      * The Appt contact.
      */
-    public ComboBox<String> apptContact;
+    public ComboBox<Contacts> apptContact;
     /**
      * The Appt date.
      */
@@ -76,16 +88,6 @@ public class ModifyAppointment implements Initializable {
      * The Cancel.
      */
     public Button Cancel;
-
-    /**
-     * The constant appointmentToMod.
-     */
-    public static Appointments appointmentToMod = null;
-    /**
-     * The constant indexToMod.
-     */
-    public static int indexToMod = 0;
-
 
     /**
      * Sets appointment to mod.
@@ -113,7 +115,7 @@ public class ModifyAppointment implements Initializable {
         apptType.setText(appointmentToMod.getApptType());
         apptStartTime.setValue(appointmentToMod.getApptStart().toLocalTime());
         apptEndTime.setValue(appointmentToMod.getApptEnd().toLocalTime());
-        apptContact.setValue(appointmentToMod.getApptContact());
+        apptContact.getSelectionModel().select(appointmentToMod.getApptContact());
         apptLocation.setText(appointmentToMod.getApptLocation());
     }
 
@@ -122,35 +124,25 @@ public class ModifyAppointment implements Initializable {
 
         if (apptCustID.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input a customer ID.\n");
-        }
-        else if (apptUserID.getSelectionModel().isSelected(-1)) {
+        } else if (apptUserID.getSelectionModel().isSelected(-1)) {
             Alerts.invalidData("\nYou must choose a user.\n");
-        }
-        else if (apptTitle.getText().isEmpty()) {
+        } else if (apptTitle.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input an appointment title.\n");
-        }
-        else if (apptDesc.getText().isEmpty()) {
+        } else if (apptDesc.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input an appointment description.\n");
-        }
-        else if (apptType.getText().isEmpty()) {
+        } else if (apptType.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input an appointment type.\n");
-        }
-        else if (apptLocation.getText().isEmpty()) {
+        } else if (apptLocation.getText().isEmpty()) {
             Alerts.invalidData("\nYou must input an appointment location.\n");
-        }
-        else if (apptDate.getValue() == null) {
+        } else if (apptDate.getValue() == null) {
             Alerts.invalidData("\nYou must choose an appointment date.\n");
-        }
-        else if (apptStartTime.getSelectionModel().isSelected(-1)) {
+        } else if (apptStartTime.getSelectionModel().isSelected(-1)) {
             Alerts.invalidData("\nYou must choose a start time.\n");
-        }
-        else if (apptEndTime.getSelectionModel().isSelected(-1)) {
+        } else if (apptEndTime.getSelectionModel().isSelected(-1)) {
             Alerts.invalidData("\nYou must choose an end time.\n");
-        }
-        else if (apptContact.getSelectionModel().isSelected(-1)) {
+        } else if (apptContact.getSelectionModel().isSelected(-1)) {
             Alerts.invalidData("\nYou must choose a contact.\n");
-        }
-        else {
+        } else {
             b = true;
         }
         return b;
@@ -160,8 +152,7 @@ public class ModifyAppointment implements Initializable {
         boolean b = false;
         if (DBCustomers.customerExists(Integer.parseInt(apptCustID.getText()))) {
             b = true;
-        }
-        else {
+        } else {
             Alerts.invalidData("\nThe chosen customer does not exist.\n");
         }
         return b;
@@ -186,7 +177,7 @@ public class ModifyAppointment implements Initializable {
                     Alerts.timeOverlap();
                     b = false;
                 }
-            }
+        }
 
         return b;
     }

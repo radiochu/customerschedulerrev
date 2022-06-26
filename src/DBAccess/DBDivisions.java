@@ -2,6 +2,7 @@ package DBAccess;
 
 
 import DBConnection.JDBC;
+import Model.Divisions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,15 +20,17 @@ public class DBDivisions {
      *
      * @return the all divisions
      */
-    public static ObservableList<String> getAllDivisions() {
-        ObservableList<String> divisions = FXCollections.observableArrayList();
+    public static ObservableList<Divisions> getAllDivisions() {
+        ObservableList<Divisions> divisions = FXCollections.observableArrayList();
         try {
-            String sql = "SELECT Division FROM first_level_divisions";
+            String sql = "SELECT Division, Country_id FROM first_level_divisions";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                divisions.add(rs.getString("Division"));
+                String divName = rs.getString(1);
+                int countryID = rs.getInt(2);
+                divisions.add(new Divisions(divName, countryID));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -100,6 +103,26 @@ public class DBDivisions {
         }
 
         return canadaDivisions;
+    }
+
+    public static ObservableList<Divisions> getDivisionsByCountry(int country_id) {
+        ObservableList<Divisions> divisions = FXCollections.observableArrayList();
+        try {
+            String sql = "Select Division FROM first_level_divisions WHERE country_id = ?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, country_id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String divName = rs.getString(1);
+                int countryID = rs.getInt(2);
+                divisions.add(new Divisions(divName, countryID));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return divisions;
     }
 
     /**

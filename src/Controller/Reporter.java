@@ -4,9 +4,7 @@ import DBAccess.DBAppointments;
 import DBAccess.DBContacts;
 import Model.Appointments;
 import Model.Contacts;
-import Model.Customers;
 import Model.Types;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -28,7 +26,7 @@ public class Reporter implements Initializable {
     public TableColumn<String, Types> typeCol;
     public TableColumn<Integer, Types> totalCol;
     public TableView<Types> apptByMonthTV;
-    public ComboBox<String> contactCB;
+    public ComboBox<Contacts> contactCB;
     public TableView<Appointments> scheduleTV;
     public TableColumn<Integer, Appointments> apptIDCol;
     public TableColumn<String, Appointments> apptTitleCol;
@@ -42,7 +40,7 @@ public class Reporter implements Initializable {
 
 
     ObservableList<Types> typesByMonthList = DBAppointments.getApptTypesByMonth();
-    ObservableList<String> allContacts = DBContacts.getAllContacts();
+    ObservableList<Contacts> allContacts = DBContacts.getAllContacts();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,13 +65,15 @@ public class Reporter implements Initializable {
     }
 
     public void showTypesByMonth(Event event) {
+
     }
 
     public void showScheduleByContact() {
-        scheduleTV.setItems(DBAppointments.getApptsByContact(DBContacts.getContactIDByName(contactCB.getValue())));
+        scheduleTV.setItems(DBAppointments.getApptsByContact(contactCB.getValue().getId()));
     }
 
     public void showApptsByMonth() {
+        apptByMonthTA.setText("Current Year Appointments By Month\n");
         for (String i : DBAppointments.getApptsByMonth()) {
             apptByMonthTA.appendText(i);
         }

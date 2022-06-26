@@ -5,6 +5,7 @@ import DBAccess.DBContacts;
 import DBAccess.DBCustomers;
 import DBAccess.DBUsers;
 import Model.Appointments;
+import Model.Contacts;
 import Utilities.Alerts;
 import Utilities.DateTimeHandler;
 import javafx.collections.ObservableList;
@@ -49,7 +50,6 @@ public class AddAppointment implements Initializable {
      */
     public TextField apptDesc;
     /**
-     *
      * Appointment type.
      */
     public TextField apptType;
@@ -60,7 +60,7 @@ public class AddAppointment implements Initializable {
     /**
      * Appointment contact.
      */
-    public ComboBox<String> apptContact;
+    public ComboBox<Contacts> apptContact;
     /**
      * Appointment date.
      */
@@ -83,7 +83,7 @@ public class AddAppointment implements Initializable {
     public Button Cancel;
 
     ObservableList<Integer> allUsers = DBUsers.getAllUsers();
-    ObservableList<String> allContacts = DBContacts.getAllContacts();
+    ObservableList<Contacts> allContacts = DBContacts.getAllContacts();
 
 
     @Override
@@ -98,6 +98,7 @@ public class AddAppointment implements Initializable {
     /**
      * Validates the data entered into the add appointment fields. If any field is found invalid, the user is alerted
      * via a custom notification from the Alerts class, populated with the provided string to explain the error.
+     *
      * @return boolean b; false if information is not valid, true if it is.
      */
     private boolean validateInput() {
@@ -140,7 +141,7 @@ public class AddAppointment implements Initializable {
             if (aStart.isEqual(bStart) || aStart.isAfter(bStart) && aStart.isBefore(bEnd)) {
                 Alerts.timeOverlap();
                 b = false;
-            } else if (aEnd.isEqual(bEnd) || aEnd.isBefore(bEnd) && aEnd.isAfter(bStart)){
+            } else if (aEnd.isEqual(bEnd) || aEnd.isBefore(bEnd) && aEnd.isAfter(bStart)) {
                 Alerts.timeOverlap();
                 b = false;
             } else if ((bStart.isAfter(aStart) && bEnd.isBefore(aEnd)) || (aStart.isEqual(bStart) && aEnd.isEqual(bEnd))) {
@@ -154,6 +155,7 @@ public class AddAppointment implements Initializable {
     /**
      * Checks to see if the customer entered for the appointment actually exists. Provides an alert
      * from the Alerts class if the customer does not exist.
+     *
      * @return boolean b; returns false if customer does not exist, true if the customer is found.
      */
     private boolean validateCustomer() {
@@ -167,10 +169,7 @@ public class AddAppointment implements Initializable {
     }
 
     /**
-     * Method to handle saving the new appointment. After validating input and checking to be sure the customer entered exists,
-     * reads in data from all fields and creates a new Appointments object to pass to the DBAppointments class for adding to the database.
-     * The database transaction will return the ID for the new appointment, which will be set just before the object is
-     * added to the list of appointments in the MainScreen controller.
+     * Method to handle saving the new appointment.
      *
      * @param actionEvent Used to identify the window from which the save was triggered to close it on a successful execution.
      */

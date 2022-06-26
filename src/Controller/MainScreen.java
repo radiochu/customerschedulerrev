@@ -7,7 +7,6 @@ import Model.Customers;
 import Utilities.Alerts;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -359,14 +358,14 @@ public class MainScreen implements Initializable {
         if (Alerts.deleteCustomer()) {
             if (DBAppointments.getApptsByCustID(custToDelete).size() != 0) {
                 DBAppointments.deleteApptsByCust(custToDelete);
-
-                if (DBCustomers.deleteCustomer(custToDelete)) {
-                    Alerts.customerDeleted();
-                    refreshTables();
-                }
             }
         }
+        if (DBCustomers.deleteCustomer(custToDelete)) {
+            Alerts.customerDeleted();
+            refreshTables();
+        }
     }
+
 
     /**
      * On appt add.
@@ -447,7 +446,7 @@ public class MainScreen implements Initializable {
         }
     }
 
-    public void viewReports(ActionEvent actionEvent) throws IOException{
+    public void viewReports(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/reporter.fxml"));
         Stage overlay = new Stage();
         overlay.setTitle("Add Appointment");

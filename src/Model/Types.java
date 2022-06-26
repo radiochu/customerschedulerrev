@@ -1,9 +1,9 @@
 package Model;
 
 public class Types {
-    public String month;
-    public String type;
-    public int count;
+    private final String month;
+    private final String type;
+    private final int count;
 
     public Types(String month, String type, int count) {
         this.month = month;

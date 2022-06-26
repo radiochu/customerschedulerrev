@@ -2,11 +2,11 @@ package DBAccess;
 
 import DBConnection.JDBC;
 import Model.Appointments;
+import Model.Contacts;
 import Model.Types;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.time.LocalDateTime;
 
@@ -40,7 +40,7 @@ public class DBAppointments {
                 int userID = rs.getInt("User_ID");
 
 
-                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
+                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
                 aList.add(a);
             }
         } catch (SQLException e) {
@@ -73,7 +73,7 @@ public class DBAppointments {
                 int custID = rs.getInt("Customer_ID");
                 int userID = rs.getInt("User_ID");
 
-                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
+                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
                 currMonthAppts.add(a);
             }
         } catch (SQLException e) {
@@ -107,7 +107,7 @@ public class DBAppointments {
                 int custID = rs.getInt("Customer_ID");
                 int userID = rs.getInt("User_ID");
 
-                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
+                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
                 currWeekAppts.add(a);
             }
         } catch (SQLException e) {
@@ -143,7 +143,7 @@ public class DBAppointments {
                 int custID = rs.getInt("Customer_ID");
                 int userID = rs.getInt("User_ID");
 
-                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
+                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
                 userAppts.add(a);
             }
         } catch (SQLException e) {
@@ -178,7 +178,7 @@ public class DBAppointments {
                 int custID = rs.getInt("Customer_ID");
                 int userID = rs.getInt("User_ID");
 
-                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
+                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
                 custAppts.add(a);
             }
         } catch (SQLException e) {
@@ -208,7 +208,7 @@ public class DBAppointments {
                 int custID = rs.getInt("Customer_ID");
                 int userID = rs.getInt("User_ID");
 
-                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactNameByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
+                Appointments a = new Appointments(apptID, apptTitle, apptDescription, apptLocation, DBContacts.getContactByID(apptContact), apptStart, apptEnd, apptType, custID, userID);
                 contactAppts.add(a);
             }
         } catch (SQLException e) {
@@ -217,6 +217,7 @@ public class DBAppointments {
 
         return contactAppts;
     }
+
     public static int addAppointment(Appointments appointmentToAdd) {
         int newApptID = 0;
         try {
@@ -230,7 +231,7 @@ public class DBAppointments {
             ps.setTimestamp(6, Timestamp.valueOf(appointmentToAdd.getApptEnd()));
             ps.setInt(7, appointmentToAdd.getCustID());
             ps.setInt(8, appointmentToAdd.getUserID());
-            ps.setInt(9, DBContacts.getContactIDByName(appointmentToAdd.getApptContact()));
+            ps.setInt(9, appointmentToAdd.getApptContact().getId());
             ps.execute();
 
             ResultSet rs = ps.getGeneratedKeys();
@@ -269,7 +270,7 @@ public class DBAppointments {
             ps.setTimestamp(6, Timestamp.valueOf(appointmentToMod.getApptEnd()));
             ps.setInt(7, appointmentToMod.getCustID());
             ps.setInt(8, appointmentToMod.getUserID());
-            ps.setInt(9, DBContacts.getContactIDByName(appointmentToMod.getApptContact()));
+            ps.setInt(9, appointmentToMod.getApptContact().getId());
             ps.setInt(10, appointmentToMod.getApptID());
             ps.execute();
         } catch (SQLException e) {
@@ -322,18 +323,16 @@ public class DBAppointments {
 
     public static ObservableList<String> getApptsByMonth() {
         ObservableList<String> apptsByMonth = FXCollections.observableArrayList();
-        String currYear = String.valueOf(LocalDateTime.now().getYear());
         for (int i = 1; i <= 12; i++) {
             try {
-                String sql = "SELECT MONTHNAME(start) AS Month, COUNT(appointment_id) AS Total FROM appointments WHERE MONTH(start) = ? and year(start) = ?";
+                String sql = "SELECT MONTHNAME(start) AS Month, YEAR(start) AS Year, COUNT(appointment_id) AS Total FROM appointments WHERE MONTH(start) = ?";
                 PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
                 ps.setInt(1, i);
-                ps.setString(2, currYear);
                 ResultSet rs = ps.executeQuery();
 
                 while (rs.next()) {
                     if (rs.getString(1) != null) {
-                        apptsByMonth.add(rs.getString(1) + " - " + rs.getString(2) + "\n");
+                        apptsByMonth.add(rs.getString(1) + " " + rs.getString(2) + " - " + rs.getString(3) + "\n");
                     }
                 }
 
@@ -348,13 +347,11 @@ public class DBAppointments {
 
     public static ObservableList<Types> getApptTypesByMonth() {
         ObservableList<Types> apptTypesByMonth = FXCollections.observableArrayList();
-        String currYear = String.valueOf(LocalDateTime.now().getYear());
         for (int i = 1; i <= 12; i++) {
             try {
-                String sql = "SELECT MONTHNAME(start) AS Month, Type, COUNT(type) AS Total FROM appointments WHERE MONTH(start) = ? and year(start) = ? GROUP BY type;";
+                String sql = "SELECT CONCAT(MONTHNAME(start), ' ', YEAR(start)) as Month, Type, COUNT(type) AS Total FROM appointments WHERE MONTH(start) = ? GROUP BY type;";
                 PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
                 ps.setInt(1, i);
-                ps.setString(2, currYear);
                 ResultSet rs = ps.executeQuery();
 
                 while (rs.next()) {

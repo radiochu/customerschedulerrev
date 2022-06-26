@@ -1,8 +1,5 @@
 package Model;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import java.time.LocalDateTime;
 
 /**
@@ -12,17 +9,16 @@ public class Appointments {
     /**
      * The Appt types.
      */
-    public static ObservableList<String> apptTypes = FXCollections.observableArrayList();
-    private int apptID;
     private final String apptTitle;
     private final String apptDescription;
     private final String apptLocation;
-    private final String apptContact;
+    private final Contacts apptContact;
     private final String apptType;
     private final LocalDateTime apptStart;
     private final LocalDateTime apptEnd;
     private final int custID;
     private final int userID;
+    private int apptID;
 
     /**
      * Instantiates a new Appointments.
@@ -38,7 +34,7 @@ public class Appointments {
      * @param custID          the cust id
      * @param userID          the user id
      */
-    public Appointments(int apptID, String apptTitle, String apptDescription, String apptLocation, String apptContact, LocalDateTime apptStart, LocalDateTime apptEnd, String apptType, int custID, int userID) {
+    public Appointments(int apptID, String apptTitle, String apptDescription, String apptLocation, Contacts apptContact, LocalDateTime apptStart, LocalDateTime apptEnd, String apptType, int custID, int userID) {
         this.apptID = apptID;
         this.apptTitle = apptTitle;
         this.apptDescription = apptDescription;
@@ -58,6 +54,10 @@ public class Appointments {
      */
     public int getApptID() {
         return apptID;
+    }
+
+    public void setApptID(int apptID) {
+        this.apptID = apptID;
     }
 
     /**
@@ -137,12 +137,8 @@ public class Appointments {
      *
      * @return the appt contact
      */
-    public String getApptContact() {
+    public Contacts getApptContact() {
         return apptContact;
-    }
-
-    public void setApptID(int apptID) {
-        this.apptID = apptID;
     }
 
 }
