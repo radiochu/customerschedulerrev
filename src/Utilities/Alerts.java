@@ -21,10 +21,10 @@ public abstract class Alerts {
      *
      * @param upcoming Number of upcoming appointments as provided by upcomingAppointments function in the Login class.
      */
-    public static void upcomingAppointments(int upcoming) {
+    public static void upcomingAppointments(int upcoming, String nextAppointment) {
         a.setAlertType(Alert.AlertType.INFORMATION);
         a.setHeaderText(null);
-        a.setContentText(upcoming + " Upcoming appointments in the next 15 minutes.");
+        a.setContentText(upcoming + " upcoming appointment(s) in the next 15 minutes.\n" + nextAppointment);
         a.show();
     }
 

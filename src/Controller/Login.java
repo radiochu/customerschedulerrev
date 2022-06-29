@@ -124,7 +124,14 @@ public class Login implements Initializable {
                 upcomingAppts.add(a);
             }
         }
-        Alerts.upcomingAppointments(upcomingAppts.size());
+        String nextAppointment = null;
+        if (upcomingAppts.size() != 0) {
+            nextAppointment = "\nNext appointment:\nAppointment ID " + upcomingAppts.get(0).getApptID() + " of type " + upcomingAppts.get(0).getApptType() + " at " + upcomingAppts.get(0).getApptStart();
+        }
+        else {
+            nextAppointment = " ";
+        }
+        Alerts.upcomingAppointments(upcomingAppts.size(), nextAppointment);
     }
 
     /**

@@ -119,6 +119,10 @@ public class AddAppointment implements Initializable {
                 Alerts.timeOverlap();
                 b = false;
             }
+            else if (bStart.isEqual(bEnd)) {
+                Alerts.invalidData("\nStart time cannot be the same as end time.\n");
+                b = false;
+            }
         }
         return b;
     }
