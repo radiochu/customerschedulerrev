@@ -53,7 +53,7 @@ public abstract class DateTimeHandler {
     public static ObservableList<LocalTime> setTimeList(LocalDate date) {
         ObservableList<LocalTime> timeList = FXCollections.observableArrayList();
         LocalDateTime start = LocalDateTime.of(date, LocalTime.of(8, 0));
-        LocalDateTime end = LocalDateTime.of(date, LocalTime.of(23, 0));
+        LocalDateTime end = LocalDateTime.of(date, LocalTime.of(22, 0));
         while (start.isBefore(end.plusSeconds(1))) {
             ZonedDateTime startEST = start.atZone(ZoneId.of("America/New_York"));
             ZonedDateTime startLocal = startEST.withZoneSameInstant(ZoneId.systemDefault());
